@@ -8,9 +8,7 @@
   <link rel="icon" type="image/png" href="images/VIA_logo_large_black.png">
   <link rel="stylesheet" href="css/main.css">
   <style>
-    :root {
-      --via-red: #C85A54;
-    }
+    :root { --via-red: #C85A54; }
 
     .faq-section { margin-bottom: 3rem; }
     .faq-category { margin-bottom: 2rem; }
@@ -24,9 +22,7 @@
       overflow: hidden;
     }
 
-    html.dark .faq-item {
-      background-color: #1a1a1a;
-    }
+    html.dark .faq-item { background-color: #1a1a1a; }
 
     .faq-toggle {
       width: 100%;
@@ -43,27 +39,30 @@
       font: inherit;
     }
 
-    .faq-question {
-      font-weight: 700;
-      line-height: 1.35;
+    .faq-toggle:focus {
+      outline: 2px solid var(--via-red);
+      outline-offset: 2px;
+      border-radius: 0.75rem;
     }
 
+    .faq-question { font-weight: 700; line-height: 1.35; }
+
     .faq-plus {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       width: 28px;
       height: 28px;
       border-radius: 999px;
       border: 2px solid var(--via-red);
       color: var(--via-red);
       font-weight: 700;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      flex: 0 0 auto;
       transition: transform 160ms ease;
+      user-select: none;
     }
 
-    .faq-item[data-open="true"] .faq-plus {
-      transform: rotate(45deg);
-    }
+    .faq-item[data-open="true"] .faq-plus { transform: rotate(45deg); }
 
     .faq-answer-wrap {
       max-height: 0;
@@ -73,14 +72,12 @@
       border-top: 1px solid rgba(200, 90, 84, 0.35);
     }
 
-    .faq-item[data-open="true"] .faq-answer-wrap {
-      opacity: 1;
-    }
+    .faq-item[data-open="true"] .faq-answer-wrap { opacity: 1; }
 
     .faq-answer {
-      padding: 1rem;
-      line-height: 1.6;
+      padding: 0.9rem 1rem 1.1rem 1rem;
       opacity: 0.9;
+      line-height: 1.6;
     }
 
     .cta-row {
@@ -91,8 +88,8 @@
 
     .cta-row a {
       display: inline-block;
-      margin: 0.5rem;
       text-decoration: none;
+      margin: 0.5rem;
       letter-spacing: 0.06em;
     }
   </style>
@@ -105,7 +102,7 @@
   </header>
 
   <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark/light mode">
-    <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
       <circle cx="12" cy="12" r="5"></circle>
       <line x1="12" y1="1" x2="12" y2="3"></line>
       <line x1="12" y1="21" x2="12" y2="23"></line>
@@ -116,7 +113,7 @@
       <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
       <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
     </svg>
-    <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
       <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
     </svg>
   </button>
@@ -126,17 +123,16 @@
       <h1>What is VIA?</h1>
       <p class="subtitle">Frequently asked questions about VIA and agentic commerce</p>
 
-      <div class="faq-section">
-
+      <div class="faq-section" id="faq">
         <div class="faq-category">
           <h3>Understanding VIA</h3>
 
           <div class="faq-item" data-open="false">
-            <button class="faq-toggle">
+            <button class="faq-toggle" type="button" aria-expanded="false">
               <span class="faq-question">What is VIA?</span>
-              <span class="faq-plus">+</span>
+              <span class="faq-plus" aria-hidden="true">+</span>
             </button>
-            <div class="faq-answer-wrap">
+            <div class="faq-answer-wrap" role="region" aria-hidden="true">
               <div class="faq-answer">
                 VIA is an interface and coordination layer that enables agentic commerce. It allows buyers and sellers to interact through agents rather than through ads, rankings, or attention-driven platforms.
               </div>
@@ -144,25 +140,25 @@
           </div>
 
           <div class="faq-item" data-open="false">
-            <button class="faq-toggle">
+            <button class="faq-toggle" type="button" aria-expanded="false">
               <span class="faq-question">What is agentic commerce?</span>
-              <span class="faq-plus">+</span>
+              <span class="faq-plus" aria-hidden="true">+</span>
             </button>
-            <div class="faq-answer-wrap">
+            <div class="faq-answer-wrap" role="region" aria-hidden="true">
               <div class="faq-answer">
-                Agentic commerce is a model where software agents act on behalf of people and businesses to carry out buying and selling tasks.
+                Agentic commerce is a model where software agents act on behalf of people and businesses to carry out buying and selling tasks. Instead of users manually searching, comparing, negotiating, and managing transactions, agents handle much of that work under clear human-defined constraints.
               </div>
             </div>
           </div>
 
           <div class="faq-item" data-open="false">
-            <button class="faq-toggle">
+            <button class="faq-toggle" type="button" aria-expanded="false">
               <span class="faq-question">What problems does VIA solve?</span>
-              <span class="faq-plus">+</span>
+              <span class="faq-plus" aria-hidden="true">+</span>
             </button>
-            <div class="faq-answer-wrap">
+            <div class="faq-answer-wrap" role="region" aria-hidden="true">
               <div class="faq-answer">
-                For buyers: too many options, endless searching, low trust in ads. For sellers: high customer acquisition costs, wasted marketing spend, low-quality traffic.
+                For buyers: too many options, endless searching, low trust in ads. For sellers: high customer acquisition costs, wasted marketing spend, low-quality traffic. VIA reorganizes how effort is distributed by moving work from humans to agents.
               </div>
             </div>
           </div>
@@ -172,25 +168,25 @@
           <h3>For Buyers</h3>
 
           <div class="faq-item" data-open="false">
-            <button class="faq-toggle">
+            <button class="faq-toggle" type="button" aria-expanded="false">
               <span class="faq-question">How does VIA work for buyers?</span>
-              <span class="faq-plus">+</span>
+              <span class="faq-plus" aria-hidden="true">+</span>
             </button>
-            <div class="faq-answer-wrap">
+            <div class="faq-answer-wrap" role="region" aria-hidden="true">
               <div class="faq-answer">
-                VIA allows buyers to describe what they want clearly and receive fewer, more relevant responses without ads or sponsored results.
+                VIA allows buyers to describe what they want clearly and receive fewer, more relevant responses without ads or sponsored results. Buyers can control how much autonomy their agent has and what constraints apply.
               </div>
             </div>
           </div>
 
           <div class="faq-item" data-open="false">
-            <button class="faq-toggle">
+            <button class="faq-toggle" type="button" aria-expanded="false">
               <span class="faq-question">Can my agent shop like crazy?</span>
-              <span class="faq-plus">+</span>
+              <span class="faq-plus" aria-hidden="true">+</span>
             </button>
-            <div class="faq-answer-wrap">
+            <div class="faq-answer-wrap" role="region" aria-hidden="true">
               <div class="faq-answer">
-                No. VIA is designed for progressive delegation, not uncontrolled automation. You decide how much freedom your agent has.
+                No. VIA is designed for progressive delegation, not full automation by default. You decide how much autonomy your agent has, and what constraints apply.
               </div>
             </div>
           </div>
@@ -200,63 +196,175 @@
           <h3>For Sellers</h3>
 
           <div class="faq-item" data-open="false">
-            <button class="faq-toggle">
+            <button class="faq-toggle" type="button" aria-expanded="false">
               <span class="faq-question">How does VIA work for sellers?</span>
-              <span class="faq-plus">+</span>
+              <span class="faq-plus" aria-hidden="true">+</span>
             </button>
-            <div class="faq-answer-wrap">
+            <div class="faq-answer-wrap" role="region" aria-hidden="true">
               <div class="faq-answer">
-                VIA allows sellers to respond only to genuine buying intent and automate first-layer interaction and negotiation.
+                VIA allows sellers to respond only to genuine buying intent, reduce wasted marketing spend, automate first-layer interaction and negotiation, and focus on fulfillment and quality.
               </div>
             </div>
           </div>
 
           <div class="faq-item" data-open="false">
-            <button class="faq-toggle">
+            <button class="faq-toggle" type="button" aria-expanded="false">
               <span class="faq-question">What would my agent actually do?</span>
-              <span class="faq-plus">+</span>
+              <span class="faq-plus" aria-hidden="true">+</span>
             </button>
-            <div class="faq-answer-wrap">
+            <div class="faq-answer-wrap" role="region" aria-hidden="true">
               <div class="faq-answer">
-                Your agent handles enquiries, qualification, availability checks, and negotiation within rules you define.
+                Seller agents operate within rules defined by the business, including pricing, availability, and brand constraints. They handle initial interactions while maintaining your business guidelines.
               </div>
             </div>
           </div>
         </div>
 
+        <div class="faq-category">
+          <h3>About VIA Labs</h3>
+
+          <div class="faq-item" data-open="false">
+            <button class="faq-toggle" type="button" aria-expanded="false">
+              <span class="faq-question">Who is behind VIA?</span>
+              <span class="faq-plus" aria-hidden="true">+</span>
+            </button>
+            <div class="faq-answer-wrap" role="region" aria-hidden="true">
+              <div class="faq-answer">
+                VIA Labs was founded by specialists from fashion, global commerce, and technology. The team has experience building brands, platforms, and systems used at scale across multiple markets.
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item" data-open="false">
+            <button class="faq-toggle" type="button" aria-expanded="false">
+              <span class="faq-question">Where is VIA Labs based?</span>
+              <span class="faq-plus" aria-hidden="true">+</span>
+            </button>
+            <div class="faq-answer-wrap" role="region" aria-hidden="true">
+              <div class="faq-answer">
+                VIA Labs operates as a global team with headquarters in Singapore.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-category">
+          <h3>Getting Started</h3>
+
+          <div class="faq-item" data-open="false">
+            <button class="faq-toggle" type="button" aria-expanded="false">
+              <span class="faq-question">When will VIA be available?</span>
+              <span class="faq-plus" aria-hidden="true">+</span>
+            </button>
+            <div class="faq-answer-wrap" role="region" aria-hidden="true">
+              <div class="faq-answer">
+                VIA is currently in development. Register your interest to be notified when we launch our beta and to be part of our first cohorts of buyers and sellers.
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item" data-open="false">
+            <button class="faq-toggle" type="button" aria-expanded="false">
+              <span class="faq-question">How can I stay updated?</span>
+              <span class="faq-plus" aria-hidden="true">+</span>
+            </button>
+            <div class="faq-answer-wrap" role="region" aria-hidden="true">
+              <div class="faq-answer">
+                Register your email through our registration form, or follow us on X (Twitter) @via_labs_sg for updates.
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div class="cta-row">
+        <p style="margin-bottom: 1rem; font-weight: 600;">Ready to learn more?</p>
         <a href="buyer.html" class="cta-button">BUYERS</a>
         <a href="seller.html" class="cta-button">SELLERS</a>
       </div>
 
+      <nav class="bottom-nav" aria-label="Main navigation">
+        <a href="index.html" class="bottom-nav-link">Home</a>
+        <a href="who.html" class="bottom-nav-link">Who?</a>
+        <a href="what.html" class="bottom-nav-link">What?</a>
+        <a href="how.html" class="bottom-nav-link">How?</a>
+      </nav>
     </div>
   </main>
 
+  <div class="footer-left">© VIA Labs Pte Ltd</div>
+
+  <div class="footer-right">
+    <a href="https://x.com/via_labs_sg" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Follow VIA Labs on X">
+      <img id="socialIcon" src="images/logo-black.png" alt="X (Twitter)" class="social-icon">
+    </a>
+  </div>
+
+  <script src="js/theme.js"></script>
+
   <script>
     (function () {
-      const items = document.querySelectorAll('.faq-item');
-      const toggles = document.querySelectorAll('.faq-toggle');
+      const items = Array.from(document.querySelectorAll('.faq-item'));
+      const toggles = Array.from(document.querySelectorAll('.faq-toggle'));
 
-      function closeAll(except) {
-        items.forEach(item => {
-          if (item !== except) {
-            item.dataset.open = "false";
-            item.querySelector('.faq-answer-wrap').style.maxHeight = 0;
-          }
+      function closeItem(item) {
+        const btn = item.querySelector('.faq-toggle');
+        const wrap = item.querySelector('.faq-answer-wrap');
+        if (!btn || !wrap) return;
+
+        item.setAttribute('data-open', 'false');
+        btn.setAttribute('aria-expanded', 'false');
+        wrap.setAttribute('aria-hidden', 'true');
+        wrap.style.maxHeight = '0px';
+      }
+
+      function openItem(item) {
+        const btn = item.querySelector('.faq-toggle');
+        const wrap = item.querySelector('.faq-answer-wrap');
+        if (!btn || !wrap) return;
+
+        item.setAttribute('data-open', 'true');
+        btn.setAttribute('aria-expanded', 'true');
+        wrap.setAttribute('aria-hidden', 'false');
+
+        const inner = wrap.firstElementChild;
+        const targetHeight = (inner ? inner.scrollHeight : wrap.scrollHeight) + 24;
+        wrap.style.maxHeight = targetHeight + 'px';
+      }
+
+      function closeAllExcept(exceptItem) {
+        items.forEach((it) => {
+          if (it !== exceptItem) closeItem(it);
         });
       }
 
-      toggles.forEach(toggle => {
-        toggle.addEventListener('click', () => {
-          const item = toggle.closest('.faq-item');
-          const open = item.dataset.open === "true";
-          closeAll(item);
-          item.dataset.open = open ? "false" : "true";
-          const wrap = item.querySelector('.faq-answer-wrap');
-          wrap.style.maxHeight = open ? 0 : wrap.scrollHeight + "px";
+      toggles.forEach((btn) => {
+        btn.addEventListener('click', function () {
+          const item = btn.closest('.faq-item');
+          if (!item) return;
+
+          const isOpen = item.getAttribute('data-open') === 'true';
+
+          if (isOpen) {
+            closeItem(item);
+            return;
+          }
+
+          closeAllExcept(item);
+          openItem(item);
         });
+      });
+
+      window.addEventListener('resize', function () {
+        const open = items.find((it) => it.getAttribute('data-open') === 'true');
+        if (!open) return;
+
+        const wrap = open.querySelector('.faq-answer-wrap');
+        const inner = wrap ? wrap.firstElementChild : null;
+        if (!wrap) return;
+
+        const targetHeight = (inner ? inner.scrollHeight : wrap.scrollHeight) + 24;
+        wrap.style.maxHeight = targetHeight + 'px';
       });
     })();
   </script>
