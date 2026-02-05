@@ -412,6 +412,50 @@ textarea:focus {
   animation: fadeInUp 0.8s ease 0.6s both;
 }
 
+.bottom-nav {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-top: 3rem;
+  flex-wrap: wrap;
+}
+
+.bottom-nav-link {
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  font-size: 0.875rem;
+  line-height: 1;
+  color: inherit;
+  background: transparent;
+  transition: 
+    background-color 0.2s ease,
+    color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+}
+
+/* Hover / focus */
+.bottom-nav-link:hover,
+.bottom-nav-link:focus {
+  background-color: rgba(200, 90, 84, 0.12);
+  box-shadow: 0 0 6px rgba(200, 90, 84, 0.4);
+  transform: translateY(-1px);
+  text-decoration: none;
+}
+
+/* Active page (optional but recommended) */
+.bottom-nav-link.active {
+  background-color: var(--color-border);
+  color: white;
+}
+
+/* Dark mode tweak if needed */
+html.dark .bottom-nav-link {
+  border-color: var(--color-border);
+}
+
 .bottom-nav-link {
   font-size: 0.875rem;
   text-decoration: none;
