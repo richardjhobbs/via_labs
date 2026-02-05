@@ -43,18 +43,18 @@
   position: absolute;
   bottom: 16px;
   right: 16px;
-  font-size: 20px;
   color: var(--color-border);
-  opacity: 0.7;
-  transition: opacity 0.2s ease, transform 0.2s ease, text-shadow 0.2s ease;
+  opacity: 0.75;
+  transition: opacity 0.2s ease, transform 0.2s ease, filter 0.2s ease;
   pointer-events: none;
 }
 
 .card:hover .card-arrow {
   opacity: 1;
   transform: translateX(6px);
-  text-shadow: 0 0 8px rgba(200, 90, 84, 0.6);
+  filter: drop-shadow(0 0 6px rgba(200, 90, 84, 0.7));
 }
+
 
   </style>
 </head>
@@ -112,7 +112,15 @@
     <p>Your agent does the work.</p>
     <p>Because who has time for all that scrolling through the wrong links!</p>
 
-    <span class="card-arrow">→</span>
+    <span class="card-arrow">
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="none"
+       stroke="currentColor" stroke-width="2.5"
+       stroke-linecap="round" stroke-linejoin="round">
+    <line x1="5" y1="12" x2="19" y2="12"></line>
+    <polyline points="12 5 19 12 12 19"></polyline>
+  </svg>
+</span>
+
 
   </article>
 </a>
@@ -125,7 +133,15 @@
             <p>Build your business while your VIA agent finds and deals with real customers.</p>
             <p>Save time and money. Do what matters.</p>
 
-          <span class="card-arrow">→</span>
+         <span class="card-arrow">
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="none"
+       stroke="currentColor" stroke-width="2.5"
+       stroke-linecap="round" stroke-linejoin="round">
+    <line x1="5" y1="12" x2="19" y2="12"></line>
+    <polyline points="12 5 19 12 12 19"></polyline>
+  </svg>
+</span>
+
 
           </article>
         </a>
@@ -136,7 +152,15 @@
             <p>Explore the FAQs and get a feel for agentic commerce.</p>
             <p>Check the Buyer or Seller links to know what's for you</p>
 
-            <span class="card-arrow">→</span>
+            <span class="card-arrow">
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="none"
+       stroke="currentColor" stroke-width="2.5"
+       stroke-linecap="round" stroke-linejoin="round">
+    <line x1="5" y1="12" x2="19" y2="12"></line>
+    <polyline points="12 5 19 12 12 19"></polyline>
+  </svg>
+</span>
+
 
           </article>
         </a>
@@ -145,7 +169,15 @@
           <h2>When will VIA be live?</h2>
           <p>We are building. Register to know when we go to Beta and be a part of our first cohorts of buyers and sellers.</p>
 
-        <span class="card-arrow">→</span>
+        <span class="card-arrow">
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="none"
+       stroke="currentColor" stroke-width="2.5"
+       stroke-linecap="round" stroke-linejoin="round">
+    <line x1="5" y1="12" x2="19" y2="12"></line>
+    <polyline points="12 5 19 12 12 19"></polyline>
+  </svg>
+</span>
+
 
         </article>
       </div>
