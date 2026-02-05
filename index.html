@@ -7,6 +7,29 @@
   <meta name="description" content="VIA enables buyers to shop without ads and algorithms while helping sellers find real buyers through intelligent agent technology.">
   <link rel="icon" type="image/png" href="images/VIA_logo_large_black.png">
   <link rel="stylesheet" href="css/main.css">
+
+  <style>
+    /* Ensure equal-height cards */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 2rem;
+      grid-auto-rows: 1fr;
+      align-items: stretch;
+    }
+
+    .card-link {
+      height: 100%;
+      display: block;
+    }
+
+    .card {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+    }
+  </style>
 </head>
 <body>
   <!-- Header with Logo -->
@@ -50,9 +73,7 @@
           title="Introducing VIA"
           loading="lazy">
         </iframe>
-        <button id="audio-toggle" title="Toggle audio" aria-label="Toggle video audio">
-          🔇
-        </button>
+        <button id="audio-toggle" title="Toggle audio" aria-label="Toggle video audio">🔇</button>
       </div>
 
       <!-- Cards Grid -->
@@ -90,27 +111,24 @@
 
       <!-- Registration CTA -->
       <div style="max-width: 400px; margin: 2rem auto;">
-        <button class="cta-button" type="button">
-          Register Your Interest
-        </button>
-        
-        <!-- Registration Form (Hidden by Default) -->
+        <button class="cta-button" type="button">Register Your Interest</button>
+
         <form id="emailForm" style="display:none; margin-top: 1rem;" action="https://api.web3forms.com/submit" method="POST">
           <input type="hidden" name="access_key" value="12fa6fe4-3b05-4bb6-8d28-b94420492e70">
           <input type="hidden" name="redirect" value="">
           <input type="hidden" name="email_to" value="richard@entrepot.asia">
           <input type="hidden" name="source" value="General">
-          
+
           <div class="form-group">
             <label for="firstName">First Name</label>
             <input type="text" id="firstName" name="name" required>
           </div>
-          
+
           <div class="form-group">
             <label for="email">Email</label>
             <input type="email" id="email" name="email" required>
           </div>
-          
+
           <button type="submit" class="cta-button">Submit</button>
         </form>
       </div>
@@ -127,9 +145,7 @@
   </main>
 
   <!-- Footer -->
-  <div class="footer-left">
-    © VIA Labs Pte Ltd
-  </div>
+  <div class="footer-left">© VIA Labs Pte Ltd</div>
 
   <div class="footer-right">
     <a href="https://x.com/via_labs_sg" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Follow VIA Labs on X">
@@ -137,41 +153,7 @@
     </a>
   </div>
 
-  <!-- Vimeo Player Script -->
   <script src="https://player.vimeo.com/api/player.js"></script>
-  <script>
-    // Video player controls
-    (function() {
-      let player;
-      let isMuted = true;
-      const audioButton = document.getElementById('audio-toggle');
-      
-      window.addEventListener('load', function() {
-        const iframe = document.getElementById('vimeo-player');
-        if (!iframe || !audioButton) return;
-        
-        player = new Vimeo.Player(iframe);
-        player.setVolume(0);
-        player.setLoop(true);
-        
-        audioButton.addEventListener('click', function() {
-          if (isMuted) {
-            player.setVolume(1);
-            audioButton.textContent = '🔊';
-            audioButton.setAttribute('aria-label', 'Mute video');
-            isMuted = false;
-          } else {
-            player.setVolume(0);
-            audioButton.textContent = '🔇';
-            audioButton.setAttribute('aria-label', 'Unmute video');
-            isMuted = true;
-          }
-        });
-      });
-    })();
-  </script>
-
-  <!-- Core Scripts -->
   <script src="js/theme.js"></script>
   <script src="js/forms.js"></script>
 </body>
