@@ -166,23 +166,43 @@
       text-align: center;
     }
 
-    /* Fix: global main{} in main.css forces flex-centering and hides top/bottom content */
-    main.paper-wrap{
-      display: block;
-      align-items: initial;
-      justify-content: initial;
-      padding: 2rem 1.25rem 3rem;
-    }
-
     /* Optional, improves readability */
     .paper-header{
       margin-top: 1rem;
+    }
+
+    main{
+      display: block;
     }
   </style>
 </head>
 
 <body>
-  <main class="paper-wrap">
+  <header>
+    <a href="index.html" class="logo" aria-label="VIA Home">
+      <img id="logo" src="images/VIA_logo_large_black.png" alt="VIA Logo">
+    </a>
+  </header>
+
+  <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark/light mode">
+    <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+    <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+    </svg>
+  </button>
+
+  <main>
+    <div class="paper-wrap">
 
     <header class="paper-header">
       <h1>MAKING AGENTIC COMMERCE WORK</h1>
@@ -532,11 +552,32 @@
       </div>
     </section>
 
-    <footer class="paper-footer">
-      <p>(C) VIA Labs Pte Ltd, 2026</p>
-    </footer>
-
+      <nav class="bottom-nav" aria-label="Main navigation">
+        <a href="index.html" class="bottom-nav-link">Home</a>
+        <a href="who.html" class="bottom-nav-link">Who?</a>
+        <a href="what.html" class="bottom-nav-link">What?</a>
+        <a href="how.html" class="bottom-nav-link">How?</a>
+        <a href="paper.html" class="bottom-nav-link active">Paper</a>
+        <a href="buyer.html" class="bottom-nav-link">Buyer?</a>
+        <a href="seller.html" class="bottom-nav-link">Seller?</a>
+      </nav>
+    </div>
   </main>
+
+  <div class="footer-left">© VIA Labs Pte Ltd</div>
+  <div class="footer-right">
+    <a href="paper.html" class="bottom-nav-link">Paper</a>
+    <a href="https://x.com/via_labs_sg" target="_blank" rel="noopener noreferrer" class="social-link">
+      <img
+        id="socialIcon"
+        src="images/logo-black.png"
+        alt="X (Twitter)"
+        class="social-icon"
+        data-light="images/logo-black.png"
+        data-dark="images/logo-white.png"
+      >
+    </a>
+  </div>
 
   <script>
     (function () {
@@ -615,5 +656,6 @@
       }
     })();
   </script>
+  <script src="js/theme.js"></script>
 </body>
 </html>
