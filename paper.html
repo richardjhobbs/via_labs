@@ -19,8 +19,9 @@
     }
 
     .paper-header{
+      max-width: 980px;
+      margin: 1rem auto 1.5rem;
       text-align: center;
-      margin-bottom: 1.25rem;
     }
 
     .paper-header h1{
@@ -29,7 +30,7 @@
     }
 
     .paper-subtitle{
-      margin: 0;
+      margin: 0 0 0.75rem;
       opacity: 0.85;
       font-size: 1rem;
     }
@@ -108,6 +109,11 @@
       font-size: 1.05rem;
     }
 
+    .paper-toggle.paper-toggle-large h2{
+      font-size: 1.2rem;
+      font-weight: 700;
+    }
+
     .toggle-icon{
       width: 30px;
       height: 30px;
@@ -129,6 +135,17 @@
 
     .paper-content p{
       margin: 0.75rem 0;
+    }
+
+    .paper-content a{
+      color: #2563eb;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      font-weight: 600;
+    }
+
+    .paper-content a:hover{
+      color: #1d4ed8;
     }
 
     .paper-content ul{
@@ -166,9 +183,16 @@
       text-align: center;
     }
 
-    /* Optional, improves readability */
-    .paper-header{
-      margin-top: 1rem;
+    .architecture-heading{
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-top: 1.1rem;
+    }
+
+    .architecture-numbered{
+      margin-top: 1.5rem;
+      font-size: 1.1rem;
+      font-weight: 700;
     }
 
     main{
@@ -212,7 +236,7 @@
     <section class="paper-index" aria-label="Contents">
       <h2>Contents</h2>
       <div class="tab-row" id="paperTabs">
-        <a href="#section-team" data-open="section-team">Team and Track Record</a>
+        <a href="#section-team" data-open="section-team">Team</a>
         <a href="#section-roadmap" data-open="section-roadmap">Roadmap</a>
         <a href="#section-architecture" data-open="section-architecture">Technical Architecture</a>
       </div>
@@ -221,7 +245,7 @@
     <!-- Team -->
     <section class="paper-section" id="section-team">
       <button class="paper-toggle" type="button" aria-expanded="false" aria-controls="content-team">
-        <h2>Team and Track Record</h2>
+        <h2>Team</h2>
         <span class="toggle-icon" aria-hidden="true">+</span>
       </button>
 
@@ -310,7 +334,7 @@
 
     <!-- Roadmap -->
     <section class="paper-section" id="section-roadmap">
-      <button class="paper-toggle" type="button" aria-expanded="false" aria-controls="content-roadmap">
+      <button class="paper-toggle paper-toggle-large" type="button" aria-expanded="false" aria-controls="content-roadmap">
         <h2>Roadmap</h2>
         <span class="toggle-icon" aria-hidden="true">+</span>
       </button>
@@ -400,13 +424,13 @@
 
     <!-- Technical Architecture -->
     <section class="paper-section" id="section-architecture">
-      <button class="paper-toggle" type="button" aria-expanded="false" aria-controls="content-architecture">
+      <button class="paper-toggle paper-toggle-large" type="button" aria-expanded="false" aria-controls="content-architecture">
         <h2>Technical Architecture Overview</h2>
         <span class="toggle-icon" aria-hidden="true">+</span>
       </button>
 
       <div class="paper-content" id="content-architecture">
-        <p><strong>System Overview</strong></p>
+        <p class="architecture-heading"><strong>System Overview</strong></p>
         <p>
           VIA is an intent-driven, agent-native commerce system designed to operate across platforms without reliance on search, advertising, or centralised marketplaces.
           VIA is the interface layer where intent is expressed and responses are surfaced, then the protocol and coordination framework that enables routing, trust enforcement, discovery, and autonomous transactions between agents.
@@ -420,14 +444,14 @@
           <li>Economic Settlement</li>
         </ul>
 
-        <p><strong>1. Intent and Interface Layer, VIA</strong></p>
-        <p><strong>Purpose</strong></p>
+        <p class="architecture-numbered"><strong>1. Intent and Interface Layer, VIA</strong></p>
+        <p class="architecture-heading"><strong>Purpose</strong></p>
         <p>
           VIA exists to capture intent before it becomes a transaction. It is designed to work within environments users already trust and use, rather than forcing new behaviours or destinations.
           VIA does not execute transactions, rank suppliers, or intermediate checkout.
         </p>
 
-        <p><strong>Core Characteristics</strong></p>
+        <p class="architecture-heading"><strong>Core Characteristics</strong></p>
         <ul>
           <li>Lightweight plug-in and connector model</li>
           <li>Integrates directly into major LLM environments, including Claude, Gemini, and ChatGPT</li>
@@ -435,21 +459,21 @@
           <li>Forwards intent to the central relayer from buyers to sellers</li>
         </ul>
 
-        <p><strong>Technical Notes</strong></p>
+        <p class="architecture-heading"><strong>Technical Notes</strong></p>
         <ul>
           <li>VIA connects to a structured Model Context Protocol server operated within the framework</li>
           <li>Intent is normalised into schema-based representations rather than keyword strings</li>
           <li>VIA is agnostic to commerce platforms, payment rails, and fulfilment systems</li>
         </ul>
 
-        <p><strong>2. Agent Identity, Trust, and Reputation, ERC-8004 Concepts</strong></p>
-        <p><strong>Purpose</strong></p>
+        <p class="architecture-numbered"><strong>2. Agent Identity, Trust, and Reputation, ERC-8004 Concepts</strong></p>
+        <p class="architecture-heading"><strong>Purpose</strong></p>
         <p>
           Autonomous and semi-autonomous agents cannot safely operate using implicit platform trust. Explicit, verifiable trust primitives are required.
           VIA integrates with ERC-8004 registries for verifiable agent identities and immutable reputation records which are vital for autonomous agent-to-agent transactions.
         </p>
 
-        <p><strong>Core Trust Components</strong></p>
+        <p class="architecture-heading"><strong>Core Trust Components</strong></p>
         <ul>
           <li>Verifiable agent identity</li>
           <li>On-chain representation of agent existence</li>
@@ -462,19 +486,19 @@
           Trust is not inherited from a platform. Trust is accumulated through observable behaviour.
         </p>
 
-        <p><strong>Reference Documentation</strong></p>
+        <p class="architecture-heading"><strong>Reference Documentation</strong></p>
         <ul>
-          <li>https://eips.ethereum.org/EIPS/eip-8004</li>
-          <li>https://ethereum-magicians.org/t/erc-8004-agent-identity-and-trust/</li>
+          <li><a href="https://eips.ethereum.org/EIPS/eip-8004" target="_blank" rel="noopener noreferrer">https://eips.ethereum.org/EIPS/eip-8004</a></li>
+          <li><a href="https://ethereum-magicians.org/t/erc-8004-agent-identity-and-trust/" target="_blank" rel="noopener noreferrer">https://ethereum-magicians.org/t/erc-8004-agent-identity-and-trust/</a></li>
         </ul>
 
-        <p><strong>3. Messaging and Discovery Layer, Nostr-Based Relays</strong></p>
-        <p><strong>Purpose</strong></p>
+        <p class="architecture-numbered"><strong>3. Messaging and Discovery Layer, Nostr-Based Relays</strong></p>
+        <p class="architecture-heading"><strong>Purpose</strong></p>
         <p>
           Discovery and communication are handled through a relay-based messaging architecture inspired by Nostr, rather than central directories or proprietary APIs.
         </p>
 
-        <p><strong>Rationale for Relay Architecture</strong></p>
+        <p class="architecture-heading"><strong>Rationale for Relay Architecture</strong></p>
         <ul>
           <li>No central index or gatekeeper</li>
           <li>Publish and subscribe semantics</li>
@@ -482,35 +506,35 @@
           <li>Censorship-resistant and extensible by design</li>
         </ul>
 
-        <p><strong>Message Model</strong></p>
+        <p class="architecture-heading"><strong>Message Model</strong></p>
         <p>
           Intent, responses, offers, acknowledgements, and settlement signals are represented as signed events.
           Events are broadcast to relays rather than addressed to a central service. Agents subscribe selectively based on relevance, trust rules, and declared capability.
           This ensures discovery remains open and cannot be monopolised by a single operator.
         </p>
 
-        <p><strong>Capabilities Enabled</strong></p>
+        <p class="architecture-heading"><strong>Capabilities Enabled</strong></p>
         <ul>
           <li>Decentralised agent discovery</li>
           <li>Agent-level filtering rather than platform-level ranking</li>
           <li>Interoperability across independent implementations</li>
         </ul>
 
-        <p><strong>Reference Documentation</strong></p>
+        <p class="architecture-heading"><strong>Reference Documentation</strong></p>
         <ul>
-          <li>https://nostr.com</li>
-          <li>https://github.com/nostr-protocol/nostr</li>
-          <li>https://nostr.how</li>
+          <li><a href="https://nostr.com" target="_blank" rel="noopener noreferrer">https://nostr.com</a></li>
+          <li><a href="https://github.com/nostr-protocol/nostr" target="_blank" rel="noopener noreferrer">https://github.com/nostr-protocol/nostr</a></li>
+          <li><a href="https://nostr.how" target="_blank" rel="noopener noreferrer">https://nostr.how</a></li>
         </ul>
 
-        <p><strong>4. Agentic Payment Settlement Layer, x402</strong></p>
-        <p><strong>Purpose</strong></p>
+        <p class="architecture-numbered"><strong>4. Agentic Payment Settlement Layer, x402</strong></p>
+        <p class="architecture-heading"><strong>Purpose</strong></p>
         <p>
           Traditional payment systems are not designed for machine-to-machine interaction, sub-cent pricing, or conditional economic signals.
           The x402 protocol provides a settlement layer optimised for agentic interaction.
         </p>
 
-        <p><strong>Capabilities</strong></p>
+        <p class="architecture-heading"><strong>Capabilities</strong></p>
         <ul>
           <li>Micropayments</li>
           <li>Programmatic settlement</li>
@@ -524,11 +548,11 @@
           <li>Compensating early or high-quality participation</li>
         </ul>
 
-        <p><strong>Reference Documentation</strong></p>
+        <p class="architecture-heading"><strong>Reference Documentation</strong></p>
         <ul>
-          <li>https://blog.crossmint.com/what-is-x402/</li>
-          <li>https://www.coinbase.com/blog/introducing-x402</li>
-          <li>https://alearesearch.substack.com/p/x402-payment-rails-for-the-agent</li>
+          <li><a href="https://blog.crossmint.com/what-is-x402/" target="_blank" rel="noopener noreferrer">https://blog.crossmint.com/what-is-x402/</a></li>
+          <li><a href="https://www.coinbase.com/blog/introducing-x402" target="_blank" rel="noopener noreferrer">https://www.coinbase.com/blog/introducing-x402</a></li>
+          <li><a href="https://alearesearch.substack.com/p/x402-payment-rails-for-the-agent" target="_blank" rel="noopener noreferrer">https://alearesearch.substack.com/p/x402-payment-rails-for-the-agent</a></li>
         </ul>
 
         <p><strong>The Coordination Framework</strong></p>
@@ -537,14 +561,14 @@
           messaging conventions, and agentic payment settlement logic.
         </p>
 
-        <p><strong>Design Goals</strong></p>
+        <p class="architecture-heading"><strong>Design Goals</strong></p>
         <ul>
           <li>VIA remains platform-agnostic</li>
           <li>Discovery cannot be captured by any single platform</li>
           <li>Integration is possible without dependency</li>
         </ul>
 
-        <p><strong>Interoperability</strong></p>
+        <p class="architecture-heading"><strong>Interoperability</strong></p>
         <p>
           VIA is designed to interoperate with verifiable platform MCP servers, commerce coordination protocols such as UCP,
           and existing e-commerce infrastructure, including Shopify.
@@ -566,7 +590,6 @@
 
   <div class="footer-left">© VIA Labs Pte Ltd</div>
   <div class="footer-right">
-    <a href="paper.html" class="bottom-nav-link">Paper</a>
     <a href="https://x.com/via_labs_sg" target="_blank" rel="noopener noreferrer" class="social-link">
       <img
         id="socialIcon"
