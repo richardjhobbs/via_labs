@@ -165,6 +165,19 @@
       font-size: 0.95rem;
       text-align: center;
     }
+
+    /* Fix: global main{} in main.css forces flex-centering and hides top/bottom content */
+    main.paper-wrap{
+      display: block;
+      align-items: initial;
+      justify-content: initial;
+      padding: 2rem 1.25rem 3rem;
+    }
+
+    /* Optional, improves readability */
+    .paper-header{
+      margin-top: 1rem;
+    }
   </style>
 </head>
 
