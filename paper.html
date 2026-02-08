@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!-- CANONICAL_PAPER_V1 -->
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -600,82 +601,6 @@
         openSection("section-team", false);
       }
     })();
-  </script>
-  <script>
-(function () {
-  const sections = document.querySelectorAll(".paper-section");
-  const tabs = document.querySelectorAll("#paperTabs a");
-
-  function closeAll() {
-    sections.forEach(section => {
-      const btn = section.querySelector(".paper-toggle");
-      const content = section.querySelector(".paper-content");
-      const icon = section.querySelector(".toggle-icon");
-      if (!btn || !content || !icon) return;
-      btn.setAttribute("aria-expanded", "false");
-      content.style.display = "none";
-      icon.textContent = "+";
-    });
-  }
-
-  function setActiveTab(sectionId) {
-    tabs.forEach(t => t.classList.remove("active"));
-    const active = document.querySelector(
-      `#paperTabs a[data-open="${sectionId}"]`
-    );
-    if (active) active.classList.add("active");
-  }
-
-  function openSection(sectionId, scroll = true) {
-    const section = document.getElementById(sectionId);
-    if (!section) return;
-
-    const btn = section.querySelector(".paper-toggle");
-    const content = section.querySelector(".paper-content");
-    const icon = section.querySelector(".toggle-icon");
-
-    closeAll();
-    btn.setAttribute("aria-expanded", "true");
-    content.style.display = "block";
-    icon.textContent = "-";
-    setActiveTab(sectionId);
-
-    if (scroll) {
-      section.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
-  }
-
-  document.querySelectorAll(".paper-toggle").forEach(btn => {
-    btn.addEventListener("click", () => {
-      const section = btn.closest(".paper-section");
-      const isOpen = btn.getAttribute("aria-expanded") === "true";
-      if (isOpen) {
-        btn.setAttribute("aria-expanded", "false");
-        section.querySelector(".paper-content").style.display = "none";
-        section.querySelector(".toggle-icon").textContent = "+";
-      } else {
-        openSection(section.id);
-        history.replaceState(null, "", "#" + section.id);
-      }
-    });
-  });
-
-  tabs.forEach(tab => {
-    tab.addEventListener("click", e => {
-      e.preventDefault();
-      const target = tab.getAttribute("data-open");
-      openSection(target);
-      history.replaceState(null, "", "#" + target);
-    });
-  });
-
-  const hash = window.location.hash.replace("#", "");
-  if (hash && document.getElementById(hash)) {
-    openSection(hash, false);
-  } else {
-    openSection("section-team", false);
-  }
-})();
   </script>
 </body>
 </html>
