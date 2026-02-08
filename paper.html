@@ -4,633 +4,631 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>VIA Litepaper, Making Agentic Commerce Work</title>
-  <meta name="description" content="The VIA litepaper. A detailed overview of VIA, the rationale for agentic commerce, the coordination architecture, and the team." />
+  <title>VIA Litepaper</title>
+  <meta name="description" content="VIA litepaper. A detailed overview of VIA Labs, team and track record, roadmap, and technical architecture." />
 
   <link rel="icon" type="image/png" href="images/VIA_logo_large_black.png">
   <link rel="stylesheet" href="css/main.css">
 
   <style>
-    :root { --via-red: #C85A54; }
-
-    .paper-wrap {
+    .paper-wrap{
       max-width: 980px;
       margin: 0 auto;
       padding: 2rem 1.25rem 3rem;
     }
 
-    .paper-header h1 {
-      margin-bottom: 0.5rem;
+    .paper-header{
+      text-align: center;
+      margin-bottom: 1.25rem;
     }
 
-    .paper-subtitle {
-      margin-top: 0;
+    .paper-header h1{
+      margin: 0 0 0.5rem;
+      letter-spacing: 0.02em;
+    }
+
+    .paper-subtitle{
+      margin: 0;
       opacity: 0.85;
+      font-size: 1rem;
     }
 
-    .paper-index {
+    /* Index tabs, readable */
+    .paper-index{
       margin: 1.25rem 0 2rem;
       padding: 1rem;
-      border: 1px solid rgba(0,0,0,0.12);
+      border: 1px solid rgba(255,255,255,0.12);
       border-radius: 12px;
-      background: rgba(0,0,0,0.02);
+      background: rgba(255,255,255,0.04);
     }
 
-    .paper-index h2 {
+    .paper-index h2{
       margin: 0 0 0.75rem;
-      font-size: 1.1rem;
+      font-size: 1.05rem;
+      opacity: 0.9;
     }
 
-    .tab-row {
+    .tab-row{
       display: flex;
       flex-wrap: wrap;
-      gap: 0.5rem;
+      gap: 0.6rem;
     }
 
-    .tab-row a {
+    .tab-row a{
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      padding: 0.55rem 0.85rem;
+      padding: 0.65rem 0.95rem;
       border-radius: 999px;
       border: 1px solid rgba(0,0,0,0.18);
-      background: white;
+      background: #ffffff;
+      color: #000000;
       text-decoration: none;
       font-size: 0.95rem;
       line-height: 1;
-      color: inherit;
-      transition: border-color 0.2s ease, background 0.2s ease;
-    }
-
-    .tab-row a:hover,
-    .tab-row a:focus {
-      border-color: rgba(0,0,0,0.35);
-      background: rgba(0,0,0,0.03);
-    }
-
-    .tab-row a.active {
-      border-color: rgba(0,0,0,0.55);
-      background: rgba(0,0,0,0.06);
       font-weight: 600;
     }
 
-    .paper-item {
-      background-color: white;
-      border: 2px solid var(--via-red);
-      border-radius: 0.75rem;
-      margin-bottom: 1rem;
-      overflow: hidden;
+    .tab-row a:hover{
+      background: #f2f2f2;
+      border-color: rgba(0,0,0,0.35);
     }
 
-    html.dark .paper-item { background-color: #1a1a1a; }
+    .tab-row a.active{
+      background: #000000;
+      color: #ffffff;
+      border-color: #000000;
+    }
 
-    .paper-toggle {
+    /* Accordion containers, same visual rhythm as FAQ */
+    .paper-section{
+      margin-bottom: 0.9rem;
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 12px;
+      overflow: hidden;
+      background: rgba(255,255,255,0.02);
+    }
+
+    .paper-toggle{
       width: 100%;
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 1rem;
-      padding: 1rem;
-      background: transparent;
-      border: 0;
+      padding: 1rem 1rem;
       cursor: pointer;
+      background: transparent;
+      border: none;
       text-align: left;
-      color: inherit;
-      font: inherit;
     }
 
-    .paper-question { font-weight: 700; line-height: 1.35; }
+    .paper-toggle h2{
+      margin: 0;
+      font-size: 1.05rem;
+    }
 
-    .paper-plus {
+    .toggle-icon{
+      width: 30px;
+      height: 30px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.22);
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 28px;
-      height: 28px;
-      border-radius: 999px;
-      border: 2px solid var(--via-red);
-      color: var(--via-red);
-      font-weight: 700;
-      transition: transform 160ms ease;
+      font-weight: 800;
+      line-height: 1;
       flex: 0 0 auto;
+      opacity: 0.9;
     }
 
-    .paper-item[data-open="true"] .paper-plus { transform: rotate(45deg); }
-
-    .paper-answer-wrap {
-      max-height: 0;
-      opacity: 0;
-      overflow: hidden;
-      transition: max-height 220ms ease, opacity 220ms ease;
-      border-top: 1px solid rgba(200, 90, 84, 0.35);
+    .paper-content{
+      display: none;
+      padding: 0 1rem 1rem;
     }
 
-    .paper-item[data-open="true"] .paper-answer-wrap { opacity: 1; }
-
-    .paper-answer {
-      padding: 0.9rem 1rem 1.1rem;
-      line-height: 1.6;
+    .paper-content p{
+      margin: 0.75rem 0;
     }
 
-    .paper-answer p {
-      margin-bottom: 0.75rem;
-    }
-
-    .paper-answer p:last-child {
-      margin-bottom: 0;
-    }
-
-    .paper-answer ul {
+    .paper-content ul{
       margin: 0.5rem 0 0.75rem 1.25rem;
     }
 
-    .paper-answer li {
+    .paper-content li{
       margin: 0.35rem 0;
     }
 
-    .person-block {
+    /* People blocks with consistent spacing */
+    .person-block{
       margin: 1rem 0 1.25rem;
       padding: 1rem;
-      border: 1px solid rgba(0,0,0,0.10);
+      border: 1px solid rgba(255,255,255,0.12);
       border-radius: 12px;
-      background: rgba(0,0,0,0.015);
+      background: rgba(255,255,255,0.03);
     }
 
-    .person-block h3 {
-      margin: 0 0 0.5rem;
+    .person-block h3{
+      margin: 0 0 0.45rem;
       font-size: 1.02rem;
     }
 
-    .person-meta {
+    .person-meta{
       margin: 0 0 0.75rem;
       opacity: 0.85;
       font-size: 0.95rem;
     }
 
-    .paper-footer {
+    .paper-footer{
       margin-top: 2.5rem;
       opacity: 0.85;
       font-size: 0.95rem;
+      text-align: center;
     }
   </style>
 </head>
 
 <body>
 
-<header>
-  <a href="index.html" class="logo" aria-label="VIA Home">
-    <img id="logo" src="images/VIA_logo_large_black.png" alt="VIA Logo">
-  </a>
-</header>
+  <main class="paper-wrap">
 
-<button class="theme-toggle" id="themeToggle" aria-label="Toggle dark/light mode">
-  <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-    <circle cx="12" cy="12" r="5"></circle>
-    <line x1="12" y1="1" x2="12" y2="3"></line>
-    <line x1="12" y1="21" x2="12" y2="23"></line>
-    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-    <line x1="1" y1="12" x2="3" y2="12"></line>
-    <line x1="21" y1="12" x2="23" y2="12"></line>
-    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-  </svg>
-  <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-  </svg>
-</button>
-
-<main>
-  <div class="paper-wrap">
     <header class="paper-header">
-      <h1>Making Agentic Commerce Work</h1>
-      <p class="paper-subtitle">VIA litepaper, VIA Labs Pte Ltd, 2026</p>
-      <p class="paper-subtitle">
-        This is a detailed overview of VIA, the rationale for agentic commerce, and how VIA is designed to make intent-driven interaction work reliably at scale.
-        It is not an FAQ page.
-      </p>
+      <h1>MAKING AGENTIC COMMERCE WORK</h1>
+      <p class="paper-subtitle">Litepaper</p>
     </header>
 
+    <!-- INDEX -->
     <section class="paper-index" aria-label="Contents">
       <h2>Contents</h2>
       <div class="tab-row" id="paperTabs">
-        <a href="#section-overview" data-open="section-overview">Overview</a>
-        <a href="#section-value" data-open="section-value">Value Propositions</a>
-        <a href="#section-status" data-open="section-status">Where We Are Today</a>
-        <a href="#section-agentic" data-open="section-agentic">Agentic Commerce, Introduction</a>
-        <a href="#section-team" data-open="section-team">Team and Advisors</a>
+        <a href="#section-team" data-open="section-team">Team and Track Record</a>
         <a href="#section-roadmap" data-open="section-roadmap">Roadmap</a>
         <a href="#section-architecture" data-open="section-architecture">Technical Architecture</a>
-        <a href="#section-poc" data-open="section-poc">Proof of Concept</a>
-        <a href="#section-appendix" data-open="section-appendix">Appendix</a>
       </div>
     </section>
 
-    <section class="paper-item" id="section-overview" data-open="false">
-      <button class="paper-toggle" type="button" aria-expanded="false" aria-controls="content-overview">
-        <span class="paper-question">VIA, Making Agentic Commerce Work</span>
-        <span class="paper-plus" aria-hidden="true">+</span>
-      </button>
-      <div class="paper-answer-wrap" id="content-overview">
-        <div class="paper-answer">
-          <p><strong>VIA makes digital commerce truly effective.</strong></p>
-
-          <p><strong>Buyers</strong></p>
-          <ul>
-            <li>No ads, tabs, or noise.</li>
-            <li>Your agent does the work.</li>
-          </ul>
-
-          <p><strong>Sellers</strong></p>
-          <ul>
-            <li>Selling without wasted spend or empty traffic.</li>
-            <li>Your agent finds real buyers and negotiates value.</li>
-          </ul>
-
-          <p><strong>Better for businesses</strong></p>
-          <p>
-            Currently, platforms are built around being seen. Businesses pay to compete for visibility, clicks, and ranking.
-            Much of the spend goes toward reaching people who are never going to buy.
-          </p>
-          <p>
-            VIA changes that dynamic. Instead of paying to attract attention, businesses engage with genuine interest.
-            The result is a radically lower cost of acquiring and serving customers.
-          </p>
-
-          <p><strong>Better for consumers</strong></p>
-          <p>
-            Instead of searching through inexact results or being pushed ads, people can explain what they are looking for
-            in clear, everyday language. Only businesses that can realistically help respond.
-          </p>
-          <p>
-            This improves everyday buying by removing friction and guesswork. VIA delivers back to consumers only merchants
-            and products that meet expectations. Agents negotiate with agents and deliver better results.
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <section class="paper-item" id="section-value" data-open="false">
-      <button class="paper-toggle" type="button" aria-expanded="false" aria-controls="content-value">
-        <span class="paper-question">The Value Propositions</span>
-        <span class="paper-plus" aria-hidden="true">+</span>
-      </button>
-      <div class="paper-answer-wrap" id="content-value">
-        <div class="paper-answer">
-          <p><strong>For businesses</strong></p>
-          <ul>
-            <li>Massively reduced CAC</li>
-            <li>Agents managing enquiries and responses</li>
-            <li>Direct access to genuine demand</li>
-          </ul>
-
-          <p><strong>For customers</strong></p>
-          <ul>
-            <li>Less manual searching and comparison</li>
-            <li>Relevant responses delivered</li>
-            <li>Better outcomes with less effort</li>
-          </ul>
-
-          <p><strong>Both sides save time and money.</strong></p>
-        </div>
-      </div>
-    </section>
-
-    <section class="paper-item" id="section-status" data-open="false">
-      <button class="paper-toggle" type="button" aria-expanded="false" aria-controls="content-status">
-        <span class="paper-question">Where We Are Today</span>
-        <span class="paper-plus" aria-hidden="true">+</span>
-      </button>
-      <div class="paper-answer-wrap" id="content-status">
-        <div class="paper-answer">
-          <p>
-            VIA Labs has built the agentic interface that works across the major AI assistants people already use, and an
-            underlying protocol stack that allows intent-driven interaction to happen reliably and at scale.
-          </p>
-          <p>
-            The core elements have been proven to work together end to end. The focus now is on making the system more robust,
-            fully user-friendly, and ready for wider adoption.
-          </p>
-
-          <p><strong>TL;DR</strong></p>
-          <p>
-            VIA Labs has created VIA as an interface for consumers, implemented as an LLM plugin, with a set of interlinked
-            protocols that utilise:
-          </p>
-          <ul>
-            <li>MCP servers, agent access to tools, data, and external systems</li>
-            <li>ERC-8004 compliant agent frameworks, agent identity, authority, and trust</li>
-            <li>Nostr-based relays, intent broadcast, discovery, and response</li>
-            <li>x402 micropayments, request-level and intent-driven payments</li>
-            <li>Abstracted wallets, simplified onboarding, custody, and fiat-to-stablecoin flows</li>
-          </ul>
-
-          <p>
-            VIA has been designed to support semi-autonomous and fully autonomous agent-to-agent interactions as agentic commerce matures,
-            with the potential to reduce transaction friction and costs and reduce reliance on traditional marketing spend for merchants.
-          </p>
-
-          <p>
-            FA$H is an existing, DEX-listed token intended to be used as a trust enhancement layer, with potential applications in agent
-            credibility signalling and dispute resolution support once relevant on-chain interactions are fully implemented.
-          </p>
-
-          <p>(C) VIA Labs Pte Ltd, 2026</p>
-        </div>
-      </div>
-    </section>
-
-    <section class="paper-item" id="section-agentic" data-open="false">
-      <button class="paper-toggle" type="button" aria-expanded="false" aria-controls="content-agentic">
-        <span class="paper-question">Agentic Commerce, An Introduction</span>
-        <span class="paper-plus" aria-hidden="true">+</span>
-      </button>
-
-      <div class="paper-answer-wrap" id="content-agentic">
-        <div class="paper-answer">
-          <p>
-            Digital commerce is entering a structural transition driven less by new interfaces and more by changing human behaviour.
-            This litepaper provides grounding in the evolution of this shift, outlines expectations for the next phase of adoption, and frames
-            why intent-first, protocol-driven architectures such as VIA Labs are positioned to address the systemic challenges that agentic commerce introduces.
-          </p>
-
-          <p><strong>Market Evolution, Structural Shifts, and the Case for an Intent-First Architecture</strong></p>
-          <p>
-            Digital commerce is entering a structural transition driven less by new interfaces and more by changing human behaviour.
-            After two decades dominated by search-led discovery and a subsequent shift towards social-led influence, the market is now moving towards agent-mediated execution.
-            This transition reflects a growing mismatch between how commerce systems are designed and how people actually want to make decisions.
-          </p>
-          <p>
-            Agentic commerce emerges as a response to three converging pressures: increasing cognitive load on consumers, declining trust in discovery mechanisms,
-            and the maturation of AI systems capable not only of generating content, but of executing multi-step actions.
-            The result is a reconfiguration of where effort, trust, and control sit within the buying process.
-          </p>
-
-          <p><strong>From discovery to delegation</strong></p>
-          <p>
-            The original promise of digital commerce was efficiency. Search allowed users to find products without physical effort, and marketplaces aggregated supply at scale.
-            Over time, however, responsibility for navigating abundance shifted almost entirely onto the individual.
-            Consumers became responsible for interpreting unclear product data, comparing near-identical options, validating claims across multiple platforms, and absorbing the risk of poor decisions.
-          </p>
-          <p>
-            Social platforms partially replaced search as a discovery layer, particularly for younger cohorts. This improved context and cultural relevance,
-            but introduced reliability, bias, and performative influence. Discovery became faster, but truth became harder to verify.
-            Consumers moved from structured search noise to unstructured social noise.
-          </p>
-          <p>
-            Agentic commerce does not replace discovery. It changes the role it plays. Instead of asking individuals to navigate fragmented systems,
-            agentic models allow intent to be expressed directly, then translated into structured action.
-          </p>
-          <p>
-            The user moves from browsing and comparing towards instructing and approving. Decision effort is reduced not by limiting choice,
-            but by reorganising how choice is processed. Commerce systems stop optimising for attention and start optimising for delegated intent.
-          </p>
-
-          <p><strong>What makes commerce agentic</strong></p>
-          <p>
-            Agentic commerce is often misunderstood as conversational shopping or AI-powered recommendations. In practice, it is defined by execution rather than presentation.
-            An agentic system is one that can capture intent, translate intent into structured requirements, query, evaluate, and negotiate across supply,
-            execute transactions within defined constraints, and manage post-purchase actions such as tracking, returns, or changes.
-          </p>
-          <p>
-            The defining characteristic is autonomy under guardrails. The agent does not merely suggest. It acts, subject to user-defined limits.
-            This distinction matters because it introduces new requirements around trust, accountability, and system design.
-          </p>
-
-          <p><strong>Why is this happening now</strong></p>
-          <p>
-            The emergence of agentic commerce is driven by friction. Three systemic failures of the current paradigm are increasingly visible.
-          </p>
-          <ul>
-            <li><strong>Decision overload</strong>, inconsistent data and minimal differentiation create fatigue and abandonment.</li>
-            <li><strong>Trust fragmentation</strong>, discovery, validation, pricing, and fulfilment are split across environments.</li>
-            <li><strong>Capability maturity</strong>, AI can interpret interfaces and execute workflows, making delegation viable.</li>
-          </ul>
-
-          <p><strong>Expectations for adoption</strong></p>
-          <p>
-            Adoption will be progressive autonomy. Low-risk repeat purchases will be delegated first. Medium-risk purchases will move towards draft-and-approve flows.
-            High-risk or emotionally significant purchases will remain human-led, but supported by agents that compress research and surface validated options.
-          </p>
-          <p>
-            Users do not need agents to be perfect. They need them to be transparent, steerable, and reversible.
-            Systems that allow users to understand why an action was taken, adjust constraints easily, and recover from mistakes will see sustained adoption.
-            The expectation over the next five years is not full automation, but selective delegation at scale.
-          </p>
-
-          <p><strong>Structural implications for commerce systems</strong></p>
-          <p>
-            As agentic models take hold, several architectural changes become unavoidable.
-          </p>
-          <ul>
-            <li><strong>From storefronts to surfaces</strong>, commerce occurs wherever intent is expressed.</li>
-            <li><strong>From traffic to intent routing</strong>, structured intent routes to relevant supply, reducing waste.</li>
-            <li><strong>From persuasion to legibility</strong>, structured, verifiable data outperforms marketing language for agents.</li>
-          </ul>
-
-          <p><strong>The emerging architectural pattern</strong></p>
-          <ul>
-            <li><strong>An intent interface</strong>, a layer where users express goals and autonomy can be expanded or constrained.</li>
-            <li><strong>A protocol layer</strong>, a shared language for intent, offers, negotiation, identity, and payment.</li>
-            <li><strong>A distribution mechanism for intent</strong>, routing qualified intent and returning ranked responses.</li>
-            <li><strong>A native trust layer</strong>, identity, auditability, and reversibility built into the system.</li>
-          </ul>
-
-          <p><strong>Why VIA Labs exists</strong></p>
-          <p>
-            VIA is built on the premise that agentic commerce will not be owned by a single platform or surface.
-            It assumes a fragmented environment where users, agents, and merchants interact across multiple contexts,
-            and where value is created by reducing friction rather than capturing attention.
-          </p>
-          <p>
-            The system is designed to treat intent as the primary signal, separate interface from execution logic,
-            allow merchants to participate via agents rather than ads, route demand efficiently rather than broadcast it,
-            and make trust operational through structure, not branding.
-          </p>
-
-          <p><strong>In conclusion</strong></p>
-          <p>
-            Agentic commerce represents a rebalancing of effort, trust, and control within digital markets.
-            It does not eliminate choice, but changes who does the work of processing it. It does not remove humans from decisions,
-            but allows them to step back from noise.
-          </p>
-          <p>
-            The architectures that succeed will prioritise clarity, governance, and reversibility, giving buyers and sellers a shared foundation for trusted automation.
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <section class="paper-item" id="section-team" data-open="false">
+    <!-- TEAM AND TRACK RECORD -->
+    <section class="paper-section" id="section-team">
       <button class="paper-toggle" type="button" aria-expanded="false" aria-controls="content-team">
-        <span class="paper-question">Team and Advisors</span>
-        <span class="paper-plus" aria-hidden="true">+</span>
+        <h2>Team and Track Record</h2>
+        <span class="toggle-icon" aria-hidden="true">+</span>
       </button>
-      <div class="paper-answer-wrap" id="content-team">
-        <div class="paper-answer">
-          <p>VIA Labs is led by operators with experience across commerce, product, and distributed systems.</p>
 
-          <div class="person-block">
-            <h3>Founding Team</h3>
-            <p class="person-meta">Commerce, product, and protocol design</p>
-            <p>Builders who have launched consumer platforms, scaled marketplaces, and designed multi-agent workflows.</p>
-          </div>
+      <div class="paper-content" id="content-team">
 
-          <div class="person-block">
-            <h3>Advisors</h3>
-            <p class="person-meta">AI systems, trust, and global commerce</p>
-            <p>Advisors from AI, finance, and global logistics help validate the roadmap and governance model.</p>
-          </div>
+        <p><strong>Founders</strong></p>
+
+        <div class="person-block">
+          <h3>Richard Hobbs</h3>
+          <p class="person-meta">Founder and CEO</p>
+          <p>
+            30+ years operating at the intersection of fashion, culture, technology, and commerce across Europe and Asia.
+          </p>
+          <p>
+            Richard has built, invested in, and advised global brands, creators, and platforms, with deep experience in fashion ecosystems,
+            brand partnerships, and new commercial models. At VIA Labs, he focuses on strategy, network development, and ensuring the product
+            aligns with real buyer and seller behaviour.
+          </p>
         </div>
+
+        <div class="person-block">
+          <h3>Daniel Yen-Tin Lin</h3>
+          <p class="person-meta">Co-Founder and Head of Product</p>
+          <p>
+            Product and technical leader with a rare blend of C-level strategy and hands-on execution. Daniel has led end-to-end product architecture
+            across AI, blockchain, and consumer platforms.
+          </p>
+          <p>
+            He architects and ships core systems spanning autonomous AI agents, token design, smart contracts, and scalable consumer applications.
+            Trilingual and multicultural, Daniel bridges high-level vision with production-grade delivery.
+          </p>
+        </div>
+
+        <p><strong>Team and Advisors</strong></p>
+
+        <div class="person-block">
+          <h3>Sheilen Rathod</h3>
+          <p class="person-meta">Growth and Customer Experience</p>
+          <p>
+            Senior growth and commercial leader with deep experience scaling customer-led businesses across Asia Pacific and Greater China.
+            Founder and CEO of Future Proof Group, focused on data-led, tech-powered customer ecosystems spanning strategy, loyalty, experience design, and analytics.
+          </p>
+          <p>
+            Previously held senior regional leadership roles at Ogilvy, including Chief Growth Officer Asia Pacific and President of multiple experience and commerce divisions.
+            Brings strong commercial judgement, customer-centric strategy, and proven execution at enterprise scale, with a focus on measurable outcomes and long-term customer value.
+          </p>
+        </div>
+
+        <div class="person-block">
+          <h3>Moo Shanmugan</h3>
+          <p class="person-meta">Technology and Systems</p>
+          <p>
+            Seasoned technology leader with over two decades of experience across intelligent systems, applied engineering, and complex platform development.
+            Has held CEO, CTO, and Director roles spanning AI-driven education platforms, blockchain-based media, and large-scale infrastructure businesses across Asia.
+          </p>
+          <p>
+            Combines hands-on technical execution with senior operational leadership, including designing, building, and scaling production-grade systems that bridge software and real-world deployment.
+            Adds strong systems thinking and execution depth to VIA Labs.
+          </p>
+        </div>
+
+        <div class="person-block">
+          <h3>Tony Magnetic</h3>
+          <p class="person-meta">Design and Brand Partnerships</p>
+          <p>
+            Veteran design and production leader with over 25 years at the intersection of global street culture, fashion, and manufacturing.
+            As Principal Director at TonyMagnetic Inc, he leads strategic design development and production partnerships across Vietnam,
+            building and managing premium manufacturing networks spanning apparel, footwear, and accessories.
+          </p>
+          <p>
+            Earlier, co-founded and helped scale MECCA USA into a globally influential streetwear brand, driving international expansion across the US, Europe, and Asia.
+            Has advised and collaborated with major global brands including Nike, Reebok, Mercedes, Rolls-Royce, and leading hospitality and lifestyle groups.
+          </p>
+        </div>
+
+        <div class="person-block">
+          <h3>Peter Caplowe</h3>
+          <p class="person-meta">Premium Fashion, Brand Building and Strategy</p>
+          <p>
+            Veteran fashion entrepreneur based between Europe and Asia, with deep experience building and scaling premium fashion businesses globally.
+            Widely recognised as the originator of the Premium Denim category, after discovering Evisu in Osaka in 1994 and launching it internationally at an unprecedented price point.
+          </p>
+          <p>
+            Grew the Evisu business outside Japan from startup to approximately US$100m in retail sales without external financing.
+            Experience spans the full lifecycle of brand creation and management, including design, supply chain operations, channel strategy, IP, licensing, financing, and team building.
+          </p>
+        </div>
+
       </div>
     </section>
 
-    <section class="paper-item" id="section-roadmap" data-open="false">
+    <!-- ROADMAP -->
+    <section class="paper-section" id="section-roadmap">
       <button class="paper-toggle" type="button" aria-expanded="false" aria-controls="content-roadmap">
-        <span class="paper-question">Roadmap</span>
-        <span class="paper-plus" aria-hidden="true">+</span>
+        <h2>Roadmap</h2>
+        <span class="toggle-icon" aria-hidden="true">+</span>
       </button>
-      <div class="paper-answer-wrap" id="content-roadmap">
-        <div class="paper-answer">
-          <ul>
-            <li><strong>Phase 1:</strong> Live pilots with intent capture and structured response.</li>
-            <li><strong>Phase 2:</strong> Agent-to-agent negotiation and automated qualification.</li>
-            <li><strong>Phase 3:</strong> Settlement and trust layers for cross-platform execution.</li>
-            <li><strong>Phase 4:</strong> Scaled deployment across assistants and merchant agents.</li>
-          </ul>
-          <p>Each phase tightens reliability, consent, and system governance.</p>
-        </div>
+
+      <div class="paper-content" id="content-roadmap">
+
+        <p>
+          The current proof of concept demonstrates that all core components of VIA can be deployed independently and integrated into a single, functioning protocol stack.
+          Intent capture, agent identity and trust, decentralised messaging, and agentic payment settlement have each been implemented and validated.
+          These components have also been integrated end to end, showing that the full VIA protocol and interface operate as intended in controlled environments.
+        </p>
+
+        <p>
+          The next phase of work is not conceptual validation, but execution at scale. This includes hardening the infrastructure, developing production-grade interfaces,
+          and introducing zero-touch and plug-in driven interaction patterns that align with how users increasingly interact with their LLMs.
+          This phase also marks the transition from technical demonstration to measured market deployment.
+        </p>
+
+        <p>
+          The roadmap reflects the shift from proof of integration to proof of execution, followed by controlled expansion.
+          We acknowledge that large incumbents such as Google and Shopify will be dominant forces in this space.
+          VIA is not designed to compete with them directly. The intent is to complement what they do and work alongside, or with, these platforms to add value where they do not naturally focus.
+        </p>
+
+        <p>
+          That value sits around judgement, trust, and specialism. VIA is building a layer that allows knowledgeable intermediary agents to refine intent before merchants are involved,
+          and merchant agents to do more than expose a catalogue by negotiating, applying brand rules, and making limited commitments within clearly defined authority.
+          Trust underpins this, with agents operating under verifiable identity, defined limits, performance history, and real consequences for poor behaviour.
+        </p>
+
+        <p><strong>Development and Deployment Phases</strong></p>
+
+        <p><strong>Phase 1, Execution Hardening and Controlled Deployment</strong></p>
+        <p><strong>Timeframe:</strong> 0 to 3 months</p>
+        <p>
+          The primary objective of this phase is to demonstrate repeatable execution in real conditions with friendly partners and small, well-defined communities.
+        </p>
+
+        <p><strong>Key activities</strong></p>
+        <ul>
+          <li>Scaling core protocol infrastructure for reliability and throughput</li>
+          <li>Hardening coordination logic and routing rules</li>
+          <li>Refining VIA user and merchant interfaces, including UI and UX improvements</li>
+          <li>Expanding zero-touch and plug-in based interaction flows within LLM environments</li>
+          <li>Continuous testing with selected merchants and user groups</li>
+          <li>Instrumentation for measuring intent quality, response relevance, and interaction outcomes</li>
+        </ul>
+
+        <p>
+          This phase prioritises learning velocity and system stability over growth. The goal is to validate that the protocol behaves predictably under real usage patterns
+          without overextending scope or reach.
+        </p>
+
+        <p><strong>Phase 2, Expanded Rollout and Market Readiness</strong></p>
+        <p><strong>Timeframe:</strong> 3 to 6 months</p>
+        <p>
+          Following successful execution in controlled environments, the focus shifts to broader but still deliberate deployment.
+        </p>
+
+        <p><strong>Key activities</strong></p>
+        <ul>
+          <li>Onboarding additional niche communities and relevant merchant categories</li>
+          <li>Extending LLM connector coverage and platform integrations</li>
+          <li>Developing structured go-to-market processes based on observed performance</li>
+          <li>Establishing initial strategic partnerships with platforms and ecosystem participants</li>
+          <li>Refining operational tooling for merchant and agent management</li>
+        </ul>
+
+        <p>
+          Growth remains selective. Expansion is driven by demonstrated effectiveness rather than breadth.
+          The objective is to show that the system can scale without degrading relevance, trust, or signal quality.
+        </p>
+
+        <p><strong>Go-to-Market Alignment</strong></p>
+        <p>
+          The deployment strategy is intentionally narrow at the outset. Initial focus is on targeted niche communities, merchants operating in high-consideration categories,
+          and users already comfortable interacting with AI agents. Broader market engagement follows only once effectiveness has been consistently demonstrated.
+        </p>
+
+        <p><strong>FA$H as a Trust Enhancement Layer</strong></p>
+        <p>
+          FA$H is an existing ERC-20 token that is live and tradable on decentralised exchanges. Whilst it is not part of the core VIA product today,
+          it has been designed with a longer-term role in mind as a trust enhancement layer within the agentic commerce stack.
+        </p>
+        <p>
+          Once agent identity and reputation standards are fully deployed, FA$H could be used to support mechanisms such as agent credibility signalling,
+          participation thresholds, and potential dispute resolution backstops, allowing agents or merchants to place verifiable economic value behind behaviour.
+        </p>
+        <p>
+          Used in this way, FA$H would complement on-chain identity and payment flows by reinforcing trust with observable, programmable guarantees
+          rather than relying solely on reputation metrics or contractual terms.
+        </p>
+
       </div>
     </section>
 
-    <section class="paper-item" id="section-architecture" data-open="false">
+    <!-- TECHNICAL ARCHITECTURE -->
+    <section class="paper-section" id="section-architecture">
       <button class="paper-toggle" type="button" aria-expanded="false" aria-controls="content-architecture">
-        <span class="paper-question">Technical Architecture</span>
-        <span class="paper-plus" aria-hidden="true">+</span>
+        <h2>Technical Architecture Overview</h2>
+        <span class="toggle-icon" aria-hidden="true">+</span>
       </button>
-      <div class="paper-answer-wrap" id="content-architecture">
-        <div class="paper-answer">
-          <p>VIA is built as a layered coordination stack.</p>
-          <ul>
-            <li><strong>Intent layer:</strong> user expression and constraint capture.</li>
-            <li><strong>Protocol layer:</strong> shared schemas for negotiation, identity, and pricing.</li>
-            <li><strong>Routing layer:</strong> intent distribution and qualified matching.</li>
-            <li><strong>Settlement layer:</strong> payments, auditability, and dispute support.</li>
-          </ul>
-          <p>These layers keep execution independent of any single platform or interface.</p>
-        </div>
+
+      <div class="paper-content" id="content-architecture">
+
+        <p><strong>System Overview</strong></p>
+        <p>
+          VIA is an intent-driven, agent-native commerce system designed to operate across platforms without reliance on search, advertising, or centralised marketplaces.
+          VIA is the interface layer where intent is expressed and responses are surfaced, then the protocol and coordination framework that enables routing,
+          trust enforcement, discovery, and autonomous transactions between agents.
+        </p>
+
+        <p><strong>The system is composed of four core components</strong></p>
+        <ul>
+          <li>Intent Interface</li>
+          <li>Agent Identity and Trust</li>
+          <li>Messaging and Discovery</li>
+          <li>Economic Settlement</li>
+        </ul>
+
+        <p><strong>1. Intent and Interface Layer, VIA</strong></p>
+
+        <p><strong>Purpose</strong></p>
+        <p>
+          VIA exists to capture intent before it becomes a transaction. It is designed to work within environments users already trust and use,
+          rather than forcing new behaviours or destinations. VIA does not execute transactions, rank suppliers, or intermediate checkout.
+        </p>
+
+        <p><strong>Core Characteristics</strong></p>
+        <ul>
+          <li>Lightweight plug-in and connector model</li>
+          <li>Integrates directly into major LLM environments, including Claude, Gemini, and ChatGPT</li>
+          <li>Converts conversational input into structured, machine-readable intent</li>
+          <li>Forwards intent to the central relayer from buyers to sellers</li>
+        </ul>
+
+        <p><strong>Technical Notes</strong></p>
+        <ul>
+          <li>VIA connects to a structured Model Context Protocol server operated within the framework</li>
+          <li>Intent is normalised into schema-based representations rather than keyword strings</li>
+          <li>VIA is agnostic to commerce platforms, payment rails, and fulfilment systems</li>
+        </ul>
+
+        <p><strong>2. Agent Identity, Trust, and Reputation, ERC-8004 Concepts</strong></p>
+
+        <p><strong>Purpose</strong></p>
+        <p>
+          Autonomous and semi-autonomous agents cannot safely operate using implicit platform trust. Explicit, verifiable trust primitives are required.
+          VIA integrates with ERC-8004 registries for verifiable agent identities and immutable reputation records which are vital for autonomous agent-to-agent transactions.
+        </p>
+
+        <p><strong>Core Trust Components</strong></p>
+        <ul>
+          <li>Verifiable agent identity</li>
+          <li>On-chain representation of agent existence</li>
+          <li>Performance and interaction-based reputation signals</li>
+        </ul>
+
+        <p><strong>Functional Outcomes</strong></p>
+        <p>
+          Agents can decide whether to respond to an intent, scope what authority they grant to other agents,
+          and engage in agent-to-agent interaction without central approval.
+          Trust is not inherited from a platform. Trust is accumulated through observable behaviour.
+        </p>
+
+        <p><strong>Reference Documentation</strong></p>
+        <ul>
+          <li>https://eips.ethereum.org/EIPS/eip-8004</li>
+          <li>https://ethereum-magicians.org/t/erc-8004-agent-identity-and-trust/</li>
+        </ul>
+
+        <p><strong>3. Messaging and Discovery Layer, Nostr-Based Relays</strong></p>
+
+        <p><strong>Purpose</strong></p>
+        <p>
+          Discovery and communication are handled through a relay-based messaging architecture inspired by Nostr,
+          rather than central directories or proprietary APIs.
+        </p>
+
+        <p><strong>Rationale for Relay Architecture</strong></p>
+        <ul>
+          <li>No central index or gatekeeper</li>
+          <li>Publish and subscribe semantics</li>
+          <li>Cryptographic signing of all messages</li>
+          <li>Censorship-resistant and extensible by design</li>
+        </ul>
+
+        <p><strong>Message Model</strong></p>
+        <p>
+          Intent, responses, offers, acknowledgements, and settlement signals are represented as signed events.
+          Events are broadcast to relays rather than addressed to a central service. Agents subscribe selectively based on relevance,
+          trust rules, and declared capability. This ensures discovery remains open and cannot be monopolised by a single operator.
+        </p>
+
+        <p><strong>Capabilities Enabled</strong></p>
+        <ul>
+          <li>Decentralised agent discovery</li>
+          <li>Agent-level filtering rather than platform-level ranking</li>
+          <li>Interoperability across independent implementations</li>
+        </ul>
+
+        <p><strong>Reference Documentation</strong></p>
+        <ul>
+          <li>https://nostr.com</li>
+          <li>https://github.com/nostr-protocol/nostr</li>
+          <li>https://nostr.how</li>
+        </ul>
+
+        <p><strong>4. Agentic Payment Settlement Layer, x402</strong></p>
+
+        <p><strong>Purpose</strong></p>
+        <p>
+          Traditional payment systems are not designed for machine-to-machine interaction, sub-cent pricing, or conditional economic signals.
+          The x402 protocol provides a settlement layer optimised for agentic interaction.
+        </p>
+
+        <p><strong>Capabilities</strong></p>
+        <ul>
+          <li>Micropayments</li>
+          <li>Programmatic settlement</li>
+          <li>Agent-to-agent value transfer</li>
+        </ul>
+
+        <p><strong>Initial Use Cases</strong></p>
+        <ul>
+          <li>Paying agents to respond to intent</li>
+          <li>Incentivising relevance over volume</li>
+          <li>Compensating early or high-quality participation</li>
+        </ul>
+
+        <p><strong>Reference Documentation</strong></p>
+        <ul>
+          <li>https://blog.crossmint.com/what-is-x402/</li>
+          <li>https://www.coinbase.com/blog/introducing-x402</li>
+          <li>https://alearesearch.substack.com/p/x402-payment-rails-for-the-agent</li>
+        </ul>
+
+        <p><strong>The Coordination Framework</strong></p>
+        <p>
+          VIA is not a single protocol. It is the coordination framework that aligns intent schemas, agent trust and reputation rules,
+          messaging conventions, and agentic payment settlement logic.
+        </p>
+
+        <p><strong>Design Goals</strong></p>
+        <ul>
+          <li>VIA remains platform-agnostic</li>
+          <li>Discovery cannot be captured by any single platform</li>
+          <li>Integration is possible without dependency</li>
+        </ul>
+
+        <p><strong>Interoperability</strong></p>
+        <p>
+          VIA is designed to interoperate with verifiable platform MCP servers, commerce coordination protocols such as UCP,
+          and existing e-commerce infrastructure, including Shopify.
+        </p>
+
       </div>
     </section>
 
-    <section class="paper-item" id="section-poc" data-open="false">
-      <button class="paper-toggle" type="button" aria-expanded="false" aria-controls="content-poc">
-        <span class="paper-question">Proof of Concept</span>
-        <span class="paper-plus" aria-hidden="true">+</span>
-      </button>
-      <div class="paper-answer-wrap" id="content-poc">
-        <div class="paper-answer">
-          <p>
-            VIA has already validated core flows end-to-end, including intent capture, routing, merchant response,
-            and agent-mediated negotiation.
-          </p>
-          <p>
-            The proof of concept demonstrates how structured intents reduce wasted spend, shorten decision cycles, and
-            improve alignment between buyers and sellers.
-          </p>
-        </div>
-      </div>
-    </section>
+    <footer class="paper-footer">
+      <p>(C) VIA Labs Pte Ltd, 2026</p>
+    </footer>
 
-    <section class="paper-item" id="section-appendix" data-open="false">
-      <button class="paper-toggle" type="button" aria-expanded="false" aria-controls="content-appendix">
-        <span class="paper-question">Appendix</span>
-        <span class="paper-plus" aria-hidden="true">+</span>
-      </button>
-      <div class="paper-answer-wrap" id="content-appendix">
-        <div class="paper-answer">
-          <p><strong>Key terms</strong></p>
-          <ul>
-            <li><strong>Agentic commerce:</strong> delegated execution under user-defined constraints.</li>
-            <li><strong>Intent routing:</strong> matching expressed demand with qualified supply.</li>
-            <li><strong>Trust layer:</strong> identity and accountability baked into the protocol.</li>
-          </ul>
+  </main>
 
-          <p class="paper-footer">© VIA Labs Pte Ltd, 2026</p>
-        </div>
-      </div>
-    </section>
+  <script>
+    (function () {
+      const sections = document.querySelectorAll(".paper-section");
+      const tabs = document.querySelectorAll("#paperTabs a");
 
-    <nav class="bottom-nav" aria-label="Main navigation">
-      <a href="index.html" class="bottom-nav-link">Home</a>
-      <a href="who.html" class="bottom-nav-link">Who?</a>
-      <a href="what.html" class="bottom-nav-link">What?</a>
-      <a href="how.html" class="bottom-nav-link">How?</a>
-      <a href="paper.html" class="bottom-nav-link">Paper</a>
-    </nav>
-  </div>
-</main>
+      function closeAll() {
+        sections.forEach(section => {
+          const btn = section.querySelector(".paper-toggle");
+          const content = section.querySelector(".paper-content");
+          const icon = section.querySelector(".toggle-icon");
+          btn.setAttribute("aria-expanded", "false");
+          content.style.display = "none";
+          icon.textContent = "+";
+        });
+      }
 
-<div class="footer-left">© VIA Labs Pte Ltd</div>
-<div class="footer-right">
-  <a href="https://x.com/via_labs_sg" target="_blank" rel="noopener noreferrer">
-    <img id="socialIcon" src="images/logo-black.png" alt="X" class="social-icon">
-  </a>
-</div>
+      function setActiveTab(sectionId) {
+        tabs.forEach(t => t.classList.remove("active"));
+        const active = document.querySelector(`#paperTabs a[data-open="${sectionId}"]`);
+        if (active) active.classList.add("active");
+      }
 
-<script src="js/theme.js"></script>
-<script>
-  (function () {
-    const items = Array.from(document.querySelectorAll('.paper-item'));
-    const toggles = Array.from(document.querySelectorAll('.paper-toggle'));
-    const tabs = Array.from(document.querySelectorAll('#paperTabs a'));
+      function openSection(sectionId, scrollIntoView = true) {
+        const section = document.getElementById(sectionId);
+        if (!section) return;
 
-    function closeItem(item) {
-      item.setAttribute('data-open', 'false');
-      item.querySelector('.paper-toggle').setAttribute('aria-expanded', 'false');
-      item.querySelector('.paper-answer-wrap').style.maxHeight = '0px';
-    }
+        const btn = section.querySelector(".paper-toggle");
+        const content = section.querySelector(".paper-content");
+        const icon = section.querySelector(".toggle-icon");
 
-    function openItem(item) {
-      const wrap = item.querySelector('.paper-answer-wrap');
-      const inner = wrap.firstElementChild;
-      item.setAttribute('data-open', 'true');
-      item.querySelector('.paper-toggle').setAttribute('aria-expanded', 'true');
-      wrap.style.maxHeight = inner.scrollHeight + 24 + 'px';
-    }
+        const isOpen = btn.getAttribute("aria-expanded") === "true";
+        if (isOpen) return;
 
-    function setActiveTab(targetId) {
-      tabs.forEach(tab => tab.classList.toggle('active', tab.dataset.open === targetId));
-    }
+        closeAll();
+        btn.setAttribute("aria-expanded", "true");
+        content.style.display = "block";
+        icon.textContent = "-";
 
-    toggles.forEach(btn => {
-      btn.addEventListener('click', () => {
-        const item = btn.closest('.paper-item');
-        const open = item.getAttribute('data-open') === 'true';
-        items.forEach(i => i !== item && closeItem(i));
-        if (open) {
-          closeItem(item);
-          setActiveTab('');
-        } else {
-          openItem(item);
-          setActiveTab(item.id);
+        setActiveTab(sectionId);
+
+        if (scrollIntoView) {
+          section.scrollIntoView({ behavior: "smooth", block: "start" });
         }
-      });
-    });
+      }
 
-    tabs.forEach(tab => {
-      tab.addEventListener('click', (event) => {
-        event.preventDefault();
-        const targetId = tab.dataset.open;
-        const target = document.getElementById(targetId);
-        if (!target) return;
-        items.forEach(i => i !== target && closeItem(i));
-        openItem(target);
-        setActiveTab(targetId);
-        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      document.querySelectorAll(".paper-toggle").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const section = btn.closest(".paper-section");
+          const content = section.querySelector(".paper-content");
+          const icon = section.querySelector(".toggle-icon");
+          const isOpen = btn.getAttribute("aria-expanded") === "true";
+
+          if (isOpen) {
+            btn.setAttribute("aria-expanded", "false");
+            content.style.display = "none";
+            icon.textContent = "+";
+          } else {
+            openSection(section.getAttribute("id"));
+            history.replaceState(null, "", "#" + section.getAttribute("id"));
+          }
+        });
       });
-    });
-  })();
-</script>
+
+      tabs.forEach(tab => {
+        tab.addEventListener("click", (e) => {
+          e.preventDefault();
+          const targetId = tab.getAttribute("data-open");
+          openSection(targetId);
+          history.replaceState(null, "", "#" + targetId);
+        });
+      });
+
+      const initialHash = window.location.hash ? window.location.hash.replace("#", "") : null;
+      if (initialHash && document.getElementById(initialHash)) {
+        openSection(initialHash, false);
+      } else {
+        openSection("section-team", false);
+      }
+    })();
+  </script>
 
 </body>
 </html>
