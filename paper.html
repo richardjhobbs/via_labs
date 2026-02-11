@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<!-- CANONICAL_PAPER_V1 -->
+<!-- CANONICAL_PAPER_V2 -->
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <title>VIA Paper</title>
-  <meta name="description" content="VIA Paper. A detailed overview of VIA Labs, team and track record, roadmap, and technical architecture." />
+  <meta name="description" content="VIA Paper. A detailed overview of VIA Labs, roadmap, and technical architecture." />
 
   <link rel="icon" type="image/png" href="images/VIA_logo_large_black.png">
   <link rel="stylesheet" href="css/main.css">
@@ -18,7 +18,7 @@
       padding: 2rem 1.25rem 3rem;
     }
 
-    /* Index tabs, readable */
+    /* Contents block */
     .paper-index{
       margin: 1.25rem 0 2rem;
       padding: 1rem;
@@ -120,6 +120,14 @@
       margin: 0.75rem 0;
     }
 
+    .paper-content ul{
+      margin: 0.5rem 0 0.75rem 1.25rem;
+    }
+
+    .paper-content li{
+      margin: 0.35rem 0;
+    }
+
     .paper-content a{
       color: #2563eb;
       text-decoration: underline;
@@ -129,14 +137,6 @@
 
     .paper-content a:hover{
       color: #1d4ed8;
-    }
-
-    .paper-content ul{
-      margin: 0.5rem 0 0.75rem 1.25rem;
-    }
-
-    .paper-content li{
-      margin: 0.35rem 0;
     }
 
     /* People blocks */
@@ -159,13 +159,6 @@
       font-size: 0.95rem;
     }
 
-    .paper-footer{
-      margin-top: 2.5rem;
-      opacity: 0.85;
-      font-size: 0.95rem;
-      text-align: center;
-    }
-
     .architecture-heading{
       font-size: 1.05rem;
       font-weight: 700;
@@ -173,34 +166,16 @@
     }
 
     .architecture-numbered{
-      margin-top: 1.5rem;
-      font-size: 1.1rem;
-      font-weight: 700;
+      margin-top: 1.75rem;
+      font-size: 1.2rem;
+      font-weight: 800;
     }
 
-    main{
-      display: block;
-    }
-
-    .paper-header{
-      max-width: 980px;
-      margin: 0 auto 2rem auto;
-      text-align: center !important;
-    }
-
-    .paper-title{
-      width: 100%;
-      text-align: center !important;
-      margin: 0 0 0.75rem 0;
-      letter-spacing: 0.02em;
-    }
-
-    .paper-subtitle{
-      width: 100%;
-      text-align: center !important;
-      margin: 0;
+    .paper-footer{
+      margin-top: 2.5rem;
       opacity: 0.85;
-      font-size: 1rem;
+      font-size: 0.95rem;
+      text-align: center;
     }
   </style>
 </head>
@@ -231,358 +206,359 @@
 
   <main>
     <div class="paper-wrap">
+
       <section class="paper-index" aria-label="Contents">
-        <h2>Litepaper, Contents</h2>
+        <h2>Litepaper - Contents</h2>
         <div class="tab-row" id="paperTabs">
-          <a href="#section-team" data-open="section-team">Team</a>
-          <a href="#section-roadmap" data-open="section-roadmap">Roadmap</a>
           <a href="#section-architecture" data-open="section-architecture">Technical Architecture</a>
+          <a href="#section-roadmap" data-open="section-roadmap">Roadmap</a>
+          <a href="#section-team" data-open="section-team">Team</a>
         </div>
       </section>
 
-    <!-- Team -->
-    <section class="paper-section" id="section-team">
-      <button class="paper-toggle" type="button" aria-expanded="false" aria-controls="content-team">
-        <h2>Team</h2>
-        <span class="toggle-icon" aria-hidden="true">+</span>
-      </button>
+      <!-- Technical Architecture -->
+      <section class="paper-section" id="section-architecture">
+        <button class="paper-toggle paper-toggle-large" type="button" aria-expanded="false" aria-controls="content-architecture">
+          <h2>Technical Architecture</h2>
+          <span class="toggle-icon" aria-hidden="true">+</span>
+        </button>
 
-      <div class="paper-content" id="content-team">
-        <p><strong>Founders</strong></p>
-
-        <div class="person-block">
-          <h3>Richard Hobbs</h3>
-          <p class="person-meta">Founder and CEO</p>
-          <p>30+ years operating at the intersection of fashion, culture, technology, and commerce across Europe and Asia.</p>
+        <div class="paper-content" id="content-architecture">
+          <p class="architecture-heading"><strong>System Overview</strong></p>
           <p>
-            Richard has built, invested in, and advised global brands, creators, and platforms, with deep experience in fashion ecosystems,
-            brand partnerships, and new commercial models. At VIA Labs, he focuses on strategy, network development, and ensuring the product
-            aligns with real buyer and seller behaviour.
+            VIA is an intent-driven, agent-native commerce system designed to operate across platforms without reliance on search, advertising, or centralised marketplaces.
+            VIA is the interface layer where intent is expressed and responses are surfaced, then the protocol and coordination framework that enables routing, trust enforcement, discovery, and autonomous transactions between agents.
+          </p>
+
+          <p><strong>The system is composed of four core components</strong></p>
+          <ul>
+            <li>Intent Interface</li>
+            <li>Agent Identity and Trust</li>
+            <li>Messaging and Discovery</li>
+            <li>Economic Settlement</li>
+          </ul>
+
+          <p class="architecture-numbered"><strong>1. Intent and Interface Layer, VIA</strong></p>
+          <p class="architecture-heading"><strong>Purpose</strong></p>
+          <p>
+            VIA exists to capture intent before it becomes a transaction. It is designed to work within environments users already trust and use, rather than forcing new behaviours or destinations.
+            VIA does not execute transactions, rank suppliers, or intermediate checkout.
+          </p>
+
+          <p class="architecture-heading"><strong>Core Characteristics</strong></p>
+          <ul>
+            <li>Lightweight plug-in and connector model</li>
+            <li>Integrates directly into major LLM environments, including Claude, Gemini, and ChatGPT</li>
+            <li>Converts conversational input into structured, machine-readable intent</li>
+            <li>Forwards intent to the central relayer from buyers to sellers</li>
+          </ul>
+
+          <p class="architecture-heading"><strong>Technical Notes</strong></p>
+          <ul>
+            <li>VIA connects to a structured Model Context Protocol server operated within the framework</li>
+            <li>Intent is normalised into schema-based representations rather than keyword strings</li>
+            <li>VIA is agnostic to commerce platforms, payment rails, and fulfilment systems</li>
+          </ul>
+
+          <p class="architecture-numbered"><strong>2. Agent Identity, Trust, and Reputation, ERC-8004 Concepts</strong></p>
+          <p class="architecture-heading"><strong>Purpose</strong></p>
+          <p>
+            Autonomous and semi-autonomous agents cannot safely operate using implicit platform trust. Explicit, verifiable trust primitives are required.
+            VIA integrates with ERC-8004 registries for verifiable agent identities and immutable reputation records which are vital for autonomous agent-to-agent transactions.
+          </p>
+
+          <p class="architecture-heading"><strong>Core Trust Components</strong></p>
+          <ul>
+            <li>Verifiable agent identity</li>
+            <li>On-chain representation of agent existence</li>
+            <li>Performance and interaction-based reputation signals</li>
+          </ul>
+
+          <p><strong>Functional Outcomes</strong></p>
+          <p>
+            Agents can decide whether to respond to an intent, scope what authority they grant to other agents, and engage in agent-to-agent interaction without central approval.
+            Trust is not inherited from a platform. Trust is accumulated through observable behaviour.
+          </p>
+
+          <p class="architecture-heading"><strong>Reference Documentation</strong></p>
+          <ul>
+            <li><a href="https://eips.ethereum.org/EIPS/eip-8004" target="_blank" rel="noopener noreferrer">https://eips.ethereum.org/EIPS/eip-8004</a></li>
+            <li><a href="https://ethereum-magicians.org/t/erc-8004-agent-identity-and-trust/" target="_blank" rel="noopener noreferrer">https://ethereum-magicians.org/t/erc-8004-agent-identity-and-trust/</a></li>
+          </ul>
+
+          <p class="architecture-numbered"><strong>3. Messaging and Discovery Layer, Nostr-Based Relays</strong></p>
+          <p class="architecture-heading"><strong>Purpose</strong></p>
+          <p>
+            Discovery and communication are handled through a relay-based messaging architecture inspired by Nostr, rather than central directories or proprietary APIs.
+          </p>
+
+          <p class="architecture-heading"><strong>Rationale for Relay Architecture</strong></p>
+          <ul>
+            <li>No central index or gatekeeper</li>
+            <li>Publish and subscribe semantics</li>
+            <li>Cryptographic signing of all messages</li>
+            <li>Censorship-resistant and extensible by design</li>
+          </ul>
+
+          <p class="architecture-heading"><strong>Message Model</strong></p>
+          <p>
+            Intent, responses, offers, acknowledgements, and settlement signals are represented as signed events.
+            Events are broadcast to relays rather than addressed to a central service. Agents subscribe selectively based on relevance, trust rules, and declared capability.
+            This ensures discovery remains open and cannot be monopolised by a single operator.
+          </p>
+
+          <p class="architecture-heading"><strong>Capabilities Enabled</strong></p>
+          <ul>
+            <li>Decentralised agent discovery</li>
+            <li>Agent-level filtering rather than platform-level ranking</li>
+            <li>Interoperability across independent implementations</li>
+          </ul>
+
+          <p class="architecture-heading"><strong>Reference Documentation</strong></p>
+          <ul>
+            <li><a href="https://nostr.com" target="_blank" rel="noopener noreferrer">https://nostr.com</a></li>
+            <li><a href="https://github.com/nostr-protocol/nostr" target="_blank" rel="noopener noreferrer">https://github.com/nostr-protocol/nostr</a></li>
+            <li><a href="https://nostr.how" target="_blank" rel="noopener noreferrer">https://nostr.how</a></li>
+          </ul>
+
+          <p class="architecture-numbered"><strong>4. Agentic Payment Settlement Layer, x402</strong></p>
+          <p class="architecture-heading"><strong>Purpose</strong></p>
+          <p>
+            Traditional payment systems are not designed for machine-to-machine interaction, sub-cent pricing, or conditional economic signals.
+            The x402 protocol provides a settlement layer optimised for agentic interaction.
+          </p>
+
+          <p class="architecture-heading"><strong>Capabilities</strong></p>
+          <ul>
+            <li>Micropayments</li>
+            <li>Programmatic settlement</li>
+            <li>Agent-to-agent value transfer</li>
+          </ul>
+
+          <p><strong>Initial Use Cases</strong></p>
+          <ul>
+            <li>Paying agents to respond to intent</li>
+            <li>Incentivising relevance over volume</li>
+            <li>Compensating early or high-quality participation</li>
+          </ul>
+
+          <p class="architecture-heading"><strong>Reference Documentation</strong></p>
+          <ul>
+            <li><a href="https://blog.crossmint.com/what-is-x402/" target="_blank" rel="noopener noreferrer">https://blog.crossmint.com/what-is-x402/</a></li>
+            <li><a href="https://www.coinbase.com/blog/introducing-x402" target="_blank" rel="noopener noreferrer">https://www.coinbase.com/blog/introducing-x402</a></li>
+            <li><a href="https://alearesearch.substack.com/p/x402-payment-rails-for-the-agent" target="_blank" rel="noopener noreferrer">https://alearesearch.substack.com/p/x402-payment-rails-for-the-agent</a></li>
+          </ul>
+
+          <p><strong>The Coordination Framework</strong></p>
+          <p>
+            VIA is not a single protocol. It is the coordination framework that aligns intent schemas, agent trust and reputation rules,
+            messaging conventions, and agentic payment settlement logic.
+          </p>
+
+          <p class="architecture-heading"><strong>Design Goals</strong></p>
+          <ul>
+            <li>VIA remains platform-agnostic</li>
+            <li>Discovery cannot be captured by any single platform</li>
+            <li>Integration is possible without dependency</li>
+          </ul>
+
+          <p class="architecture-heading"><strong>Interoperability</strong></p>
+          <p>
+            VIA is designed to interoperate with verifiable platform MCP servers, commerce coordination protocols such as UCP,
+            and existing e-commerce infrastructure, including Shopify.
           </p>
         </div>
+      </section>
 
-        <div class="person-block">
-          <h3>Daniel Yen-Tin Lin</h3>
-          <p class="person-meta">Co-Founder and Head of Product</p>
+      <!-- Roadmap -->
+      <section class="paper-section" id="section-roadmap">
+        <button class="paper-toggle paper-toggle-large" type="button" aria-expanded="false" aria-controls="content-roadmap">
+          <h2>Roadmap</h2>
+          <span class="toggle-icon" aria-hidden="true">+</span>
+        </button>
+
+        <div class="paper-content" id="content-roadmap">
           <p>
-            Product and technical leader with a rare blend of C-level strategy and hands-on execution. Daniel has led end-to-end product architecture
-            across AI, blockchain, and consumer platforms.
+            The current proof of concept demonstrates that all core components of VIA can be deployed independently and integrated into a single, functioning protocol stack.
+            Intent capture, agent identity and trust, decentralised messaging, and agentic payment settlement have each been implemented and validated.
+            These components have also been integrated end to end, showing that the full VIA protocol and interface operate as intended in controlled environments.
+          </p>
+
+          <p>
+            The next phase of work is not conceptual validation, but execution at scale. This includes hardening the infrastructure, developing production-grade interfaces,
+            and introducing zero-touch and plug-in driven interaction patterns that align with how users increasingly interact with their LLMs.
+            This phase also marks the transition from technical demonstration to measured market deployment.
+          </p>
+
+          <p>
+            The roadmap reflects this shift from proof of integration to proof of execution, followed by controlled expansion.
+            Large incumbents such as Google and Shopify will be dominant forces in this space. VIA is not designed to compete with them.
+            The intention is to complement what they do and work alongside, or with, these platforms where they do not naturally focus.
+          </p>
+
+          <p>
+            That value sits around judgement, trust, and specialism. VIA supports intermediary agents to refine intent before merchants are involved,
+            and merchant agents to do more than expose a catalogue by negotiating, applying brand rules, and making limited commitments within defined authority.
+            Trust underpins this, with agents operating under verifiable identity, defined limits, performance history, and real consequences for poor behaviour.
+          </p>
+
+          <p><strong>Development and Deployment Phases</strong></p>
+
+          <p><strong>Phase 1: Execution Hardening and Controlled Deployment</strong></p>
+          <p><strong>Timeframe:</strong> 0 to 3 months</p>
+          <p>The primary objective is to demonstrate repeatable execution in real conditions with friendly partners and small, well-defined communities.</p>
+
+          <p><strong>Key activities</strong></p>
+          <ul>
+            <li>Scaling core protocol infrastructure for reliability and throughput</li>
+            <li>Hardening coordination logic and routing rules</li>
+            <li>Refining VIA user and merchant interfaces, including UI and UX improvements</li>
+            <li>Expanding zero-touch and plug-in based interaction flows within LLM environments</li>
+            <li>Continuous testing with selected merchants and user groups</li>
+            <li>Instrumentation for measuring intent quality, response relevance, and interaction outcomes</li>
+          </ul>
+
+          <p>
+            This phase prioritises learning velocity and system stability over growth. The goal is to validate that the protocol behaves predictably under real usage patterns without overextending scope or reach.
+          </p>
+
+          <p><strong>Phase 2: Expanded Rollout and Market Readiness</strong></p>
+          <p><strong>Timeframe:</strong> 3 to 6 months</p>
+          <p>Following successful execution in controlled environments, the focus shifts to broader but still deliberate deployment.</p>
+
+          <p><strong>Key activities</strong></p>
+          <ul>
+            <li>Onboarding additional niche communities and relevant merchant categories</li>
+            <li>Extending LLM connector coverage and platform integrations</li>
+            <li>Developing structured go-to-market processes based on observed performance</li>
+            <li>Establishing initial strategic partnerships with platforms and ecosystem participants</li>
+            <li>Refining operational tooling for merchant and agent management</li>
+          </ul>
+
+          <p>
+            Growth remains selective. Expansion is driven by demonstrated effectiveness rather than breadth. The objective is to show the system can scale without degrading relevance, trust, or signal quality.
+          </p>
+
+          <p><strong>Go-to-Market Alignment</strong></p>
+          <p>
+            The deployment strategy is intentionally narrow at the outset. Initial focus is on targeted niche communities, merchants operating in high-consideration categories,
+            and users already comfortable interacting with AI agents. Broader engagement follows only once effectiveness has been consistently demonstrated.
+          </p>
+
+          <p><strong>FA$H as a Trust Enhancement Layer</strong></p>
+          <p>
+            FA$H is an existing ERC-20 token that is live and tradable on decentralised exchanges. Whilst it is not part of the core VIA product today,
+            it has been designed with a longer-term role in mind as a trust enhancement layer within the agentic commerce stack.
           </p>
           <p>
-            He architects and ships core systems spanning autonomous AI agents, token design, smart contracts, and scalable consumer applications.
-            Trilingual and multicultural, Daniel bridges high-level vision with production-grade delivery.
+            Once agent identity and reputation standards are fully deployed, FA$H could be used to support mechanisms such as agent credibility signalling,
+            participation thresholds, and potential dispute resolution backstops, allowing agents or merchants to place verifiable economic value behind behaviour.
+          </p>
+          <p>
+            Used in this way, FA$H would complement on-chain identity and payment flows by reinforcing trust with observable, programmable guarantees rather than relying solely on reputation metrics or contractual terms.
           </p>
         </div>
+      </section>
 
-        <p><strong>Team and Advisors</strong></p>
+      <!-- Team -->
+      <section class="paper-section" id="section-team">
+        <button class="paper-toggle paper-toggle-large" type="button" aria-expanded="false" aria-controls="content-team">
+          <h2>Team</h2>
+          <span class="toggle-icon" aria-hidden="true">+</span>
+        </button>
 
-        <div class="person-block">
-          <h3>Sheilen Rathod</h3>
-          <p class="person-meta">Growth and Customer Experience</p>
-          <p>
-            Senior growth and commercial leader with deep experience scaling customer-led businesses across Asia Pacific and Greater China.
-            Founder and CEO of Future Proof Group, focused on data-led, tech-powered customer ecosystems spanning strategy, loyalty, experience design, and analytics.
-          </p>
-          <p>
-            Previously held senior regional leadership roles at Ogilvy, including Chief Growth Officer Asia Pacific and President of multiple experience and commerce divisions.
-            Brings strong commercial judgement, customer-centric strategy, and proven execution at enterprise scale, with a clear focus on measurable outcomes and long-term customer value.
-          </p>
+        <div class="paper-content" id="content-team">
+          <p><strong>Founders</strong></p>
+
+          <div class="person-block">
+            <h3>Richard Hobbs</h3>
+            <p class="person-meta">Founder and CEO</p>
+            <p>30+ years operating at the intersection of fashion, culture, technology, and commerce across Europe and Asia.</p>
+            <p>
+              Richard has built, invested in, and advised global brands, creators, and platforms, with deep experience in fashion ecosystems,
+              brand partnerships, and new commercial models. At VIA Labs, he focuses on strategy, network development, and ensuring the product
+              aligns with real buyer and seller behaviour.
+            </p>
+          </div>
+
+          <div class="person-block">
+            <h3>Daniel Yen-Tin Lin</h3>
+            <p class="person-meta">Co-Founder and Head of Product</p>
+            <p>
+              Product and technical leader with a rare blend of C-level strategy and hands-on execution. Daniel has led end-to-end product architecture
+              across AI, blockchain, and consumer platforms.
+            </p>
+            <p>
+              He architects and ships core systems spanning autonomous AI agents, token design, smart contracts, and scalable consumer applications.
+              Trilingual and multicultural, Daniel bridges high-level vision with production-grade delivery.
+            </p>
+          </div>
+
+          <p><strong>Team and Advisors</strong></p>
+
+          <div class="person-block">
+            <h3>Sheilen Rathod</h3>
+            <p class="person-meta">Growth and Customer Experience</p>
+            <p>
+              Senior growth and commercial leader with deep experience scaling customer-led businesses across Asia Pacific and Greater China.
+              Founder and CEO of Future Proof Group, focused on data-led, tech-powered customer ecosystems spanning strategy, loyalty, experience design, and analytics.
+            </p>
+            <p>
+              Previously held senior regional leadership roles at Ogilvy, including Chief Growth Officer Asia Pacific and President of multiple experience and commerce divisions.
+              Brings strong commercial judgement, customer-centric strategy, and proven execution at enterprise scale, with a clear focus on measurable outcomes and long-term customer value.
+            </p>
+          </div>
+
+          <div class="person-block">
+            <h3>Moo Shanmugan</h3>
+            <p class="person-meta">Technology and Systems</p>
+            <p>
+              Seasoned technology leader with over two decades of experience across intelligent systems, applied engineering, and complex platform development.
+              Has held CEO, CTO, and Director roles spanning AI-driven education platforms, blockchain-based media, and large-scale infrastructure businesses across Asia.
+            </p>
+            <p>
+              Combines hands-on technical execution with senior operational leadership, including the design, build, and scaling of production-grade systems that bridge software and real-world deployment.
+              Adds strong systems thinking and execution depth to VIA Labs.
+            </p>
+          </div>
+
+          <div class="person-block">
+            <h3>Tony Magnetic</h3>
+            <p class="person-meta">Design and Brand Partnerships</p>
+            <p>
+              Veteran design and production leader with over 25 years at the intersection of global street culture, fashion, and manufacturing.
+              As Principal Director at TonyMagnetic Inc, he leads strategic design development and production partnerships across Vietnam, building and managing premium manufacturing networks spanning apparel, footwear, and accessories.
+            </p>
+            <p>
+              Earlier, co-founded and helped scale MECCA USA into a globally influential streetwear brand, driving international expansion across the US, Europe, and Asia and shaping the modern urban fashion movement.
+              Has advised and collaborated with major global brands including Nike, Reebok, Mercedes, Rolls-Royce, and leading hospitality and lifestyle groups.
+            </p>
+          </div>
+
+          <div class="person-block">
+            <h3>Peter Caplowe</h3>
+            <p class="person-meta">Premium Fashion, Brand Building and Strategy</p>
+            <p>
+              Veteran fashion entrepreneur based between Europe and Asia, with deep experience building and scaling premium fashion businesses globally.
+              Widely recognised as the originator of the Premium Denim category, having discovered Evisu in Osaka in 1994 and launching it internationally at a then-unprecedented price point.
+            </p>
+            <p>
+              Grew the Evisu business outside Japan from startup to approximately US$100m in retail sales without external financing.
+              Experience spans the full lifecycle of brand creation and management, including design, supply chain operations, channel strategy, IP development, licensing, financing, and team building.
+            </p>
+          </div>
         </div>
-
-        <div class="person-block">
-          <h3>Moo Shanmugan</h3>
-          <p class="person-meta">Technology and Systems</p>
-          <p>
-            Seasoned technology leader with over two decades of experience across intelligent systems, applied engineering, and complex platform development.
-            Has held CEO, CTO, and Director roles spanning AI-driven education platforms, blockchain-based media, and large-scale infrastructure businesses across Asia.
-          </p>
-          <p>
-            Combines hands-on technical execution with senior operational leadership, including the design, build, and scaling of production-grade systems that bridge software and real-world deployment.
-            Adds strong systems thinking and execution depth to VIA Labs.
-          </p>
-        </div>
-
-        <div class="person-block">
-          <h3>Tony Magnetic</h3>
-          <p class="person-meta">Design and Brand Partnerships</p>
-          <p>
-            Veteran design and production leader with over 25 years at the intersection of global street culture, fashion, and manufacturing.
-            As Principal Director at TonyMagnetic Inc, he leads strategic design development and production partnerships across Vietnam, building and managing premium manufacturing networks spanning apparel, footwear, and accessories.
-          </p>
-          <p>
-            Earlier, co-founded and helped scale MECCA USA into a globally influential streetwear brand, driving international expansion across the US, Europe, and Asia and shaping the modern urban fashion movement.
-            Has advised and collaborated with major global brands including Nike, Reebok, Mercedes, Rolls-Royce, and leading hospitality and lifestyle groups.
-          </p>
-        </div>
-
-        <div class="person-block">
-          <h3>Peter Caplowe</h3>
-          <p class="person-meta">Premium Fashion, Brand Building and Strategy</p>
-          <p>
-            Veteran fashion entrepreneur based between Europe and Asia, with deep experience building and scaling premium fashion businesses globally.
-            Widely recognised as the originator of the Premium Denim category, having discovered Evisu in Osaka in 1994 and launching it internationally at a then-unprecedented price point.
-          </p>
-          <p>
-            Grew the Evisu business outside Japan from startup to approximately US$100m in retail sales without external financing.
-            Experience spans the full lifecycle of brand creation and management, including design, supply chain operations, channel strategy, IP development, licensing, financing, and team building.
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Roadmap -->
-    <section class="paper-section" id="section-roadmap">
-      <button class="paper-toggle paper-toggle-large" type="button" aria-expanded="false" aria-controls="content-roadmap">
-        <h2>Roadmap</h2>
-        <span class="toggle-icon" aria-hidden="true">+</span>
-      </button>
-
-      <div class="paper-content" id="content-roadmap">
-        <p>
-          The current proof of concept demonstrates that all core components of VIA can be deployed independently and integrated into a single, functioning protocol stack.
-          Intent capture, agent identity and trust, decentralised messaging, and agentic payment settlement have each been implemented and validated.
-          These components have also been integrated end to end, showing that the full VIA protocol and interface operate as intended in controlled environments.
-        </p>
-
-        <p>
-          The next phase of work is not conceptual validation, but execution at scale. This includes hardening the infrastructure, developing production-grade interfaces,
-          and introducing zero-touch and plug-in driven interaction patterns that align with how users increasingly interact with their LLMs.
-          This phase also marks the transition from technical demonstration to measured market deployment.
-        </p>
-
-        <p>
-          The roadmap reflects this shift from proof of integration to proof of execution, followed by controlled expansion.
-          Large incumbents such as Google and Shopify will be dominant forces in this space. VIA is not designed to compete with them.
-          The intention is to complement what they do and work alongside, or with, these platforms where they do not naturally focus.
-        </p>
-
-        <p>
-          That value sits around judgement, trust, and specialism. VIA supports intermediary agents to refine intent before merchants are involved,
-          and merchant agents to do more than expose a catalogue by negotiating, applying brand rules, and making limited commitments within defined authority.
-          Trust underpins this, with agents operating under verifiable identity, defined limits, performance history, and real consequences for poor behaviour.
-        </p>
-
-        <p><strong>Development and Deployment Phases</strong></p>
-
-        <p><strong>Phase 1: Execution Hardening and Controlled Deployment</strong></p>
-        <p><strong>Timeframe:</strong> 0 to 3 months</p>
-        <p>The primary objective is to demonstrate repeatable execution in real conditions with friendly partners and small, well-defined communities.</p>
-
-        <p><strong>Key activities</strong></p>
-        <ul>
-          <li>Scaling core protocol infrastructure for reliability and throughput</li>
-          <li>Hardening coordination logic and routing rules</li>
-          <li>Refining VIA user and merchant interfaces, including UI and UX improvements</li>
-          <li>Expanding zero-touch and plug-in based interaction flows within LLM environments</li>
-          <li>Continuous testing with selected merchants and user groups</li>
-          <li>Instrumentation for measuring intent quality, response relevance, and interaction outcomes</li>
-        </ul>
-
-        <p>
-          This phase prioritises learning velocity and system stability over growth. The goal is to validate that the protocol behaves predictably under real usage patterns without overextending scope or reach.
-        </p>
-
-        <p><strong>Phase 2: Expanded Rollout and Market Readiness</strong></p>
-        <p><strong>Timeframe:</strong> 3 to 6 months</p>
-        <p>Following successful execution in controlled environments, the focus shifts to broader but still deliberate deployment.</p>
-
-        <p><strong>Key activities</strong></p>
-        <ul>
-          <li>Onboarding additional niche communities and relevant merchant categories</li>
-          <li>Extending LLM connector coverage and platform integrations</li>
-          <li>Developing structured go-to-market processes based on observed performance</li>
-          <li>Establishing initial strategic partnerships with platforms and ecosystem participants</li>
-          <li>Refining operational tooling for merchant and agent management</li>
-        </ul>
-
-        <p>
-          Growth remains selective. Expansion is driven by demonstrated effectiveness rather than breadth. The objective is to show the system can scale without degrading relevance, trust, or signal quality.
-        </p>
-
-        <p><strong>Go-to-Market Alignment</strong></p>
-        <p>
-          The deployment strategy is intentionally narrow at the outset. Initial focus is on targeted niche communities, merchants operating in high-consideration categories,
-          and users already comfortable interacting with AI agents. Broader engagement follows only once effectiveness has been consistently demonstrated.
-        </p>
-
-        <p><strong>FA$H as a Trust Enhancement Layer</strong></p>
-        <p>
-          FA$H is an existing ERC-20 token that is live and tradable on decentralised exchanges. Whilst it is not part of the core VIA product today,
-          it has been designed with a longer-term role in mind as a trust enhancement layer within the agentic commerce stack.
-        </p>
-        <p>
-          Once agent identity and reputation standards are fully deployed, FA$H could be used to support mechanisms such as agent credibility signalling,
-          participation thresholds, and potential dispute resolution backstops, allowing agents or merchants to place verifiable economic value behind behaviour.
-        </p>
-        <p>
-          Used in this way, FA$H would complement on-chain identity and payment flows by reinforcing trust with observable, programmable guarantees rather than relying solely on reputation metrics or contractual terms.
-        </p>
-      </div>
-    </section>
-
-    <!-- Technical Architecture -->
-    <section class="paper-section" id="section-architecture">
-      <button class="paper-toggle paper-toggle-large" type="button" aria-expanded="false" aria-controls="content-architecture">
-        <h2>Technical Architecture Overview</h2>
-        <span class="toggle-icon" aria-hidden="true">+</span>
-      </button>
-
-      <div class="paper-content" id="content-architecture">
-        <p class="architecture-heading"><strong>System Overview</strong></p>
-        <p>
-          VIA is an intent-driven, agent-native commerce system designed to operate across platforms without reliance on search, advertising, or centralised marketplaces.
-          VIA is the interface layer where intent is expressed and responses are surfaced, then the protocol and coordination framework that enables routing, trust enforcement, discovery, and autonomous transactions between agents.
-        </p>
-
-        <p><strong>The system is composed of four core components</strong></p>
-        <ul>
-          <li>Intent Interface</li>
-          <li>Agent Identity and Trust</li>
-          <li>Messaging and Discovery</li>
-          <li>Economic Settlement</li>
-        </ul>
-
-        <p class="architecture-numbered"><strong>1. Intent and Interface Layer, VIA</strong></p>
-        <p class="architecture-heading"><strong>Purpose</strong></p>
-        <p>
-          VIA exists to capture intent before it becomes a transaction. It is designed to work within environments users already trust and use, rather than forcing new behaviours or destinations.
-          VIA does not execute transactions, rank suppliers, or intermediate checkout.
-        </p>
-
-        <p class="architecture-heading"><strong>Core Characteristics</strong></p>
-        <ul>
-          <li>Lightweight plug-in and connector model</li>
-          <li>Integrates directly into major LLM environments, including Claude, Gemini, and ChatGPT</li>
-          <li>Converts conversational input into structured, machine-readable intent</li>
-          <li>Forwards intent to the central relayer from buyers to sellers</li>
-        </ul>
-
-        <p class="architecture-heading"><strong>Technical Notes</strong></p>
-        <ul>
-          <li>VIA connects to a structured Model Context Protocol server operated within the framework</li>
-          <li>Intent is normalised into schema-based representations rather than keyword strings</li>
-          <li>VIA is agnostic to commerce platforms, payment rails, and fulfilment systems</li>
-        </ul>
-
-        <p class="architecture-numbered"><strong>2. Agent Identity, Trust, and Reputation, ERC-8004 Concepts</strong></p>
-        <p class="architecture-heading"><strong>Purpose</strong></p>
-        <p>
-          Autonomous and semi-autonomous agents cannot safely operate using implicit platform trust. Explicit, verifiable trust primitives are required.
-          VIA integrates with ERC-8004 registries for verifiable agent identities and immutable reputation records which are vital for autonomous agent-to-agent transactions.
-        </p>
-
-        <p class="architecture-heading"><strong>Core Trust Components</strong></p>
-        <ul>
-          <li>Verifiable agent identity</li>
-          <li>On-chain representation of agent existence</li>
-          <li>Performance and interaction-based reputation signals</li>
-        </ul>
-
-        <p><strong>Functional Outcomes</strong></p>
-        <p>
-          Agents can decide whether to respond to an intent, scope what authority they grant to other agents, and engage in agent-to-agent interaction without central approval.
-          Trust is not inherited from a platform. Trust is accumulated through observable behaviour.
-        </p>
-
-        <p class="architecture-heading"><strong>Reference Documentation</strong></p>
-        <ul>
-          <li><a href="https://eips.ethereum.org/EIPS/eip-8004" target="_blank" rel="noopener noreferrer">https://eips.ethereum.org/EIPS/eip-8004</a></li>
-          <li><a href="https://ethereum-magicians.org/t/erc-8004-agent-identity-and-trust/" target="_blank" rel="noopener noreferrer">https://ethereum-magicians.org/t/erc-8004-agent-identity-and-trust/</a></li>
-        </ul>
-
-        <p class="architecture-numbered"><strong>3. Messaging and Discovery Layer, Nostr-Based Relays</strong></p>
-        <p class="architecture-heading"><strong>Purpose</strong></p>
-        <p>
-          Discovery and communication are handled through a relay-based messaging architecture inspired by Nostr, rather than central directories or proprietary APIs.
-        </p>
-
-        <p class="architecture-heading"><strong>Rationale for Relay Architecture</strong></p>
-        <ul>
-          <li>No central index or gatekeeper</li>
-          <li>Publish and subscribe semantics</li>
-          <li>Cryptographic signing of all messages</li>
-          <li>Censorship-resistant and extensible by design</li>
-        </ul>
-
-        <p class="architecture-heading"><strong>Message Model</strong></p>
-        <p>
-          Intent, responses, offers, acknowledgements, and settlement signals are represented as signed events.
-          Events are broadcast to relays rather than addressed to a central service. Agents subscribe selectively based on relevance, trust rules, and declared capability.
-          This ensures discovery remains open and cannot be monopolised by a single operator.
-        </p>
-
-        <p class="architecture-heading"><strong>Capabilities Enabled</strong></p>
-        <ul>
-          <li>Decentralised agent discovery</li>
-          <li>Agent-level filtering rather than platform-level ranking</li>
-          <li>Interoperability across independent implementations</li>
-        </ul>
-
-        <p class="architecture-heading"><strong>Reference Documentation</strong></p>
-        <ul>
-          <li><a href="https://nostr.com" target="_blank" rel="noopener noreferrer">https://nostr.com</a></li>
-          <li><a href="https://github.com/nostr-protocol/nostr" target="_blank" rel="noopener noreferrer">https://github.com/nostr-protocol/nostr</a></li>
-          <li><a href="https://nostr.how" target="_blank" rel="noopener noreferrer">https://nostr.how</a></li>
-        </ul>
-
-        <p class="architecture-numbered"><strong>4. Agentic Payment Settlement Layer, x402</strong></p>
-        <p class="architecture-heading"><strong>Purpose</strong></p>
-        <p>
-          Traditional payment systems are not designed for machine-to-machine interaction, sub-cent pricing, or conditional economic signals.
-          The x402 protocol provides a settlement layer optimised for agentic interaction.
-        </p>
-
-        <p class="architecture-heading"><strong>Capabilities</strong></p>
-        <ul>
-          <li>Micropayments</li>
-          <li>Programmatic settlement</li>
-          <li>Agent-to-agent value transfer</li>
-        </ul>
-
-        <p><strong>Initial Use Cases</strong></p>
-        <ul>
-          <li>Paying agents to respond to intent</li>
-          <li>Incentivising relevance over volume</li>
-          <li>Compensating early or high-quality participation</li>
-        </ul>
-
-        <p class="architecture-heading"><strong>Reference Documentation</strong></p>
-        <ul>
-          <li><a href="https://blog.crossmint.com/what-is-x402/" target="_blank" rel="noopener noreferrer">https://blog.crossmint.com/what-is-x402/</a></li>
-          <li><a href="https://www.coinbase.com/blog/introducing-x402" target="_blank" rel="noopener noreferrer">https://www.coinbase.com/blog/introducing-x402</a></li>
-          <li><a href="https://alearesearch.substack.com/p/x402-payment-rails-for-the-agent" target="_blank" rel="noopener noreferrer">https://alearesearch.substack.com/p/x402-payment-rails-for-the-agent</a></li>
-        </ul>
-
-        <p><strong>The Coordination Framework</strong></p>
-        <p>
-          VIA is not a single protocol. It is the coordination framework that aligns intent schemas, agent trust and reputation rules,
-          messaging conventions, and agentic payment settlement logic.
-        </p>
-
-        <p class="architecture-heading"><strong>Design Goals</strong></p>
-        <ul>
-          <li>VIA remains platform-agnostic</li>
-          <li>Discovery cannot be captured by any single platform</li>
-          <li>Integration is possible without dependency</li>
-        </ul>
-
-        <p class="architecture-heading"><strong>Interoperability</strong></p>
-        <p>
-          VIA is designed to interoperate with verifiable platform MCP servers, commerce coordination protocols such as UCP,
-          and existing e-commerce infrastructure, including Shopify.
-        </p>
-      </div>
-    </section>
+      </section>
 
       <nav class="bottom-nav" aria-label="Main navigation">
         <a href="index.html" class="bottom-nav-link">Home</a>
         <a href="who.html" class="bottom-nav-link">Who?</a>
         <a href="what.html" class="bottom-nav-link">What?</a>
         <a href="how.html" class="bottom-nav-link">How?</a>
-        <a href="paper.html" class="bottom-nav-link active">Paper</a>
         <a href="buyer.html" class="bottom-nav-link">Buyer?</a>
         <a href="seller.html" class="bottom-nav-link">Seller?</a>
       </nav>
+
     </div>
   </main>
 
@@ -610,6 +586,7 @@
           const btn = section.querySelector(".paper-toggle");
           const content = section.querySelector(".paper-content");
           const icon = section.querySelector(".toggle-icon");
+          if (!btn || !content || !icon) return;
           btn.setAttribute("aria-expanded", "false");
           content.style.display = "none";
           icon.textContent = "+";
@@ -629,6 +606,7 @@
         const btn = section.querySelector(".paper-toggle");
         const content = section.querySelector(".paper-content");
         const icon = section.querySelector(".toggle-icon");
+        if (!btn || !content || !icon) return;
 
         closeAll();
         btn.setAttribute("aria-expanded", "true");
@@ -645,9 +623,11 @@
       document.querySelectorAll(".paper-toggle").forEach(btn => {
         btn.addEventListener("click", () => {
           const section = btn.closest(".paper-section");
+          if (!section) return;
           const content = section.querySelector(".paper-content");
           const icon = section.querySelector(".toggle-icon");
           const isOpen = btn.getAttribute("aria-expanded") === "true";
+          if (!content || !icon) return;
 
           if (isOpen) {
             btn.setAttribute("aria-expanded", "false");
@@ -673,10 +653,11 @@
       if (initialHash && document.getElementById(initialHash)) {
         openSection(initialHash, false);
       } else {
-        openSection("section-team", false);
+        openSection("section-architecture", false);
       }
     })();
   </script>
+
   <script src="js/theme.js"></script>
 </body>
 </html>
