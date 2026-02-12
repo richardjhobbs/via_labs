@@ -4,218 +4,199 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Join VIA</title>
-  <meta name="description" content="Tell VIA what you want to do. This is a preview of how agentic tools will work.">
+  <meta name="description" content="VIA is not live yet. Share what you want to do, and we will contact you when we are live.">
   <link rel="icon" type="image/png" href="images/VIA_logo_large_black.png">
   <link rel="stylesheet" href="css/main.css">
   <style>
-    .join-lead {
-      text-align: center;
-      max-width: 44rem;
-      margin: 0 auto var(--spacing-md);
-      opacity: 0.9;
+    .join-lead{
+      text-align:center;
+      max-width:44rem;
+      margin:0 auto var(--spacing-md);
+      opacity:0.9;
     }
-
-    #intentForm {
-      max-width: 100%;
+    #intentForm{ max-width:100%; }
+    .intent-textarea{ min-height:220px; resize:vertical; }
+    .role-row{ display:flex; flex-wrap:wrap; gap:1rem; margin-bottom:var(--spacing-sm); }
+    .role-row label{ display:inline-flex; gap:0.4rem; align-items:center; cursor:pointer; }
+    .status{
+      display:none;
+      margin-top:var(--spacing-sm);
+      border:2px solid var(--color-border);
+      border-radius:0.75rem;
+      padding:0.9rem;
+      background:rgba(200, 90, 84, 0.08);
     }
-
-    .intent-textarea {
-      min-height: 220px;
-      resize: vertical;
+    .status.show{ display:block; }
+    .note{ font-size:0.95rem; opacity:0.85; margin: var(--spacing-sm) 0; }
+    .codebox{
+      border:2px solid var(--color-border);
+      border-radius:0.75rem;
+      padding:1rem;
+      background:white;
+      font-family:var(--font-mono);
+      font-size:0.95rem;
+      white-space:pre-wrap;
+      word-break:break-word;
+      margin-top:var(--spacing-sm);
     }
-
-    .role-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1rem;
-      margin-bottom: var(--spacing-sm);
-    }
-
-    .role-row label {
-      display: inline-flex;
-      gap: 0.4rem;
-      align-items: center;
-      cursor: pointer;
-    }
-
-    .status {
-      display: none;
-      margin-top: var(--spacing-sm);
-      border: 2px solid var(--color-border);
-      border-radius: 0.75rem;
-      padding: 0.9rem;
-      background: rgba(200, 90, 84, 0.08);
-    }
-
-    .status.show {
-      display: block;
-    }
-
-    .section-note {
-      font-size: 0.95rem;
-      opacity: 0.85;
-      margin-bottom: var(--spacing-sm);
-    }
-
-    .codebox {
-      border: 2px solid var(--color-border);
-      border-radius: 0.75rem;
-      padding: 1rem;
-      background: white;
-      font-family: var(--font-mono);
-      font-size: 0.95rem;
-      white-space: pre-wrap;
-      word-break: break-word;
-      margin-top: var(--spacing-sm);
-    }
-
-    html.dark .codebox {
-      background: #1a1a1a;
-      color: white;
-    }
+    html.dark .codebox{ background:#1a1a1a; color:white; }
   </style>
 </head>
 <body>
 
-<header>
-  <a href="index.html" class="logo" aria-label="VIA Home">
-    <img src="images/VIA_logo_large_black.png" alt="VIA Logo">
-  </a>
-</header>
+  <header>
+    <a href="index.html" class="logo" aria-label="VIA Home">
+      <img src="images/VIA_logo_large_black.png" alt="VIA Logo">
+    </a>
+  </header>
 
-<button class="theme-toggle" id="themeToggle" aria-label="Toggle dark/light mode"></button>
+  <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark/light mode"></button>
 
-<main>
-  <div class="container container-narrow">
+  <main>
+    <div class="container container-narrow">
+      <h1>VIA is not live yet</h1>
 
-    <h1>VIA is not live yet</h1>
+      <p class="join-lead">
+        This page is a simple demo of how easy it is to use agent-based tools to shop, explore, compare, or sell.
+        Just describe what you want in plain English.
+      </p>
 
-    <p class="join-lead">
-      This page is a simple demonstration of how easy it is to use agent-based tools to shop, explore, compare, or sell.
-      Just describe what you want. No forms. No filters. No menus.
-    </p>
+      <div class="content-section">
+        <h3>Tell us what you would like to do</h3>
 
-    <div class="content-section">
-      <h3>Tell us what you would like to do</h3>
+        <form id="intentForm" novalidate>
+          <div class="role-row">
+            <label><input type="radio" name="role" value="buyer" checked> I am looking for something</label>
+            <label><input type="radio" name="role" value="seller"> I am offering something</label>
+            <label><input type="radio" name="role" value="both"> Both</label>
+          </div>
 
-      <form id="intentForm" novalidate>
-        <div class="role-row">
-          <label><input type="radio" name="role" value="buyer" checked> I am looking for something</label>
-          <label><input type="radio" name="role" value="seller"> I am offering something</label>
-          <label><input type="radio" name="role" value="both"> Both</label>
-        </div>
+          <div class="form-group">
+            <textarea
+              id="rawInput"
+              class="intent-textarea"
+              placeholder="Example: I need running shoes, ideally Asics or similar. Or: I sell cocoa nibs imported from Peru, delivered in Singapore."
+              required></textarea>
+          </div>
 
-        <div class="form-group">
-          <textarea
-            id="rawInput"
-            class="intent-textarea"
-            placeholder="Example: I need a cycling jacket for tropical rain, under $300. Or: I run a small tailoring business in Singapore and want new customers."
-            required></textarea>
-        </div>
+          <p class="note">
+            Optional but recommended, so we can contact you when VIA goes live:
+          </p>
 
-        <p class="section-note">
-          Optional but recommended, so we can contact you when VIA goes live:
+          <div class="form-group">
+            <label for="name">Name (optional)</label>
+            <input type="text" id="name" autocomplete="name">
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email (optional)</label>
+            <input type="email" id="email" autocomplete="email">
+          </div>
+
+          <button type="submit" class="cta-button" id="intentSubmitBtn">Send</button>
+
+          <div class="status" id="intentOk">
+            <strong>Thank you.</strong> Your request has been saved.
+          </div>
+
+          <div class="status" id="intentErr">
+            Something went wrong. Please try again.
+          </div>
+        </form>
+      </div>
+
+      <div class="content-section">
+        <h3>Use VIA inside Claude</h3>
+        <p class="note">
+          In Claude, add an MCP server using this address:
         </p>
-
-        <div class="form-group">
-          <label>Name (optional)</label>
-          <input type="text" id="name">
-        </div>
-
-        <div class="form-group">
-          <label>Email (optional)</label>
-          <input type="email" id="email">
-        </div>
-
-        <button type="submit" class="cta-button" id="intentSubmitBtn">Send</button>
-
-        <div class="status" id="intentOk">
-          <strong>Thank you.</strong> Your request has been saved.
-          We will be in touch when VIA is live.
-        </div>
-
-        <div class="status" id="intentErr">
-          Something went wrong. Please try again.
-        </div>
-      </form>
-    </div>
-
-    <div class="content-section">
-      <h3>Use VIA inside Claude</h3>
-
-      <p class="section-note">
-        If you use Claude, you can connect VIA using an MCP server.
-        This allows you to use conversational commerce directly inside Claude.
-      </p>
-
-      <p>Server address:</p>
-
-      <div class="codebox">
-https://via-mcp-server.onrender.com
+        <div class="codebox">https://via-mcp-server.onrender.com</div>
+        <p class="note">
+          Then just talk normally, for example:
+        </p>
+        <div class="codebox">Help me buy or sell something using VIA. Ask me a few short questions to clarify what I want.</div>
       </div>
 
-      <p class="section-note">
-        Then simply say something like:
-      </p>
-
-      <div class="codebox">
-Help me buy or sell something using VIA. Ask a few short questions to clarify what I want. Keep it simple and practical.
-      </div>
+      <nav class="bottom-nav" aria-label="Main navigation">
+        <a href="index.html" class="bottom-nav-link">Home</a>
+        <a href="who.html" class="bottom-nav-link">Who?</a>
+        <a href="what.html" class="bottom-nav-link">What?</a>
+        <a href="how.html" class="bottom-nav-link">How?</a>
+        <a href="paper.html" class="bottom-nav-link">Paper</a>
+        <a href="buyer.html" class="bottom-nav-link">Buyer?</a>
+        <a href="seller.html" class="bottom-nav-link">Seller?</a>
+      </nav>
     </div>
+  </main>
 
-  </div>
-</main>
+  <div class="footer-left">© VIA Labs Pte Ltd</div>
 
-<div class="footer-left">© VIA Labs Pte Ltd</div>
+  <script>
+    const SUPABASE_URL = "https://gcxyoujubqclenrhhill.supabase.co";
+    const SUPABASE_ANON_KEY = "sb_publishable_9A6RBeU9ogFMHPULhJPHpQ_SFkkKdtL";
 
-<script>
-const SUPABASE_URL = "https://gcxyoujubqclenrhhill.supabase.co";
-const SUPABASE_ANON_KEY = "sb_publishable_9A6RBeU9ogFMHPULhJPHpQ_SFkkKdtL";
+    async function submitIntent(payload) {
+      const res = await fetch(SUPABASE_URL.replace(/\/$/, "") + "/rest/v1/intents", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "apikey": SUPABASE_ANON_KEY,
+          "Authorization": "Bearer " + SUPABASE_ANON_KEY,
+          "Prefer": "return=minimal"
+        },
+        body: JSON.stringify(payload)
+      });
 
-async function submitIntent(payload) {
-  const res = await fetch(SUPABASE_URL + "/rest/v1/intents", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "apikey": SUPABASE_ANON_KEY,
-      "Authorization": "Bearer " + SUPABASE_ANON_KEY,
-      "Prefer": "return=minimal"
-    },
-    body: JSON.stringify(payload)
-  });
-  if (!res.ok) throw new Error("Insert failed");
-}
+      if (!res.ok) {
+        const txt = await res.text().catch(() => "");
+        throw new Error("Insert failed: " + res.status + " " + txt);
+      }
+    }
 
-document.getElementById("intentForm").addEventListener("submit", async function(e) {
-  e.preventDefault();
+    document.getElementById("intentForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
 
-  const raw = document.getElementById("rawInput").value.trim();
-  if (!raw) return;
+      const raw = document.getElementById("rawInput").value.trim();
+      if (!raw) return;
 
-  const role = document.querySelector('input[name="role"]:checked')?.value || "buyer";
-  const name = document.getElementById("name").value || null;
-  const email = document.getElementById("email").value || null;
+      const role = document.querySelector('input[name="role"]:checked')?.value || "buyer";
+      const name = document.getElementById("name").value.trim() || null;
+      const email = document.getElementById("email").value.trim() || null;
 
-  const payload = {
-    user_name: name,
-    role: role,
-    raw_input: raw,
-    contact_email: email,
-    source: "join_page",
-    status: "new"
-  };
+      const payload = {
+        user_name: name,
+        contact_email: email,
+        role: role,
+        raw_input: raw,
+        merchant_name: null,
+        source: "join_page",
+        status: "new"
+      };
 
-  try {
-    await submitIntent(payload);
-    document.getElementById("intentOk").classList.add("show");
-    document.getElementById("intentErr").classList.remove("show");
-  } catch (err) {
-    document.getElementById("intentErr").classList.add("show");
-  }
-});
-</script>
+      const btn = document.getElementById("intentSubmitBtn");
+      const ok = document.getElementById("intentOk");
+      const err = document.getElementById("intentErr");
 
-<script src="js/theme.js"></script>
+      try {
+        btn.disabled = true;
+        btn.textContent = "Sending...";
 
+        await submitIntent(payload);
+
+        ok.classList.add("show");
+        err.classList.remove("show");
+      } catch (ex) {
+        console.error(ex);
+        err.textContent = "Something went wrong. " + (ex?.message || "Please try again.");
+        err.classList.add("show");
+        ok.classList.remove("show");
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "Send";
+      }
+    });
+  </script>
+
+  <script src="js/theme.js"></script>
 </body>
 </html>
