@@ -4,34 +4,30 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Join VIA</title>
-  <meta name="description" content="Tell VIA what you want to do, connect VIA in Claude, or leave your email for updates.">
+  <meta name="description" content="Tell VIA what you want to do. This is a preview of how agentic tools will work.">
   <link rel="icon" type="image/png" href="images/VIA_logo_large_black.png">
   <link rel="stylesheet" href="css/main.css">
   <style>
-    /* Join page only, designed to work with main.css */
     .join-lead {
       text-align: center;
-      max-width: 46rem;
+      max-width: 44rem;
       margin: 0 auto var(--spacing-md);
       opacity: 0.9;
     }
 
-    /* Make the intent form wider than the global 400px limit */
     #intentForm {
       max-width: 100%;
     }
 
-    /* Keep inputs consistent with main.css */
     .intent-textarea {
-      min-height: 180px;
+      min-height: 220px;
       resize: vertical;
     }
 
     .role-row {
       display: flex;
       flex-wrap: wrap;
-      gap: 0.75rem;
-      align-items: center;
+      gap: 1rem;
       margin-bottom: var(--spacing-sm);
     }
 
@@ -40,71 +36,6 @@
       gap: 0.4rem;
       align-items: center;
       cursor: pointer;
-      font-weight: 500;
-    }
-
-    .pill-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-      margin-top: var(--spacing-xs);
-    }
-
-    .pill {
-      border: 1px solid var(--color-gray-light);
-      border-radius: 999px;
-      padding: 0.45rem 0.8rem;
-      background: transparent;
-      cursor: pointer;
-      font-family: var(--font-mono);
-      font-size: 0.9rem;
-      transition: background-color var(--transition-fast), border-color var(--transition-fast);
-    }
-
-    html.dark .pill {
-      border-color: var(--color-gray-dark);
-    }
-
-    .pill:hover {
-      background-color: rgba(200, 90, 84, 0.12);
-      border-color: var(--color-border);
-    }
-
-    .two-col {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: var(--spacing-sm);
-    }
-
-    @media (min-width: 860px) {
-      .two-col {
-        grid-template-columns: 1fr 1fr;
-      }
-    }
-
-    .note {
-      font-size: 0.95rem;
-      opacity: 0.85;
-      margin-top: var(--spacing-sm);
-    }
-
-    .codebox {
-      border: 2px solid var(--color-border);
-      border-radius: 0.75rem;
-      padding: 0.9rem;
-      background: white;
-      overflow-x: auto;
-      font-family: var(--font-mono);
-      font-size: 0.95rem;
-      line-height: 1.45;
-      white-space: pre-wrap;
-      word-break: break-word;
-      margin-top: var(--spacing-sm);
-    }
-
-    html.dark .codebox {
-      background: #1a1a1a;
-      color: white;
     }
 
     .status {
@@ -120,397 +51,171 @@
       display: block;
     }
 
-    .section-number {
-      color: var(--color-border);
-      font-weight: 700;
-      letter-spacing: 0.02em;
-      margin-bottom: var(--spacing-xs);
-      text-transform: uppercase;
-      font-family: var(--font-sans);
+    .section-note {
       font-size: 0.95rem;
+      opacity: 0.85;
+      margin-bottom: var(--spacing-sm);
+    }
+
+    .codebox {
+      border: 2px solid var(--color-border);
+      border-radius: 0.75rem;
+      padding: 1rem;
+      background: white;
+      font-family: var(--font-mono);
+      font-size: 0.95rem;
+      white-space: pre-wrap;
+      word-break: break-word;
+      margin-top: var(--spacing-sm);
+    }
+
+    html.dark .codebox {
+      background: #1a1a1a;
+      color: white;
     }
   </style>
 </head>
 <body>
-  <header>
-    <a href="index.html" class="logo" aria-label="VIA Home">
-      <img id="logo" src="images/VIA_logo_large_black.png" alt="VIA Logo">
-    </a>
-  </header>
 
-  <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark/light mode">
-    <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-      <circle cx="12" cy="12" r="5"></circle>
-      <line x1="12" y1="1" x2="12" y2="3"></line>
-      <line x1="12" y1="21" x2="12" y2="23"></line>
-      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-      <line x1="1" y1="12" x2="3" y2="12"></line>
-      <line x1="21" y1="12" x2="23" y2="12"></line>
-      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-    </svg>
-    <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-    </svg>
-  </button>
+<header>
+  <a href="index.html" class="logo" aria-label="VIA Home">
+    <img src="images/VIA_logo_large_black.png" alt="VIA Logo">
+  </a>
+</header>
 
-  <main>
-    <div class="container container-narrow">
-      <h1>Join VIA</h1>
-      <p class="join-lead">
-        Tell us what you want to do, in your own words.
-        Looking for something, offering something, or both.
-        The more you share, the better we can route you.
+<button class="theme-toggle" id="themeToggle" aria-label="Toggle dark/light mode"></button>
+
+<main>
+  <div class="container container-narrow">
+
+    <h1>VIA is not live yet</h1>
+
+    <p class="join-lead">
+      This page is a simple demonstration of how easy it is to use agent-based tools to shop, explore, compare, or sell.
+      Just describe what you want. No forms. No filters. No menus.
+    </p>
+
+    <div class="content-section">
+      <h3>Tell us what you would like to do</h3>
+
+      <form id="intentForm" novalidate>
+        <div class="role-row">
+          <label><input type="radio" name="role" value="buyer" checked> I am looking for something</label>
+          <label><input type="radio" name="role" value="seller"> I am offering something</label>
+          <label><input type="radio" name="role" value="both"> Both</label>
+        </div>
+
+        <div class="form-group">
+          <textarea
+            id="rawInput"
+            class="intent-textarea"
+            placeholder="Example: I need a cycling jacket for tropical rain, under $300. Or: I run a small tailoring business in Singapore and want new customers."
+            required></textarea>
+        </div>
+
+        <p class="section-note">
+          Optional but recommended, so we can contact you when VIA goes live:
+        </p>
+
+        <div class="form-group">
+          <label>Name (optional)</label>
+          <input type="text" id="name">
+        </div>
+
+        <div class="form-group">
+          <label>Email (optional)</label>
+          <input type="email" id="email">
+        </div>
+
+        <button type="submit" class="cta-button" id="intentSubmitBtn">Send</button>
+
+        <div class="status" id="intentOk">
+          <strong>Thank you.</strong> Your request has been saved.
+          We will be in touch when VIA is live.
+        </div>
+
+        <div class="status" id="intentErr">
+          Something went wrong. Please try again.
+        </div>
+      </form>
+    </div>
+
+    <div class="content-section">
+      <h3>Use VIA inside Claude</h3>
+
+      <p class="section-note">
+        If you use Claude, you can connect VIA using an MCP server.
+        This allows you to use conversational commerce directly inside Claude.
       </p>
 
-      <!-- 1) Intent input (primary) -->
-      <div class="content-section">
-        <div class="section-number">1) Share what you want</div>
-        <p class="note">
-          Write naturally, like a message. You do not need to fill every box.
-        </p>
+      <p>Server address:</p>
 
-        <form id="intentForm" novalidate>
-          <input type="hidden" id="source" value="General">
-          <input type="hidden" id="referrer" value="">
-          <input type="hidden" id="userAgent" value="">
-          <input type="hidden" id="sessionId" value="">
-
-          <div class="role-row" role="group" aria-label="I am">
-            <strong style="font-family: var(--font-sans);">I am:</strong>
-            <label><input type="radio" name="role" value="buyer" checked> Looking for something</label>
-            <label><input type="radio" name="role" value="seller"> Offering something</label>
-            <label><input type="radio" name="role" value="both"> Both</label>
-            <label><input type="radio" name="role" value="unknown"> Not sure</label>
-          </div>
-
-          <div class="form-group">
-            <label for="rawInput">In your own words</label>
-            <textarea
-              id="rawInput"
-              class="intent-textarea"
-              placeholder="Example: I’m looking for a tailor in Singapore who can do a suit in two weeks, budget around $1,000. Or: I sell handmade furniture in London, local delivery."
-              required></textarea>
-
-            <div class="pill-row" aria-label="Example starters">
-              <button type="button" class="pill" data-insert="I’m looking for ">I’m looking for…</button>
-              <button type="button" class="pill" data-insert="I need help with ">I need help with…</button>
-              <button type="button" class="pill" data-insert="I’m offering ">I’m offering…</button>
-              <button type="button" class="pill" data-insert="I’m based in ">I’m based in…</button>
-              <button type="button" class="pill" data-insert="My budget is ">My budget is…</button>
-            </div>
-          </div>
-
-          <div class="two-col">
-            <div class="form-group">
-              <label for="name">Name (optional)</label>
-              <input type="text" id="name" autocomplete="name">
-            </div>
-
-            <div class="form-group">
-              <label for="email">Email (optional)</label>
-              <input type="email" id="email" autocomplete="email">
-            </div>
-
-            <div class="form-group">
-              <label for="contactHandle">Telegram, X, WhatsApp (optional)</label>
-              <input type="text" id="contactHandle" placeholder="@handle or number">
-            </div>
-
-            <div class="form-group">
-              <label for="category">Category (optional)</label>
-              <input type="text" id="category" placeholder="Travel, fashion, food, services, etc">
-            </div>
-
-            <div class="form-group">
-              <label for="location">Location (optional)</label>
-              <input type="text" id="location" placeholder="Singapore, London, online, etc">
-            </div>
-
-            <div class="form-group">
-              <label for="timeline">Timing (optional)</label>
-              <input type="text" id="timeline" placeholder="Today, next week, this month, etc">
-            </div>
-
-            <div class="form-group">
-              <label for="budget">Budget (optional)</label>
-              <input type="text" id="budget" placeholder="200, 500-1000, under 2k, etc">
-            </div>
-
-            <div class="form-group">
-              <label for="constraints">Must-haves (optional)</label>
-              <input type="text" id="constraints" placeholder="Fast turnaround, delivery, specific style, etc">
-            </div>
-          </div>
-
-          <button type="submit" class="cta-button" id="intentSubmitBtn">Send</button>
-
-          <div class="status" id="intentOk">
-            <strong>Thanks.</strong> We have saved your request.
-            Want to try it in Claude? Scroll down to the Claude section.
-          </div>
-
-          <div class="status" id="intentErr">
-            <strong>Something went wrong.</strong> Please try again, or leave your email below.
-          </div>
-
-          <p class="note">
-            If you are not sure what to write, just say what you like, what you are trying to achieve, and where you are.
-          </p>
-        </form>
+      <div class="codebox">
+https://via-mcp-server.onrender.com
       </div>
 
-      <!-- 2) Claude MCP plugin -->
-      <div class="content-section">
-        <div class="section-number">2) Use VIA in Claude</div>
+      <p class="section-note">
+        Then simply say something like:
+      </p>
 
-        <p>
-          If you use Claude, you can connect VIA so it can handle requests through an agent workflow.
-          Other assistants are coming.
-        </p>
-
-        <p class="note">
-          In Claude, go to connectors or tools, add an MCP server, then paste this address:
-        </p>
-
-        <div class="codebox" id="mcpEndpoint">https://via-mcp-server.onrender.com</div>
-
-        <p class="note">
-          Then just talk normally. For example:
-        </p>
-
-        <div class="codebox">Help me buy or sell something using VIA. Ask me a few short questions to clarify what I want. Then summarise it as a simple card: what I want, where, when, budget, and must-haves. Keep it plain and human. If you need anything else, ask.</div>
+      <div class="codebox">
+Help me buy or sell something using VIA. Ask a few short questions to clarify what I want. Keep it simple and practical.
       </div>
-
-      <!-- 3) Email fallback -->
-      <div class="content-section">
-        <div class="section-number">3) Want updates by email?</div>
-        <p class="note">
-          If you prefer, leave your email and we will keep you in the loop.
-        </p>
-
-        <form action="https://api.web3forms.com/submit" method="POST" style="margin-top: 1rem;">
-          <input type="hidden" name="access_key" value="12fa6fe4-3b05-4bb6-8d28-b94420492e70">
-          <input type="hidden" name="subject" value="VIA interest">
-          <input type="hidden" name="redirect" value="https://getvia.xyz/thanks.html">
-          <input type="hidden" name="source" id="source_email" value="General">
-
-          <div class="form-group">
-            <label for="name_email">Name</label>
-            <input type="text" id="name_email" name="name" required>
-          </div>
-
-          <div class="form-group">
-            <label for="email_email">Email</label>
-            <input type="email" id="email_email" name="email" required>
-          </div>
-
-          <button type="submit" class="cta-button">Request access</button>
-        </form>
-      </div>
-
-      <nav class="bottom-nav" aria-label="Main navigation">
-        <a href="index.html" class="bottom-nav-link">Home</a>
-        <a href="who.html" class="bottom-nav-link">Who?</a>
-        <a href="what.html" class="bottom-nav-link">What?</a>
-        <a href="how.html" class="bottom-nav-link">How?</a>
-        <a href="paper.html" class="bottom-nav-link">Paper</a>
-        <a href="buyer.html" class="bottom-nav-link">Buyer?</a>
-        <a href="seller.html" class="bottom-nav-link">Seller?</a>
-      </nav>
     </div>
-  </main>
 
-  <div class="footer-left">© VIA Labs Pte Ltd</div>
-
-  <div class="footer-right">
-    <a href="https://x.com/via_labs_sg" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Follow VIA Labs on X">
-      <img id="socialIcon" src="images/logo-black.png" alt="X (Twitter)" class="social-icon">
-    </a>
   </div>
+</main>
 
-  <script>
-    (function() {
-      const params = new URLSearchParams(window.location.search);
-      const src = params.get('src');
-      const sourceValue = src ? src : 'General';
+<div class="footer-left">© VIA Labs Pte Ltd</div>
 
-      const sourceInput = document.getElementById('source');
-      const sourceEmail = document.getElementById('source_email');
-      if (sourceInput) sourceInput.value = sourceValue;
-      if (sourceEmail) sourceEmail.value = sourceValue;
+<script>
+const SUPABASE_URL = "https://gcxyoujubqclenrhhill.supabase.co";
+const SUPABASE_ANON_KEY = "sb_publishable_9A6RBeU9ogFMHPULhJPHpQ_SFkkKdtL";
 
-      const referrerInput = document.getElementById('referrer');
-      const uaInput = document.getElementById('userAgent');
-      if (referrerInput) referrerInput.value = document.referrer || '';
-      if (uaInput) uaInput.value = navigator.userAgent || '';
+async function submitIntent(payload) {
+  const res = await fetch(SUPABASE_URL + "/rest/v1/intents", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "apikey": SUPABASE_ANON_KEY,
+      "Authorization": "Bearer " + SUPABASE_ANON_KEY,
+      "Prefer": "return=minimal"
+    },
+    body: JSON.stringify(payload)
+  });
+  if (!res.ok) throw new Error("Insert failed");
+}
 
-      const key = 'via_session_id';
-      let sid = localStorage.getItem(key);
-      if (!sid) {
-        sid = (crypto && crypto.randomUUID) ? crypto.randomUUID() : String(Date.now()) + '_' + Math.random().toString(16).slice(2);
-        localStorage.setItem(key, sid);
-      }
-      const sessionIdInput = document.getElementById('sessionId');
-      if (sessionIdInput) sessionIdInput.value = sid;
+document.getElementById("intentForm").addEventListener("submit", async function(e) {
+  e.preventDefault();
 
-      const raw = document.getElementById('rawInput');
-      document.querySelectorAll('[data-insert]').forEach(btn => {
-        btn.addEventListener('click', () => {
-          if (!raw) return;
-          const text = btn.getAttribute('data-insert') || '';
-          if (!raw.value.trim()) raw.value = text;
-          raw.focus();
-        });
-      });
-    })();
-  </script>
+  const raw = document.getElementById("rawInput").value.trim();
+  if (!raw) return;
 
-  <script>
-    const SUPABASE_URL = "https://gcxyoujubqclenrhhill.supabase.co";
-    const SUPABASE_ANON_KEY = "sb_publishable_9A6RBeU9ogFMHPULhJPHpQ_SFkkKdtL";
+  const role = document.querySelector('input[name="role"]:checked')?.value || "buyer";
+  const name = document.getElementById("name").value || null;
+  const email = document.getElementById("email").value || null;
 
-    function parseBudgetToMinMax(input) {
-      const s = (input || "").trim();
-      if (!s) return { min: null, max: null };
-      const cleaned = s.replace(/[,]/g, "").toLowerCase();
+  const payload = {
+    user_name: name,
+    role: role,
+    raw_input: raw,
+    contact_email: email,
+    source: "join_page",
+    status: "new"
+  };
 
-      const rangeMatch = cleaned.match(/(\d+)\s*[-to]+\s*(\d+)/);
-      if (rangeMatch) {
-        const a = Number(rangeMatch[1]);
-        const b = Number(rangeMatch[2]);
-        if (Number.isFinite(a) && Number.isFinite(b)) {
-          return { min: Math.min(a,b), max: Math.max(a,b) };
-        }
-      }
+  try {
+    await submitIntent(payload);
+    document.getElementById("intentOk").classList.add("show");
+    document.getElementById("intentErr").classList.remove("show");
+  } catch (err) {
+    document.getElementById("intentErr").classList.add("show");
+  }
+});
+</script>
 
-      const singleMatch = cleaned.match(/(\d+)/);
-      if (singleMatch) {
-        const n = Number(singleMatch[1]);
-        if (Number.isFinite(n)) return { min: n, max: null };
-      }
+<script src="js/theme.js"></script>
 
-      return { min: null, max: null };
-    }
-
-    async function submitIntentToSupabase(payload) {
-      const url = SUPABASE_URL.replace(/\/$/, "") + "/rest/v1/intents";
-      const res = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "apikey": SUPABASE_ANON_KEY,
-          "Authorization": "Bearer " + SUPABASE_ANON_KEY,
-          "Prefer": "return=minimal"
-        },
-        body: JSON.stringify(payload)
-      });
-
-      if (!res.ok) {
-        const txt = await res.text().catch(() => "");
-        throw new Error("Insert failed: " + res.status + " " + txt);
-      }
-    }
-
-    (function() {
-      const form = document.getElementById('intentForm');
-      const btn = document.getElementById('intentSubmitBtn');
-      const okEl = document.getElementById('intentOk');
-      const errEl = document.getElementById('intentErr');
-
-      function showOk() {
-        if (okEl) okEl.classList.add('show');
-        if (errEl) errEl.classList.remove('show');
-      }
-
-      function showErr() {
-        if (errEl) errEl.classList.add('show');
-        if (okEl) okEl.classList.remove('show');
-      }
-
-      if (!form) return;
-
-      form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-
-        const rawInput = (document.getElementById('rawInput') || {}).value || "";
-        if (!rawInput.trim()) {
-          if (errEl) errEl.innerHTML = "<strong>Please write a quick message above.</strong>";
-          showErr();
-          return;
-        }
-
-        const role = (form.querySelector('input[name="role"]:checked') || {}).value || "unknown";
-        const name = (document.getElementById('name') || {}).value || null;
-        const email = (document.getElementById('email') || {}).value || null;
-        const contactHandle = (document.getElementById('contactHandle') || {}).value || null;
-
-        const category = (document.getElementById('category') || {}).value || null;
-        const location = (document.getElementById('location') || {}).value || null;
-        const timeline = (document.getElementById('timeline') || {}).value || null;
-        const constraints = (document.getElementById('constraints') || {}).value || null;
-
-        const budgetRaw = (document.getElementById('budget') || {}).value || "";
-        const budget = parseBudgetToMinMax(budgetRaw);
-
-        const source = (document.getElementById('source') || {}).value || "General";
-        const referrer = (document.getElementById('referrer') || {}).value || "";
-        const userAgent = (document.getElementById('userAgent') || {}).value || "";
-        const sessionId = (document.getElementById('sessionId') || {}).value || null;
-
-        const payload = {
-          user_name: name,
-          merchant_name: null,
-          description: null,
-          value: null,
-
-          role: role,
-          raw_input: rawInput,
-          contact_email: email,
-          contact_handle: contactHandle,
-
-          category: category,
-          location: location,
-          timeline: timeline,
-          constraints: constraints,
-
-          budget_min: budget.min,
-          budget_max: budget.max,
-
-          source: source,
-          referrer: referrer,
-          session_id: sessionId,
-
-          extra: {
-            budget_raw: budgetRaw || null,
-            user_agent: userAgent || null
-          }
-        };
-
-        try {
-          if (btn) {
-            btn.disabled = true;
-            btn.textContent = "Sending...";
-          }
-
-          await submitIntentToSupabase(payload);
-
-          showOk();
-
-        } catch (err) {
-          console.error(err);
-          showErr();
-        } finally {
-          if (btn) {
-            btn.disabled = false;
-            btn.textContent = "Send";
-          }
-        }
-      });
-    })();
-  </script>
-
-  <script src="js/theme.js"></script>
 </body>
 </html>
