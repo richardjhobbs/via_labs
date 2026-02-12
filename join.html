@@ -3,10 +3,130 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Join VIA - VIA - Making Agentic Commerce Work</title>
-  <meta name="description" content="Join VIA early access and be part of the first cohort.">
+  <title>Join VIA</title>
+  <meta name="description" content="Tell VIA what you want to do, try VIA with Claude, or leave your email for early access.">
   <link rel="icon" type="image/png" href="images/VIA_logo_large_black.png">
   <link rel="stylesheet" href="css/main.css">
+  <style>
+    /* Lightweight additions that should sit nicely on top of main.css */
+    .join-hero { margin-top: 1.25rem; }
+    .join-hero p { margin-top: 0.5rem; }
+
+    .card {
+      border: 1px solid rgba(0,0,0,0.12);
+      border-radius: 16px;
+      padding: 1.25rem;
+      margin: 1.25rem 0;
+      background: rgba(255,255,255,0.55);
+      backdrop-filter: blur(6px);
+    }
+    body.dark .card {
+      border-color: rgba(255,255,255,0.18);
+      background: rgba(0,0,0,0.25);
+    }
+
+    .intent-grid {
+      display: grid;
+      gap: 0.85rem;
+    }
+
+    .intent-textarea {
+      width: 100%;
+      min-height: 160px;
+      resize: vertical;
+      padding: 0.9rem 0.95rem;
+      border-radius: 14px;
+      border: 1px solid rgba(0,0,0,0.18);
+      font: inherit;
+      background: rgba(255,255,255,0.85);
+    }
+    body.dark .intent-textarea {
+      border-color: rgba(255,255,255,0.22);
+      background: rgba(0,0,0,0.25);
+      color: inherit;
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.35rem;
+    }
+    .pill {
+      border: 1px solid rgba(0,0,0,0.16);
+      background: transparent;
+      border-radius: 999px;
+      padding: 0.45rem 0.7rem;
+      cursor: pointer;
+      font: inherit;
+    }
+    body.dark .pill { border-color: rgba(255,255,255,0.22); }
+
+    .role-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      align-items: center;
+      margin-top: 0.25rem;
+    }
+    .role-row label { display: inline-flex; gap: 0.4rem; align-items: center; cursor: pointer; }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.85rem;
+    }
+    @media (min-width: 860px) {
+      .two-col { grid-template-columns: 1fr 1fr; }
+    }
+
+    .small-note { font-size: 0.92rem; opacity: 0.85; }
+
+    .codebox {
+      border: 1px solid rgba(0,0,0,0.14);
+      border-radius: 14px;
+      padding: 0.85rem 0.95rem;
+      overflow-x: auto;
+      background: rgba(255,255,255,0.75);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 0.95rem;
+      line-height: 1.35;
+      white-space: pre;
+    }
+    body.dark .codebox {
+      border-color: rgba(255,255,255,0.18);
+      background: rgba(0,0,0,0.22);
+    }
+
+    .status {
+      margin-top: 0.85rem;
+      padding: 0.85rem 0.95rem;
+      border-radius: 12px;
+      border: 1px solid rgba(0,0,0,0.12);
+      display: none;
+    }
+    body.dark .status { border-color: rgba(255,255,255,0.18); }
+    .status.ok { display: block; }
+    .status.err { display: block; }
+
+    .divider {
+      height: 1px;
+      background: rgba(0,0,0,0.12);
+      margin: 1.35rem 0;
+    }
+    body.dark .divider { background: rgba(255,255,255,0.16); }
+
+    .secondary-form {
+      max-width: 520px;
+      margin: 0 auto;
+    }
+
+    .muted-title {
+      font-size: 1.05rem;
+      letter-spacing: 0.01em;
+      margin: 0 0 0.35rem 0;
+    }
+  </style>
 </head>
 <body>
   <header>
@@ -34,32 +154,173 @@
 
   <main>
     <div class="container container-narrow">
-      <h1>Join VIA</h1>
-
-      <div class="content-section">
-        <p>Be part of VIA's first wave and get early access.</p>
+      <div class="join-hero">
+        <h1>Tell VIA what you want to do</h1>
+        <p>
+          Write naturally, like you would message a friend.
+          Share what you are looking for, or what you are offering.
+          We will capture the useful details so we can route you faster.
+        </p>
       </div>
 
-      <div style="max-width: 400px; margin: 2rem auto; text-align: center;">
-        <form action="https://api.web3forms.com/submit" method="POST" style="margin-top: 1rem;">
-          <input type="hidden" name="access_key" value="12fa6fe4-3b05-4bb6-8d28-b94420492e70">
-          <input type="hidden" name="subject" value="VIA interest">
-          <input type="hidden" name="redirect" value="https://getvia.xyz/thanks/index.html">
-          <input type="hidden" name="source" id="source" value="General">
+      <!-- 1) Intent input (PRIMARY) -->
+      <section class="card" aria-label="Share your intent">
+        <h2 class="muted-title">1) Share your intent</h2>
+        <p class="small-note">
+          This is the main thing. If you only do one thing here, do this.
+        </p>
 
-          <div class="form-group">
-            <label for="name">Name</label>
-            <input type="text" id="name" name="name" required>
+        <form id="intentForm" class="intent-grid" novalidate>
+          <input type="hidden" id="source" name="source" value="General">
+          <input type="hidden" id="referrer" name="referrer" value="">
+          <input type="hidden" id="userAgent" name="userAgent" value="">
+          <input type="hidden" id="sessionId" name="sessionId" value="">
+
+          <div>
+            <div class="role-row" role="group" aria-label="I am">
+              <strong style="margin-right: 0.35rem;">I am:</strong>
+              <label><input type="radio" name="role" value="buyer" checked> Looking for something</label>
+              <label><input type="radio" name="role" value="seller"> Offering something</label>
+              <label><input type="radio" name="role" value="both"> Both</label>
+              <label><input type="radio" name="role" value="unknown"> Not sure</label>
+            </div>
           </div>
 
-          <div class="form-group">
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" required>
+          <div>
+            <label for="rawInput"><strong>In your own words</strong></label>
+            <textarea
+              class="intent-textarea"
+              id="rawInput"
+              name="rawInput"
+              placeholder="Example: I’m looking for a tailor in Singapore who can do a suit in two weeks, budget around $1,000. Or: I sell handmade furniture in London, I can deliver locally."
+              required></textarea>
+
+            <div class="pill-row" aria-label="Example starters">
+              <button type="button" class="pill" data-insert="I’m looking for ">I’m looking for…</button>
+              <button type="button" class="pill" data-insert="I need help with ">I need help with…</button>
+              <button type="button" class="pill" data-insert="I’m offering ">I’m offering…</button>
+              <button type="button" class="pill" data-insert="I’m comparing options for ">I’m comparing options for…</button>
+              <button type="button" class="pill" data-insert="My budget is ">My budget is…</button>
+              <button type="button" class="pill" data-insert="I’m based in ">I’m based in…</button>
+            </div>
           </div>
 
-          <button type="submit" class="cta-button">Request access</button>
+          <div class="two-col">
+            <div class="form-group">
+              <label for="name">Name (optional)</label>
+              <input type="text" id="name" name="name" autocomplete="name">
+            </div>
+
+            <div class="form-group">
+              <label for="email">Email (optional)</label>
+              <input type="email" id="email" name="email" autocomplete="email">
+            </div>
+
+            <div class="form-group">
+              <label for="contactHandle">Telegram, X, WhatsApp (optional)</label>
+              <input type="text" id="contactHandle" name="contactHandle" placeholder="@handle or number">
+            </div>
+
+            <div class="form-group">
+              <label for="category">Category (optional)</label>
+              <input type="text" id="category" name="category" placeholder="e.g. travel, fashion, food, services">
+            </div>
+
+            <div class="form-group">
+              <label for="location">Location (optional)</label>
+              <input type="text" id="location" name="location" placeholder="e.g. Singapore, London, online">
+            </div>
+
+            <div class="form-group">
+              <label for="timeline">Timing (optional)</label>
+              <input type="text" id="timeline" name="timeline" placeholder="e.g. today, next week, this month">
+            </div>
+
+            <div class="form-group">
+              <label for="budget">Budget (optional)</label>
+              <input type="text" id="budget" name="budget" placeholder="e.g. 200, 500-1000, under 2k">
+            </div>
+
+            <div class="form-group">
+              <label for="constraints">Must-haves (optional)</label>
+              <input type="text" id="constraints" name="constraints" placeholder="e.g. fast turnaround, vegan, delivery">
+            </div>
+          </div>
+
+          <button type="submit" class="cta-button" id="intentSubmitBtn">Send</button>
+
+          <div class="status ok" id="intentOk">
+            <strong>Thanks.</strong> We have captured your request.
+            If you want a reply, leave an email above, or add one in the section below.
+          </div>
+
+          <div class="status err" id="intentErr">
+            <strong>Something went wrong.</strong>
+            Please try again, or use the email form below.
+          </div>
+
+          <p class="small-note" style="margin-top: 0.25rem;">
+            We do not need perfect details. Write what you know, we will handle the rest.
+          </p>
         </form>
-      </div>
+      </section>
+
+      <!-- 2) Claude MCP plugin instructions -->
+      <section class="card" aria-label="Use VIA in Claude">
+        <h2 class="muted-title">2) Use VIA in Claude</h2>
+        <p>
+          If you use Claude, you can connect VIA so your requests can be handled through an agent workflow.
+          Other assistants are coming.
+        </p>
+
+        <ol style="margin-top: 0.75rem;">
+          <li>Open Claude.</li>
+          <li>Go to connectors or tools, add a new MCP server.</li>
+          <li>Paste the VIA server address:</li>
+        </ol>
+
+        <div class="codebox" id="mcpEndpoint">https://getvia.xyz/mcp</div>
+
+        <div class="divider"></div>
+
+        <p class="small-note" style="margin-bottom: 0.5rem;">
+          Copy and paste this into Claude to start:
+        </p>
+        <div class="codebox" id="starterPrompt">I want to use VIA. Ask me a few questions to clarify what I want. Then summarise it as a short card with: what I want, where, when, budget, and any must-haves. Keep it simple. At the end, tell me to submit it at https://getvia.xyz/join</div>
+
+        <p class="small-note" style="margin-top: 0.75rem;">
+          If you do not see connectors/tools in Claude yet, use the intent box above or leave your email below.
+        </p>
+      </section>
+
+      <!-- 3) Email-only fallback (secondary) -->
+      <section class="card" aria-label="Email access">
+        <h2 class="muted-title">3) Want updates by email?</h2>
+        <p class="small-note">
+          If you prefer, just leave your email and we will keep you in the loop.
+        </p>
+
+        <div class="secondary-form">
+          <form id="emailOnlyForm" action="https://api.web3forms.com/submit" method="POST" style="margin-top: 1rem;">
+            <input type="hidden" name="access_key" value="12fa6fe4-3b05-4bb6-8d28-b94420492e70">
+            <input type="hidden" name="subject" value="VIA interest">
+            <input type="hidden" name="redirect" value="https://getvia.xyz/thanks.html">
+            <input type="hidden" name="source" id="source_email" value="General">
+
+            <div class="form-group">
+              <label for="name_email">Name</label>
+              <input type="text" id="name_email" name="name" required>
+            </div>
+
+            <div class="form-group">
+              <label for="email_email">Email</label>
+              <input type="email" id="email_email" name="email" required>
+            </div>
+
+            <button type="submit" class="cta-button">Request access</button>
+          </form>
+        </div>
+      </section>
 
       <nav class="bottom-nav" aria-label="Main navigation">
         <a href="index.html" class="bottom-nav-link">Home</a>
@@ -83,14 +344,210 @@
 
   <script>
     (function() {
+      // Capture attribution
       const params = new URLSearchParams(window.location.search);
       const src = params.get('src');
+      const sourceValue = src ? src : 'General';
+
       const sourceInput = document.getElementById('source');
-      if (sourceInput) {
-        sourceInput.value = src ? src : 'General';
+      const sourceEmail = document.getElementById('source_email');
+
+      if (sourceInput) sourceInput.value = sourceValue;
+      if (sourceEmail) sourceEmail.value = sourceValue;
+
+      const referrerInput = document.getElementById('referrer');
+      const uaInput = document.getElementById('userAgent');
+      if (referrerInput) referrerInput.value = document.referrer || '';
+      if (uaInput) uaInput.value = navigator.userAgent || '';
+
+      // Session id for anonymous tracking
+      const key = 'via_session_id';
+      let sid = localStorage.getItem(key);
+      if (!sid) {
+        sid = (crypto && crypto.randomUUID) ? crypto.randomUUID() : String(Date.now()) + '_' + Math.random().toString(16).slice(2);
+        localStorage.setItem(key, sid);
       }
+      const sessionIdInput = document.getElementById('sessionId');
+      if (sessionIdInput) sessionIdInput.value = sid;
+
+      // Example starter pills
+      const raw = document.getElementById('rawInput');
+      document.querySelectorAll('[data-insert]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          if (!raw) return;
+          const text = btn.getAttribute('data-insert') || '';
+          const current = raw.value || '';
+          if (!current.trim()) raw.value = text;
+          raw.focus();
+        });
+      });
     })();
   </script>
+
+  <script>
+    // Supabase REST insert for intent submissions
+    // Paste your details here
+    const SUPABASE_URL = "";      // e.g. https://xxxx.supabase.co
+    const SUPABASE_ANON_KEY = ""; // your anon public key
+
+    function showStatus(ok, msg) {
+      const okEl = document.getElementById('intentOk');
+      const errEl = document.getElementById('intentErr');
+      if (okEl) okEl.className = "status ok";
+      if (errEl) errEl.className = "status err";
+      if (ok) {
+        if (okEl) {
+          okEl.style.display = "block";
+          if (msg) okEl.innerHTML = msg;
+        }
+        if (errEl) errEl.style.display = "none";
+      } else {
+        if (errEl) {
+          errEl.style.display = "block";
+          if (msg) errEl.innerHTML = msg;
+        }
+        if (okEl) okEl.style.display = "none";
+      }
+    }
+
+    function parseBudgetToMinMax(input) {
+      // Very light parsing, if ambiguous we just store nothing and keep raw in extra
+      const s = (input || "").trim();
+      if (!s) return { min: null, max: null };
+      const cleaned = s.replace(/[,]/g, "").toLowerCase();
+
+      // Range like 500-1000
+      const rangeMatch = cleaned.match(/(\d+)\s*[-to]+\s*(\d+)/);
+      if (rangeMatch) {
+        const a = Number(rangeMatch[1]);
+        const b = Number(rangeMatch[2]);
+        if (Number.isFinite(a) && Number.isFinite(b)) {
+          return { min: Math.min(a,b), max: Math.max(a,b) };
+        }
+      }
+
+      // Single number
+      const singleMatch = cleaned.match(/(\d+)/);
+      if (singleMatch) {
+        const n = Number(singleMatch[1]);
+        if (Number.isFinite(n)) return { min: n, max: null };
+      }
+
+      return { min: null, max: null };
+    }
+
+    async function submitIntentToSupabase(payload) {
+      if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
+        throw new Error("Supabase not configured");
+      }
+
+      const url = SUPABASE_URL.replace(/\/$/, "") + "/rest/v1/intents";
+      const res = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "apikey": SUPABASE_ANON_KEY,
+          "Authorization": "Bearer " + SUPABASE_ANON_KEY,
+          "Prefer": "return=minimal"
+        },
+        body: JSON.stringify(payload)
+      });
+
+      if (!res.ok) {
+        const txt = await res.text().catch(() => "");
+        throw new Error("Insert failed: " + res.status + " " + txt);
+      }
+    }
+
+    (function() {
+      const form = document.getElementById('intentForm');
+      const btn = document.getElementById('intentSubmitBtn');
+
+      if (!form) return;
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const rawInput = (document.getElementById('rawInput') || {}).value || "";
+        if (!rawInput.trim()) {
+          showStatus(false, "<strong>Please write a quick message above.</strong>");
+          return;
+        }
+
+        const role = (form.querySelector('input[name="role"]:checked') || {}).value || "unknown";
+        const name = (document.getElementById('name') || {}).value || null;
+        const email = (document.getElementById('email') || {}).value || null;
+        const contactHandle = (document.getElementById('contactHandle') || {}).value || null;
+
+        const category = (document.getElementById('category') || {}).value || null;
+        const location = (document.getElementById('location') || {}).value || null;
+        const timeline = (document.getElementById('timeline') || {}).value || null;
+        const constraints = (document.getElementById('constraints') || {}).value || null;
+
+        const budgetRaw = (document.getElementById('budget') || {}).value || "";
+        const budget = parseBudgetToMinMax(budgetRaw);
+
+        const source = (document.getElementById('source') || {}).value || "General";
+        const referrer = (document.getElementById('referrer') || {}).value || "";
+        const userAgent = (document.getElementById('userAgent') || {}).value || "";
+        const sessionId = (document.getElementById('sessionId') || {}).value || null;
+
+        // Payload aligned to the columns we added earlier
+        const payload = {
+          user_name: name,
+          description: null,           // keep legacy empty
+          value: null,                 // keep legacy empty unless you want to map it
+          merchant_name: null,         // optional, not collecting here
+
+          role: role,
+          raw_input: rawInput,
+          contact_email: email,
+          contact_handle: contactHandle,
+
+          category: category,
+          location: location,
+          timeline: timeline,
+          constraints: constraints,
+
+          budget_min: budget.min,
+          budget_max: budget.max,
+
+          source: source,
+          referrer: referrer,
+          session_id: sessionId,
+
+          extra: {
+            budget_raw: budgetRaw || null,
+            user_agent: userAgent || null
+          }
+        };
+
+        try {
+          if (btn) {
+            btn.disabled = true;
+            btn.textContent = "Sending...";
+          }
+
+          await submitIntentToSupabase(payload);
+
+          showStatus(true, "<strong>Thanks.</strong> We have captured your request. If you want a reply, add an email above.");
+
+          // Optional: clear only the big box to encourage a second submission
+          // document.getElementById('rawInput').value = "";
+
+        } catch (err) {
+          showStatus(false, "<strong>Something went wrong.</strong> Please try again, or use the email form below.");
+          console.error(err);
+        } finally {
+          if (btn) {
+            btn.disabled = false;
+            btn.textContent = "Send";
+          }
+        }
+      });
+    })();
+  </script>
+
   <script src="js/theme.js"></script>
 </body>
 </html>
