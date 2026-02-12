@@ -248,6 +248,7 @@
 
           <div class="status" id="intentOk">
             <strong>Thanks.</strong> We have saved your request.
+            Want to try it in Claude? Scroll down to the Claude section.
           </div>
 
           <div class="status" id="intentErr">
@@ -263,19 +264,23 @@
       <!-- 2) Claude MCP plugin -->
       <div class="content-section">
         <div class="section-number">2) Use VIA in Claude</div>
+
         <p>
           If you use Claude, you can connect VIA so it can handle requests through an agent workflow.
           Other assistants are coming.
         </p>
 
         <p class="note">
-          In Claude, go to connectors or tools, add an MCP server, then paste:
+          In Claude, go to connectors or tools, add an MCP server, then paste this address:
         </p>
 
-        <div class="codebox" id="mcpEndpoint">https://getvia.xyz/mcp</div>
+        <div class="codebox" id="mcpEndpoint">https://via-mcp-server.onrender.com</div>
 
-        <p class="note">Paste this into Claude to start:</p>
-        <div class="codebox">I want to use VIA. Ask me a few short questions to clarify what I want. Then summarise it as a simple card: what I want, where, when, budget, and must-haves. Keep it plain and human. At the end, tell me to submit it at https://getvia.xyz/join</div>
+        <p class="note">
+          Then just talk normally. For example:
+        </p>
+
+        <div class="codebox">Help me buy or sell something using VIA. Ask me a few short questions to clarify what I want. Then summarise it as a simple card: what I want, where, when, budget, and must-haves. Keep it plain and human. If you need anything else, ask.</div>
       </div>
 
       <!-- 3) Email fallback -->
@@ -414,19 +419,13 @@
       const okEl = document.getElementById('intentOk');
       const errEl = document.getElementById('intentErr');
 
-      function showOk(msg) {
-        if (okEl) {
-          okEl.classList.add('show');
-          if (msg) okEl.innerHTML = msg;
-        }
+      function showOk() {
+        if (okEl) okEl.classList.add('show');
         if (errEl) errEl.classList.remove('show');
       }
 
-      function showErr(msg) {
-        if (errEl) {
-          errEl.classList.add('show');
-          if (msg) errEl.innerHTML = msg;
-        }
+      function showErr() {
+        if (errEl) errEl.classList.add('show');
         if (okEl) okEl.classList.remove('show');
       }
 
@@ -437,7 +436,8 @@
 
         const rawInput = (document.getElementById('rawInput') || {}).value || "";
         if (!rawInput.trim()) {
-          showErr("<strong>Please write a quick message above.</strong>");
+          if (errEl) errEl.innerHTML = "<strong>Please write a quick message above.</strong>";
+          showErr();
           return;
         }
 
@@ -496,11 +496,11 @@
 
           await submitIntentToSupabase(payload);
 
-          showOk("<strong>Thanks.</strong> We have saved your request.");
+          showOk();
 
         } catch (err) {
           console.error(err);
-          showErr("<strong>Something went wrong.</strong> Please try again, or leave your email below.");
+          showErr();
         } finally {
           if (btn) {
             btn.disabled = false;
