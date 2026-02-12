@@ -117,6 +117,27 @@
         <div class="codebox">Help me buy or sell something using VIA. Ask me a few short questions to clarify what I want.</div>
       </div>
 
+      <div class="content-section">
+  <h3>Just want updates?</h3>
+  <p class="note">
+    Leave your email and we will let you know when VIA is live.
+  </p>
+
+  <form action="https://api.web3forms.com/submit" method="POST">
+    <input type="hidden" name="access_key" value="12fa6fe4-3b05-4bb6-8d28-b94420492e70">
+    <input type="hidden" name="subject" value="VIA updates request">
+    <input type="hidden" name="redirect" value="https://getvia.xyz/thanks.html">
+    <input type="hidden" name="source" id="updates_source" value="Join Page">
+
+    <div class="form-group">
+      <label for="updates_email">Email</label>
+      <input type="email" id="updates_email" name="email" required autocomplete="email">
+    </div>
+
+    <button type="submit" class="cta-button">Get updates</button>
+  </form>
+</div>
+
       <nav class="bottom-nav" aria-label="Main navigation">
         <a href="index.html" class="bottom-nav-link">Home</a>
         <a href="who.html" class="bottom-nav-link">Who?</a>
@@ -194,7 +215,47 @@
         btn.disabled = false;
         btn.textContent = "Send";
       }
-    });
+       });
+
+    // -------- EMAIL UPDATES FORM --------
+    const updatesForm = document.getElementById("updatesForm");
+    if (updatesForm) {
+      updatesForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const emailInput = document.getElementById("updatesEmail");
+        const email = emailInput.value.trim();
+        if (!email) return;
+
+        const payload = {
+          user_name: null,
+          contact_email: email,
+          role: "updates_only",
+          raw_input: null,
+          merchant_name: null,
+          source: "join_updates",
+          status: "new"
+        };
+
+        const btn = document.getElementById("updatesSubmitBtn");
+
+        try {
+          btn.disabled = true;
+          btn.textContent = "Sending...";
+
+          await submitIntent(payload);
+
+          btn.textContent = "Saved";
+          emailInput.value = "";
+        } catch (ex) {
+          console.error(ex);
+          alert("Something went wrong. Please try again.");
+        } finally {
+          btn.disabled = false;
+          btn.textContent = "Subscribe";
+        }
+      });
+    }
   </script>
 
   <script src="js/theme.js"></script>
