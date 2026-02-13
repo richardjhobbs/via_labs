@@ -270,7 +270,13 @@
           role: roleEl.value,
           raw_input: raw,
           source: "join_intent",   // IMPORTANT: matches hardened RLS policy
-          status: "new"
+          source: "join_intent",
+status: "new",
+role: "seller" | "buyer" | "excited",
+raw_input: "...",
+user_name: null or string,
+contact_email: null or string
+
         };
 
         const btn = document.getElementById("joinSubmitBtn");
