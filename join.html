@@ -1,193 +1,215 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Talk to VIA</title>
-  <link rel="stylesheet" href="css/main.css" />
-
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      transition: background 0.3s ease, color 0.3s ease;
-    }
-
-    body.light {
-      background: #ffffff;
-      color: #111111;
-    }
-
-    body.dark {
-      background: #111111;
-      color: #ffffff;
-    }
-
-    .nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1rem 2rem;
-    }
-
-    .nav-left,
-    .nav-right {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-
-    .logo {
-      height: 32px;
-    }
-
-    .toggle-btn {
-      cursor: pointer;
-      padding: 6px 10px;
-      border: 1px solid currentColor;
-      background: none;
-    }
-
-    .container {
-      max-width: 680px;
-      margin: 60px auto;
-      padding: 0 20px;
-    }
-
-    h1 {
-      font-size: 28px;
-      margin-bottom: 10px;
-    }
-
-    p {
-      line-height: 1.6;
-    }
-
-    .section {
-      margin-top: 40px;
-    }
-
-    .role-options {
-      display: flex;
-      gap: 20px;
-      margin-top: 10px;
-    }
-
-    input[type="text"],
-    input[type="email"] {
-      width: 100%;
-      padding: 10px;
-      margin-top: 10px;
-      border: 1px solid #ccc;
-    }
-
-    .submit-btn {
-      margin-top: 20px;
-      padding: 10px 16px;
-      border: none;
-      background: #000;
-      color: #fff;
-      cursor: pointer;
-    }
-
-    body.dark .submit-btn {
-      background: #fff;
-      color: #000;
-    }
-
-    .connector-box {
-      margin-top: 20px;
-      padding: 15px;
-      border: 1px solid currentColor;
-      word-break: break-word;
-    }
-
-    .example {
-      margin-top: 15px;
-      font-style: italic;
-    }
-  </style>
+  <meta name="description" content="VIA is just around the corner.">
+  <link rel="icon" type="image/png" href="images/VIA_logo_large_black.png">
+  <link rel="stylesheet" href="css/main.css">
 </head>
 
-<body class="light">
+<body>
 
-  <div class="nav">
-    <div class="nav-left">
-      <img id="viaLogo" src="images/VIA_logo_black.png" class="logo" alt="VIA Logo">
-    </div>
+<header>
+  <a href="index.html" class="logo" aria-label="VIA Home">
+    <img
+      id="logo"
+      src="images/VIA_logo_large_black.png"
+      alt="VIA Logo"
+      data-light="images/VIA_logo_large_black.png"
+      data-dark="images/VIA_logo_large_white.png"
+    >
+  </a>
+</header>
 
-    <div class="nav-right">
-      <a href="https://x.com" target="_blank">
-        <img id="xLogo" src="images/x_black.png" class="logo" alt="X Logo">
-      </a>
-      <button class="toggle-btn" onclick="toggleMode()">Day / Night</button>
-    </div>
-  </div>
+<button class="theme-toggle" id="themeToggle" aria-label="Toggle dark/light mode">
+  <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <circle cx="12" cy="12" r="5"></circle>
+  </svg>
+  <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+  </svg>
+</button>
 
-  <div class="container">
-    <h1>VIA is just around the corner</h1>
+<main>
+  <div class="container container-narrow">
 
-    <p>
+    <h1>VIA IS JUST AROUND THE CORNER</h1>
+
+    <p class="subtitle">
       Let us know what interests you about agentic commerce as a business owner or a seasoned shopper.
       Help us get ready to give you the tools and services that work best for you.
     </p>
 
-    <div class="section">
+    <section class="content-section">
       <h3>Are you</h3>
 
-      <div class="role-options">
-        <label><input type="radio" name="role" value="seller"> a seller</label>
-        <label><input type="radio" name="role" value="buyer"> a buyer</label>
-        <label><input type="radio" name="role" value="excited"> just excited!</label>
-      </div>
-    </div>
+      <form id="joinForm">
 
-    <div class="section">
-      <h3>Your Details</h3>
-      <input type="text" placeholder="Name">
-      <input type="email" placeholder="Email">
-    </div>
+        <div class="form-group">
+          <label>
+            <input type="radio" name="role" value="seller" required>
+            a seller
+          </label>
+        </div>
 
-    <button class="submit-btn">Submit</button>
+        <div class="form-group">
+          <label>
+            <input type="radio" name="role" value="buyer">
+            a buyer
+          </label>
+        </div>
 
-    <div class="section">
+        <div class="form-group">
+          <label>
+            <input type="radio" name="role" value="excited">
+            just excited!
+          </label>
+        </div>
+
+        <div class="form-group" style="margin-top: 1.5rem;">
+          <h3>Your Details</h3>
+        </div>
+
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input id="name" name="name" type="text" required autocomplete="name">
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" required autocomplete="email">
+        </div>
+
+        <button class="cta-button" type="submit">Submit</button>
+
+      </form>
+    </section>
+
+    <section class="content-section">
       <h3>Use VIA with Claude</h3>
 
       <p>
-        Other AI plugins are on their way. Just add a connector in your settings:
+        Use VIA with Claude (other AI plugins are on their way!). Just add a connector in your settings:
       </p>
 
-      <div class="connector-box">
-        https://via-mcp-server.onrender.com
-      </div>
+      <p style="margin-top:0.75rem;">
+        <strong>https://via-mcp-server.onrender.com</strong>
+      </p>
 
-      <div class="example">
-        I am interested in getting my store into the VIA network.
-        Ask me a few questions so we can set this up easily.
-      </div>
-    </div>
+      <p style="margin-top:0.75rem;">Then have a normal chat, for example:</p>
+
+      <p style="margin-top:0.75rem;">
+        <em>
+          I am interested in getting my store into the VIA network. Ask me a few questions so we can set this up easily.
+        </em>
+      </p>
+    </section>
+
+    <!-- EMAIL UPDATES SECTION -->
+    <section class="content-section">
+      <h3>Email Updates</h3>
+      <p class="subtitle">
+        If you only want updates, leave your email below.
+      </p>
+
+      <form id="updatesForm">
+        <div class="form-group">
+          <label for="updatesEmail">Email</label>
+          <input
+            id="updatesEmail"
+            name="updatesEmail"
+            type="email"
+            required
+            autocomplete="email"
+          >
+        </div>
+
+        <button id="updatesSubmitBtn" class="cta-button" type="submit">
+          Subscribe
+        </button>
+      </form>
+    </section>
+
+    <!-- Bottom Nav -->
+    <nav class="bottom-nav" aria-label="Main navigation">
+      <a href="index.html" class="bottom-nav-link">Home</a>
+      <a href="who.html" class="bottom-nav-link">Who?</a>
+      <a href="what.html" class="bottom-nav-link">What?</a>
+      <a href="how.html" class="bottom-nav-link">How?</a>
+      <a href="paper.html" class="bottom-nav-link">Paper</a>
+      <a href="buyer.html" class="bottom-nav-link">Buyer?</a>
+      <a href="seller.html" class="bottom-nav-link">Seller?</a>
+    </nav>
 
   </div>
+</main>
 
-  <script>
-    function toggleMode() {
-      const body = document.body;
-      const viaLogo = document.getElementById('viaLogo');
-      const xLogo = document.getElementById('xLogo');
+<div class="footer-left">© VIA Labs Pte Ltd</div>
 
-      if (body.classList.contains('light')) {
-        body.classList.remove('light');
-        body.classList.add('dark');
-        viaLogo.src = "images/VIA_logo_white.png";
-        xLogo.src = "images/x_white.png";
-      } else {
-        body.classList.remove('dark');
-        body.classList.add('light');
-        viaLogo.src = "images/VIA_logo_black.png";
-        xLogo.src = "images/x_black.png";
+<div class="footer-right">
+  <a href="paper.html" class="bottom-nav-link">Paper</a>
+
+  <a href="https://x.com/via_labs_sg"
+     target="_blank"
+     rel="noopener noreferrer"
+     class="social-link"
+     aria-label="VIA on X">
+    <img
+      id="socialIcon"
+      src="images/logo-black.png"
+      alt="X"
+      class="social-icon"
+      data-light="images/logo-black.png"
+      data-dark="images/logo-white.png"
+    >
+  </a>
+</div>
+
+<script>
+  // -------- EMAIL UPDATES FORM --------
+  const updatesForm = document.getElementById("updatesForm");
+  if (updatesForm) {
+    updatesForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const emailInput = document.getElementById("updatesEmail");
+      const email = emailInput.value.trim();
+      if (!email) return;
+
+      const payload = {
+        user_name: null,
+        contact_email: email,
+        role: "updates_only",
+        raw_input: null,
+        merchant_name: null,
+        source: "join_updates",
+        status: "new"
+      };
+
+      const btn = document.getElementById("updatesSubmitBtn");
+
+      try {
+        btn.disabled = true;
+        btn.textContent = "Sending...";
+
+        await submitIntent(payload);
+
+        btn.textContent = "Saved";
+        emailInput.value = "";
+      } catch (ex) {
+        console.error(ex);
+        alert("Something went wrong. Please try again.");
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "Subscribe";
       }
-    }
-  </script>
+    });
+  }
+</script>
+
+<script src="js/theme.js"></script>
 
 </body>
 </html>
