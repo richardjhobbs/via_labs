@@ -4,7 +4,7 @@
 
   // REQUIRED: set these for your project
   const SUPABASE_URL = "https://gcxyoujubqclenrhhill.supabase.co";
-  const SUPABASE_ANON_KEY = "Ysb_publishable_9A6RBeU9ogFMHPULhJPHpQ_SFkkKdtL";
+  const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdjeHlvdWp1YnFjbGVucmhoaWxsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA4NzYwMzIsImV4cCI6MjA4NjQ1MjAzMn0.q54LQf643l_dxtLRHhWYyLpvZfrysxJPiqemkGDa-x8";
 
   // Your table name from the schema export
   const TABLE = "intents";
