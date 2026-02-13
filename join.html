@@ -265,19 +265,15 @@
         if (!raw || !roleEl) return;
 
         const payload = {
-          user_name: name || null,
-          contact_email: email || null,
-          role: roleEl.value,
-          raw_input: raw,
-          source: "join_intent",   // IMPORTANT: matches hardened RLS policy
-          source: "join_intent",
-status: "new",
-role: "seller" | "buyer" | "excited",
-raw_input: "...",
-user_name: null or string,
-contact_email: null or string
+  user_name: name ? name : null,
+  contact_email: email ? email : null,
+  role: roleEl ? roleEl.value : null,
+  raw_input: raw,
+  source: "join_intent",
+  status: "new"
+};
 
-        };
+
 
         const btn = document.getElementById("joinSubmitBtn");
 
