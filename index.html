@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VIA - Making Agentic Commerce Work</title>
+  <meta name="description" content="VIA enables buyers to shop without ads and algorithms while helping sellers find real buyers through intelligent agent technology.">
+  <link rel="icon" type="image/png" href="images/VIA_logo_large_black.png">
+  <link rel="stylesheet" href="css/main.css">
+
+
+  <link rel="canonical" href="https://getvia.xyz/">
+
+<meta property="og:url" content="https://getvia.xyz/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="VIA - Making Agentic Commerce Work">
+<meta property="og:description" content="VIA enables buyers to shop without ads and algorithms while helping sellers find real buyers through intelligent agent technology.">
+<meta property="og:image" content="https://getvia.xyz/images/opengraph_2.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="VIA - Making Agentic Commerce Work">
+<meta name="twitter:description" content="VIA enables buyers to shop without ads and algorithms while helping sellers find real buyers through intelligent agent technology.">
+<meta name="twitter:image" content="https://getvia.xyz/images/opengraph_2.jpg">
+
+  <style>
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 2rem;
+      grid-auto-rows: 1fr;
+      align-items: stretch;
+    }
+
+    .bottom-nav {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-top: 3rem;
+  flex-wrap: wrap;
+}
+
+.bottom-nav-link {
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  font-size: 0.875rem;
+  line-height: 1;
+  color: inherit;
+  background: transparent;
+  transition: 
+    background-color 0.2s ease,
+    color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+}
+
+/* Hover / focus */
+.bottom-nav-link:hover,
+.bottom-nav-link:focus {
+  background-color: rgba(200, 90, 84, 0.12);
+  box-shadow: 0 0 6px rgba(200, 90, 84, 0.4);
+  transform: translateY(-1px);
+  text-decoration: none;
+}
+
+/* Active page (optional but recommended) */
+.bottom-nav-link.active {
+  background-color: var(--color-border);
+  color: white;
+}
+
+/* Dark mode tweak if needed */
+html.dark .bottom-nav-link {
+  border-color: var(--color-border);
+}
+
+    @media (max-width: 768px) {
+      .cards-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .card-link {
+      height: 100%;
+      display: block;
+    }
+
+    .card {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .card-arrow {
+      position: absolute;
+      bottom: 16px;
+      right: 16px;
+      color: var(--color-border);
+      opacity: 0.75;
+      transition: opacity 0.2s ease, transform 0.2s ease, filter 0.2s ease;
+      pointer-events: none;
+    }
+
+    .card:hover .card-arrow {
+      opacity: 1;
+      transform: translateX(6px);
+      filter: drop-shadow(0 0 6px rgba(200, 90, 84, 0.7));
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <a href="index.html" class="logo" aria-label="VIA Home">
+    <img id="logo" src="images/VIA_logo_large_black.png" alt="VIA Logo">
+  </a>
+</header>
+
+<button class="theme-toggle" id="themeToggle" aria-label="Toggle dark/light mode">
+  <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <circle cx="12" cy="12" r="5"></circle>
+    <line x1="12" y1="1" x2="12" y2="3"></line>
+    <line x1="12" y1="21" x2="12" y2="23"></line>
+    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+    <line x1="1" y1="12" x2="3" y2="12"></line>
+    <line x1="21" y1="12" x2="23" y2="12"></line>
+    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+  </svg>
+  <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+  </svg>
+</button>
+
+<main>
+  <div class="container">
+    <h1>Making Agentic Commerce Work</h1>
+
+    <div class="video-container">
+      <iframe
+        id="vimeo-player"
+        src="https://player.vimeo.com/video/1161363296?autoplay=1&controls=0&muted=1&loop=1"
+        frameborder="0"
+        allow="autoplay; fullscreen; picture-in-picture"
+        title="Introducing VIA">
+      </iframe>
+      <button id="audio-toggle" aria-label="Toggle video audio">🔇</button>
+    </div>
+
+    <div class="cards-grid">
+
+      <a href="buyer.html" class="card-link">
+        <article class="card">
+          <h2>Buyers</h2>
+          <p>Shopping without tabs, ads, or noise.</p>
+          <p>Your agent does the work.</p>
+          <p>Because who has time for all that scrolling through the wrong links!</p>
+
+          <span class="card-arrow">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </span>
+        </article>
+      </a>
+
+      <a href="seller.html" class="card-link">
+        <article class="card">
+          <h2>Sellers</h2>
+          <p>Don't waste cash on unproductive ads and paid promotions.</p>
+          <p>Build your business while your VIA agent finds and deals with real customers.</p>
+          <p>Save time and money. Do what matters.</p>
+
+          <span class="card-arrow">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </span>
+        </article>
+      </a>
+
+      <a href="what-is-via.html" class="card-link">
+        <article class="card">
+          <h2>What is VIA?</h2>
+          <p>Explore the FAQs and get a feel for agentic commerce.</p>
+          <p>Check Buyers or Sellers to see what’s relevant.</p>
+
+          <span class="card-arrow">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </span>
+        </article>
+      </a>
+
+      <article class="card" id="register-card">
+       <div class="info-card">
+  <h3>Talk to VIA</h3>
+  <p>
+    We will be live soon. Talk to an agent to get the latest news.
+    Whether you are a buyer, seller or just excited by the future.
+  </p>
+  <a href="/join.html" class="card-link">
+    Talk to VIA
+  </a>
+</div>
+
+
+        <span class="card-arrow">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </span>
+      </article>
+
+    </div>
+
+   <nav class="bottom-nav" aria-label="Main navigation">
+  <a href="index.html" class="bottom-nav-link">Home</a>
+  <a href="who.html" class="bottom-nav-link">Who?</a>
+  <a href="what.html" class="bottom-nav-link">What?</a>
+  <a href="how.html" class="bottom-nav-link">How?</a>
+  <a href="paper.html" class="bottom-nav-link">Paper</a>
+  <a href="buyer.html" class="bottom-nav-link">Buyer?</a>
+  <a href="seller.html" class="bottom-nav-link">Seller?</a>
+</nav>
+
+  </div>
+</main>
+
+<div class="footer-left">© VIA Labs Pte Ltd</div>
+<div class="footer-right">
+  <a href="paper.html" class="bottom-nav-link">Paper</a>
+  <a href="https://x.com/via_labs_sg" target="_blank" rel="noopener noreferrer" class="social-link">
+  <img
+    id="socialIcon"
+    src="images/logo-black.png"
+    alt="X (Twitter)"
+    class="social-icon"
+    data-light="images/logo-black.png"
+    data-dark="images/logo-white.png"
+  >
+</a>
+
+</div>
+
+<script src="https://player.vimeo.com/api/player.js"></script>
+
+<!-- WORKING AUDIO TOGGLE (same as Buyers page) -->
+<script>
+  (function() {
+    let player;
+    let isMuted = true;
+    const audioButton = document.getElementById('audio-toggle');
+
+    window.addEventListener('load', function() {
+      const iframe = document.getElementById('vimeo-player');
+      if (!iframe || !audioButton) return;
+
+      player = new Vimeo.Player(iframe);
+      player.setVolume(0);
+      player.setLoop(true);
+
+      audioButton.addEventListener('click', function() {
+        if (isMuted) {
+          player.setVolume(1);
+          audioButton.textContent = '🔊';
+          isMuted = false;
+        } else {
+          player.setVolume(0);
+          audioButton.textContent = '🔇';
+          isMuted = true;
+        }
+      });
+    });
+  })();
+</script>
+
+<script src="js/theme.js"></script>
+<script src="js/forms.js"></script>
+
+</body>
+</html>
