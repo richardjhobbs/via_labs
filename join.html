@@ -1,215 +1,245 @@
 <!DOCTYPE html>
+<!-- JOIN_PAGE_V1 -->
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Talk to VIA</title>
-  <meta name="description" content="VIA is just around the corner.">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Join VIA</title>
+  <meta name="description" content="VIA is just around the corner. Tell us what you want to do with agentic commerce." />
+
   <link rel="icon" type="image/png" href="images/VIA_logo_large_black.png">
   <link rel="stylesheet" href="css/main.css">
 </head>
 
 <body>
+  <!-- Logo (matches site header positioning) -->
+  <header>
+    <a class="logo" href="index.html" aria-label="VIA home">
+      <img
+        id="siteLogo"
+        src="images/VIA_logo_large_black.png"
+        alt="VIA"
+        data-light="images/VIA_logo_large_black.png"
+        data-dark="images/VIA_logo_large_white.png"
+      />
+    </a>
+  </header>
 
-<header>
-  <a href="index.html" class="logo" aria-label="VIA Home">
-    <img
-      id="logo"
-      src="images/VIA_logo_large_black.png"
-      alt="VIA Logo"
-      data-light="images/VIA_logo_large_black.png"
-      data-dark="images/VIA_logo_large_white.png"
-    >
-  </a>
-</header>
+  <!-- Theme toggle (same as index) -->
+  <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+    <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+    <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+    </svg>
+  </button>
 
-<button class="theme-toggle" id="themeToggle" aria-label="Toggle dark/light mode">
-  <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-    <circle cx="12" cy="12" r="5"></circle>
-  </svg>
-  <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-  </svg>
-</button>
-
-<main>
-  <div class="container container-narrow">
-
-    <h1>VIA IS JUST AROUND THE CORNER</h1>
-
-    <p class="subtitle">
-      Let us know what interests you about agentic commerce as a business owner or a seasoned shopper.
-      Help us get ready to give you the tools and services that work best for you.
-    </p>
-
-    <section class="content-section">
-      <h3>Are you</h3>
-
-      <form id="joinForm">
-
-        <div class="form-group">
-          <label>
-            <input type="radio" name="role" value="seller" required>
-            a seller
-          </label>
-        </div>
-
-        <div class="form-group">
-          <label>
-            <input type="radio" name="role" value="buyer">
-            a buyer
-          </label>
-        </div>
-
-        <div class="form-group">
-          <label>
-            <input type="radio" name="role" value="excited">
-            just excited!
-          </label>
-        </div>
-
-        <div class="form-group" style="margin-top: 1.5rem;">
-          <h3>Your Details</h3>
-        </div>
-
-        <div class="form-group">
-          <label for="name">Name</label>
-          <input id="name" name="name" type="text" required autocomplete="name">
-        </div>
-
-        <div class="form-group">
-          <label for="email">Email</label>
-          <input id="email" name="email" type="email" required autocomplete="email">
-        </div>
-
-        <button class="cta-button" type="submit">Submit</button>
-
-      </form>
-    </section>
-
-    <section class="content-section">
-      <h3>Use VIA with Claude</h3>
-
-      <p>
-        Use VIA with Claude (other AI plugins are on their way!). Just add a connector in your settings:
-      </p>
-
-      <p style="margin-top:0.75rem;">
-        <strong>https://via-mcp-server.onrender.com</strong>
-      </p>
-
-      <p style="margin-top:0.75rem;">Then have a normal chat, for example:</p>
-
-      <p style="margin-top:0.75rem;">
-        <em>
-          I am interested in getting my store into the VIA network. Ask me a few questions so we can set this up easily.
-        </em>
-      </p>
-    </section>
-
-    <!-- EMAIL UPDATES SECTION -->
-    <section class="content-section">
-      <h3>Email Updates</h3>
+  <main>
+    <div class="container container-narrow">
+      <h1>VIA IS JUST AROUND THE CORNER</h1>
       <p class="subtitle">
-        If you only want updates, leave your email below.
+        Let us know what interests you about agentic commerce as a business owner or a seasoned shopper.
+        Help us get ready to give you the tools and services that work best for you.
       </p>
 
-      <form id="updatesForm">
+      <!-- Main join form -->
+      <section class="content-section">
+        <h3>Tell us what you would like to do</h3>
+
+        <form id="joinForm">
+          <div class="form-group">
+            <label>Are you</label>
+            <label><input type="radio" name="role" value="seller" required> a seller</label><br>
+            <label><input type="radio" name="role" value="buyer"> a buyer</label><br>
+            <label><input type="radio" name="role" value="excited"> just excited!</label>
+          </div>
+
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input id="name" name="name" type="text" autocomplete="name" required />
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" autocomplete="email" required />
+          </div>
+
+          <!-- Restored: original raw input text box -->
+          <div class="form-group">
+            <label for="rawInput">What would you like VIA to help you with?</label>
+            <textarea
+              id="rawInput"
+              name="rawInput"
+              rows="5"
+              placeholder="Tell us what you want to buy, sell, explore, compare, or build."
+              required
+            ></textarea>
+          </div>
+
+          <button class="cta-button" id="joinSubmitBtn" type="submit">Submit</button>
+        </form>
+      </section>
+
+      <!-- Claude / MCP panel -->
+      <section class="content-section">
+        <h3>Use VIA with Claude</h3>
+        <p>Use VIA with Claude (other AI plugins are on their way!). Just add a connector in your settings</p>
+
+        <!-- Restored: box around MCP server address -->
         <div class="form-group">
-          <label for="updatesEmail">Email</label>
+          <label for="mcpAddress">Connector address</label>
           <input
-            id="updatesEmail"
-            name="updatesEmail"
-            type="email"
-            required
-            autocomplete="email"
-          >
+            id="mcpAddress"
+            type="text"
+            value="https://via-mcp-server.onrender.com"
+            readonly
+            onclick="this.select()"
+          />
         </div>
 
-        <button id="updatesSubmitBtn" class="cta-button" type="submit">
-          Subscribe
-        </button>
-      </form>
-    </section>
+        <p>Then have a normal chat, for example:</p>
+        <p><em>I am interested in getting my store into the VIA network. Ask me a few questions so we can set this up easily.</em></p>
+      </section>
 
-    <!-- Bottom Nav -->
-    <nav class="bottom-nav" aria-label="Main navigation">
-      <a href="index.html" class="bottom-nav-link">Home</a>
-      <a href="who.html" class="bottom-nav-link">Who?</a>
-      <a href="what.html" class="bottom-nav-link">What?</a>
-      <a href="how.html" class="bottom-nav-link">How?</a>
-      <a href="paper.html" class="bottom-nav-link">Paper</a>
-      <a href="buyer.html" class="bottom-nav-link">Buyer?</a>
-      <a href="seller.html" class="bottom-nav-link">Seller?</a>
-    </nav>
+      <!-- Email updates (restored, sits before nav) -->
+      <section class="content-section">
+        <h3>Email Updates</h3>
+        <p>If you only want updates, leave your email below.</p>
 
+        <form id="updatesForm">
+          <div class="form-group">
+            <label for="updatesEmail">Email</label>
+            <input id="updatesEmail" type="email" autocomplete="email" required />
+          </div>
+          <button class="cta-button" id="updatesSubmitBtn" type="submit">Subscribe</button>
+        </form>
+      </section>
+
+      <!-- Bottom nav (same as rest of site) -->
+      <nav class="bottom-nav" aria-label="Main navigation">
+        <a href="index.html" class="bottom-nav-link">Home</a>
+        <a href="who.html" class="bottom-nav-link">Who?</a>
+        <a href="what.html" class="bottom-nav-link">What?</a>
+        <a href="how.html" class="bottom-nav-link">How?</a>
+        <a href="paper.html" class="bottom-nav-link">Paper</a>
+        <a href="buyer.html" class="bottom-nav-link">Buyer?</a>
+        <a href="seller.html" class="bottom-nav-link">Seller?</a>
+      </nav>
+    </div>
+  </main>
+
+  <!-- Fixed footer (same as index) -->
+  <div class="footer-left">© VIA Labs Pte Ltd</div>
+  <div class="footer-right">
+    <a href="paper.html" class="bottom-nav-link">Paper</a>
+    <a href="https://x.com/via_labs_sg" target="_blank" rel="noopener noreferrer" class="social-link">
+      <img
+        id="socialIcon"
+        src="images/logo-black.png"
+        alt="X (Twitter)"
+        class="social-icon"
+        data-light="images/logo-black.png"
+        data-dark="images/logo-white.png"
+      >
+    </a>
   </div>
-</main>
 
-<div class="footer-left">© VIA Labs Pte Ltd</div>
+  <script>
+    // Expects js/forms.js to provide submitIntent(payload)
+    const joinForm = document.getElementById("joinForm");
+    if (joinForm) {
+      joinForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
 
-<div class="footer-right">
-  <a href="paper.html" class="bottom-nav-link">Paper</a>
+        const name = document.getElementById("name").value.trim();
+        const email = document.getElementById("email").value.trim();
+        const raw = document.getElementById("rawInput").value.trim();
+        const roleEl = joinForm.querySelector('input[name="role"]:checked');
 
-  <a href="https://x.com/via_labs_sg"
-     target="_blank"
-     rel="noopener noreferrer"
-     class="social-link"
-     aria-label="VIA on X">
-    <img
-      id="socialIcon"
-      src="images/logo-black.png"
-      alt="X"
-      class="social-icon"
-      data-light="images/logo-black.png"
-      data-dark="images/logo-white.png"
-    >
-  </a>
-</div>
+        if (!name || !email || !raw || !roleEl) return;
 
-<script>
-  // -------- EMAIL UPDATES FORM --------
-  const updatesForm = document.getElementById("updatesForm");
-  if (updatesForm) {
-    updatesForm.addEventListener("submit", async (e) => {
-      e.preventDefault();
+        const payload = {
+          user_name: name,
+          contact_email: email,
+          role: roleEl.value,
+          raw_input: raw,
+          merchant_name: null,
+          source: "join",
+          status: "new"
+        };
 
-      const emailInput = document.getElementById("updatesEmail");
-      const email = emailInput.value.trim();
-      if (!email) return;
+        const btn = document.getElementById("joinSubmitBtn");
 
-      const payload = {
-        user_name: null,
-        contact_email: email,
-        role: "updates_only",
-        raw_input: null,
-        merchant_name: null,
-        source: "join_updates",
-        status: "new"
-      };
+        try {
+          btn.disabled = true;
+          btn.textContent = "Sending...";
 
-      const btn = document.getElementById("updatesSubmitBtn");
+          await submitIntent(payload);
 
-      try {
-        btn.disabled = true;
-        btn.textContent = "Sending...";
+          btn.textContent = "Saved";
+          joinForm.reset();
+        } catch (ex) {
+          console.error(ex);
+          alert("Something went wrong. Please try again.");
+        } finally {
+          btn.disabled = false;
+          btn.textContent = "Submit";
+        }
+      });
+    }
 
-        await submitIntent(payload);
+    // -------- EMAIL UPDATES FORM --------
+    const updatesForm = document.getElementById("updatesForm");
+    if (updatesForm) {
+      updatesForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
 
-        btn.textContent = "Saved";
-        emailInput.value = "";
-      } catch (ex) {
-        console.error(ex);
-        alert("Something went wrong. Please try again.");
-      } finally {
-        btn.disabled = false;
-        btn.textContent = "Subscribe";
-      }
-    });
-  }
-</script>
+        const emailInput = document.getElementById("updatesEmail");
+        const email = emailInput.value.trim();
+        if (!email) return;
 
-<script src="js/theme.js"></script>
+        const payload = {
+          user_name: null,
+          contact_email: email,
+          role: "updates_only",
+          raw_input: null,
+          merchant_name: null,
+          source: "join_updates",
+          status: "new"
+        };
 
+        const btn = document.getElementById("updatesSubmitBtn");
+
+        try {
+          btn.disabled = true;
+          btn.textContent = "Sending...";
+
+          await submitIntent(payload);
+
+          btn.textContent = "Saved";
+          emailInput.value = "";
+        } catch (ex) {
+          console.error(ex);
+          alert("Something went wrong. Please try again.");
+        } finally {
+          btn.disabled = false;
+          btn.textContent = "Subscribe";
+        }
+      });
+    }
+  </script>
+
+  <script src="js/theme.js"></script>
+  <script src="js/forms.js"></script>
 </body>
 </html>
