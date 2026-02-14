@@ -723,13 +723,22 @@
         });
       });
 
-      const initialHash = window.location.hash ? window.location.hash.replace("#", "") : null;
-      if (initialHash && document.getElementById(initialHash)) {
-        openSection(initialHash, false);
-      } else {
-        openSection("section-architecture", false);
+      // INITIAL LANDING VIEW: keep everything collapsed on first load.
+// Only open a section if the URL contains a hash (eg. #section-roadmap).
+const initialHash = window.location.hash ? window.location.hash.replace("#", "") : null;
+
+closeAll();
+tabs.forEach(t => t.classList.remove("active"));
+
+if (initialHash && document.getElementById(initialHash)) {
+  openSection(initialHash, false);
+  // keep tab highlight in sync
+  const active = document.querySelector(`#paperTabs a[data-open="${initialHash}"]`);
+  if (active) active.classList.add("active");
+}
+
       }
-    })();
+    )();
   </script>
 
   <script src="js/theme.js"></script>
