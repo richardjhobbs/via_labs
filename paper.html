@@ -725,17 +725,15 @@
 
       // INITIAL LANDING VIEW: keep everything collapsed on first load.
 // Only open a section if the URL contains a hash (eg. #section-roadmap).
-const initialHash = window.location.hash ? window.location.hash.replace("#", "") : null;
-
+// INITIAL LANDING VIEW: ALWAYS start fully collapsed.
+// Clear any hash so nothing auto-opens (including MCP Servers).
 closeAll();
 tabs.forEach(t => t.classList.remove("active"));
 
-if (initialHash && document.getElementById(initialHash)) {
-  openSection(initialHash, false);
-  // keep tab highlight in sync
-  const active = document.querySelector(`#paperTabs a[data-open="${initialHash}"]`);
-  if (active) active.classList.add("active");
+if (window.location.hash) {
+  history.replaceState(null, "", window.location.pathname + window.location.search);
 }
+
 
       }
     )();
