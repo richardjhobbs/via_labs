@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>VIA, Verified 8004 Agent</title>
+  <meta name="description" content="Live proof from an active ERC-8004 agent on Base, rendered for humans.">
+
+  <link rel="icon" type="image/png" href="images/VIA_logo_large_black.png">
+  <link rel="stylesheet" href="css/main.css">
+
+  <link rel="canonical" href="https://getvia.xyz/proof.html">
+
+  <meta property="og:url" content="https://getvia.xyz/proof.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="VIA, Verified 8004 Agent">
+  <meta property="og:description" content="Live proof from an active ERC-8004 agent on Base, rendered for humans.">
+  <meta property="og:image" content="https://getvia.xyz/images/opengraph_2.jpg">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="VIA, Verified 8004 Agent">
+  <meta name="twitter:description" content="Live proof from an active ERC-8004 agent on Base, rendered for humans.">
+  <meta name="twitter:image" content="https://getvia.xyz/images/opengraph_2.jpg">
+
+  <style>
+    .proof-status {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      margin: 0.75rem 0 1rem;
+      justify-content: flex-start;
+    }
+
+    .proof-pill {
+      padding: 0.5rem 1rem;
+      border: 1px solid var(--color-border);
+      border-radius: 999px;
+      font-size: 0.875rem;
+      line-height: 1;
+      color: inherit;
+      background: transparent;
+    }
+
+    .proof-pill.ok { color: #0f7a4a; }
+    .proof-pill.bad { color: #b4233a; }
+    .proof-pill.warn { color: #8a6a00; }
+
+    html.dark .proof-pill.ok { color: #34d399; }
+    html.dark .proof-pill.bad { color: #fb7185; }
+    html.dark .proof-pill.warn { color: #fbbf24; }
+
+    .proof-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+      align-items: stretch;
+    }
+
+    @media (max-width: 768px) {
+      .proof-grid { grid-template-columns: 1fr; }
+    }
+
+    .proof-row {
+      border: 1px solid var(--color-border);
+      border-radius: 0.9rem;
+      padding: 1rem;
+      background: transparent;
+    }
+
+    .proof-label {
+      font-size: 0.85rem;
+      opacity: 0.75;
+      margin-bottom: 0.5rem;
+    }
+
+    .proof-value {
+      font-family: var(--font-mono);
+      font-size: 0.95rem;
+      line-height: 1.45;
+      word-break: break-word;
+    }
+
+    .proof-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+
+    .proof-btn {
+      padding: 0.6rem 1rem;
+      border: 1px solid var(--color-border);
+      border-radius: 999px;
+      font-size: 0.875rem;
+      line-height: 1;
+      color: inherit;
+      background: transparent;
+      transition: background-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+      cursor: pointer;
+    }
+
+    .proof-btn:hover,
+    .proof-btn:focus {
+      background-color: rgba(200, 90, 84, 0.12);
+      box-shadow: 0 0 6px rgba(200, 90, 84, 0.4);
+      transform: translateY(-1px);
+      text-decoration: none;
+      outline: none;
+    }
+
+    .proof-pre {
+      margin: 0;
+      white-space: pre-wrap;
+      word-break: break-word;
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+      line-height: 1.45;
+    }
+
+    .bottom-nav {
+      display: flex;
+      justify-content: center;
+      gap: 0.75rem;
+      margin-top: 3rem;
+      flex-wrap: wrap;
+    }
+
+    .bottom-nav-link {
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      border: 1px solid var(--color-border);
+      border-radius: 999px;
+      font-size: 0.875rem;
+      line-height: 1;
+      color: inherit;
+      background: transparent;
+      transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+    }
+
+    .bottom-nav-link:hover,
+    .bottom-nav-link:focus {
+      background-color: rgba(200, 90, 84, 0.12);
+      box-shadow: 0 0 6px rgba(200, 90, 84, 0.4);
+      transform: translateY(-1px);
+      text-decoration: none;
+    }
+
+    .bottom-nav-link.active {
+      background-color: var(--color-border);
+      color: white;
+    }
+  </style>
+</head>
+
+<body>
+<header>
+  <a href="index.html" class="logo" aria-label="VIA Home">
+    <img id="logo" src="images/VIA_logo_large_black.png" alt="VIA Logo">
+  </a>
+</header>
+
+<button class="theme-toggle" id="themeToggle" aria-label="Toggle dark/light mode">
+  <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <circle cx="12" cy="12" r="5"></circle>
+    <line x1="12" y1="1" x2="12" y2="3"></line>
+    <line x1="12" y1="21" x2="12" y2="23"></line>
+    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+    <line x1="1" y1="12" x2="3" y2="12"></line>
+    <line x1="21" y1="12" x2="23" y2="12"></line>
+    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+  </svg>
+  <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+  </svg>
+</button>
+
+<main>
+  <div class="container">
+    <h1>Verified 8004 Agent</h1>
+
+    <p class="subtitle">
+      Live proof from an active agent. Data is fetched from agent.getvia.xyz and verified in your browser.
+    </p>
+
+    <section class="content-section">
+      <div class="proof-status">
+        <span class="proof-pill warn" id="loadPill">Loading proof</span>
+        <span class="proof-pill warn" id="verifyPill">Signature verify: pending</span>
+        <span class="proof-pill" id="timePill">Timestamp: …</span>
+      </div>
+
+      <div class="proof-grid">
+        <div class="proof-row">
+          <div class="proof-label">AgentID (Base)</div>
+          <div class="proof-value" id="agentId">…</div>
+        </div>
+
+        <div class="proof-row">
+          <div class="proof-label">Chain</div>
+          <div class="proof-value" id="chain">…</div>
+        </div>
+
+        <div class="proof-row">
+          <div class="proof-label">Agent wallet</div>
+          <div class="proof-value" id="wallet">…</div>
+        </div>
+
+        <div class="proof-row">
+          <div class="proof-label">ERC-8004 Identity Registry</div>
+          <div class="proof-value" id="registry">…</div>
+        </div>
+
+        <div class="proof-row">
+          <div class="proof-label">agentURI (tokenURI)</div>
+          <div class="proof-value" id="agentURI">…</div>
+        </div>
+
+        <div class="proof-row">
+          <div class="proof-label">Signature</div>
+          <div class="proof-value" id="sig">…</div>
+        </div>
+      </div>
+
+      <div class="proof-actions">
+        <button class="proof-btn" id="refreshBtn" type="button">Refresh</button>
+        <button class="proof-btn" id="copyBtn" type="button">Copy proof JSON</button>
+        <button class="proof-btn" id="openBtn" type="button">Open proof JSON</button>
+      </div>
+
+      <div class="proof-row" style="margin-top: 1rem;">
+        <div class="proof-label">Proof payload</div>
+        <pre class="proof-pre" id="json">…</pre>
+      </div>
+    </section>
+
+    <nav class="bottom-nav" aria-label="Main navigation">
+      <a href="buyer.html" class="bottom-nav-link">Buyer</a>
+      <a href="seller.html" class="bottom-nav-link">Seller</a>
+      <a href="what-is-via.html" class="bottom-nav-link">FAQ</a>
+      <a href="paper.html" class="bottom-nav-link">Paper</a>
+      <a href="join.html" class="bottom-nav-link">Join</a>
+      <a href="proof.html" class="bottom-nav-link active">Proof</a>
+    </nav>
+  </div>
+</main>
+
+<div class="footer-left">© VIA Labs Pte Ltd</div>
+<div class="footer-right">
+  <a href="https://x.com/via_labs_sg" target="_blank" rel="noopener noreferrer" class="social-link">
+    <img
+      id="socialIcon"
+      src="images/logo-black.png"
+      alt="X (Twitter)"
+      class="social-icon"
+      data-light="images/logo-black.png"
+      data-dark="images/logo-white.png"
+    >
+  </a>
+</div>
+
+<script src="js/theme.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/ethers@6.13.4/dist/ethers.umd.min.js" crossorigin="anonymous"></script>
+
+<script>
+  const el = (id) => document.getElementById(id);
+
+  function setPill(node, kind, text) {
+    node.classList.remove("ok", "bad", "warn");
+    node.classList.add(kind);
+    node.textContent = text;
+  }
+
+  async function loadProof() {
+    setPill(el("loadPill"), "warn", "Loading proof");
+    setPill(el("verifyPill"), "warn", "Signature verify: pending");
+
+    const url = "https://agent.getvia.xyz/prove";
+    const res = await fetch(url, { cache: "no-store" });
+
+    if (!res.ok) {
+      setPill(el("loadPill"), "bad", "Failed to load proof JSON");
+      throw new Error("HTTP " + res.status);
+    }
+
+    const proof = await res.json();
+
+    el("agentId").textContent = String(proof.agentId ?? "");
+    el("wallet").textContent = String(proof.wallet ?? "");
+    el("registry").textContent = String(proof.registry ?? "");
+    el("agentURI").textContent = String(proof.agentURI ?? "");
+    el("sig").textContent = String(proof.signature ?? "");
+    el("chain").textContent = `chainId: ${proof.chainId ?? ""} (${proof.network ?? ""})`;
+    el("timePill").textContent = "Timestamp: " + (proof.timestampISO ?? "");
+    el("json").textContent = JSON.stringify(proof, null, 2);
+
+    try {
+      const msg = proof.message;
+      const sig = proof.signature;
+      const expected = (proof.wallet || "").toLowerCase();
+
+      const recovered = await ethers.verifyMessage(msg, sig);
+      const ok = (recovered || "").toLowerCase() === expected;
+
+      setPill(el("verifyPill"), ok ? "ok" : "bad", ok ? "Signature verify: PASS" : "Signature verify: FAIL");
+    } catch (e) {
+      setPill(el("verifyPill"), "bad", "Signature verify: ERROR");
+    }
+
+    setPill(el("loadPill"), "ok", "Proof loaded");
+  }
+
+  el("refreshBtn").addEventListener("click", () => loadProof().catch(() => {}));
+  el("copyBtn").addEventListener("click", async () => {
+    try {
+      await navigator.clipboard.writeText(el("json").textContent || "");
+      setPill(el("loadPill"), "ok", "Copied JSON");
+    } catch {
+      setPill(el("loadPill"), "bad", "Copy failed");
+    }
+  });
+  el("openBtn").addEventListener("click", () => window.open("https://agent.getvia.xyz/prove", "_blank", "noopener"));
+
+  loadProof().catch(() => {});
+</script>
+
+</body>
+</html>
