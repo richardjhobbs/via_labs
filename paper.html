@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- CANONICAL_PAPER_V3 -->
+<!-- CANONICAL_PAPER_V4 -->
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -231,12 +231,11 @@
             VIA is the interface layer where intent is expressed and responses are surfaced, then the protocol and coordination framework that enables routing, trust enforcement, discovery, and autonomous transactions between agents.
           </p>
 
-          <p><strong>The system is composed of four core components</strong></p>
+          <p><strong>The system is composed of three core components</strong></p>
           <ul>
             <li>Intent Interface</li>
-            <li>Agent Identity and Trust</li>
+            <li>Identity and Transactions</li>
             <li>Messaging and Discovery</li>
-            <li>Economic Settlement</li>
           </ul>
 
           <p class="architecture-numbered"><strong>1. Intent and Interface Layer, VIA</strong></p>
@@ -261,31 +260,63 @@
             <li>VIA is agnostic to commerce platforms, payment rails, and fulfilment systems</li>
           </ul>
 
-          <p class="architecture-numbered"><strong>2. Agent Identity, Trust, and Reputation, ERC-8004 Concepts</strong></p>
+          <p class="architecture-numbered"><strong>2. Identity and Transactions, Verifiable Agents and Agentic Settlement</strong></p>
+
           <p class="architecture-heading"><strong>Purpose</strong></p>
           <p>
-            Autonomous and semi-autonomous agents cannot safely operate using implicit platform trust. Explicit, verifiable trust primitives are required.
-            VIA integrates with ERC-8004 registries for verifiable agent identities and immutable reputation records which are vital for autonomous agent-to-agent transactions.
+            Agents cannot safely operate using implicit platform trust. Explicit, verifiable identity and enforceable transaction rules are required.
+            VIA integrates with ERC-8004 concepts and registries for verifiable agent identities, and combines this with agent-native settlement so that agents can exchange value in a way that is inspectable and automatable.
           </p>
 
-          <p class="architecture-heading"><strong>Core Trust Components</strong></p>
+          <p class="architecture-heading"><strong>Identity, what is verified</strong></p>
           <ul>
-            <li>Verifiable agent identity</li>
-            <li>On-chain representation of agent existence</li>
-            <li>Performance and interaction-based reputation signals</li>
+            <li>Verifiable agent identity, registered and resolvable</li>
+            <li>Wallet control, proven through signing</li>
+            <li>Consistency of identity metadata, including on-chain URI linkage</li>
+            <li>Reputation signals derived from observable interactions over time</li>
           </ul>
 
-          <p><strong>Functional Outcomes</strong></p>
+          <p class="architecture-heading"><strong>Live proof of identity</strong></p>
           <p>
-            Agents can decide whether to respond to an intent, scope what authority they grant to other agents, and engage in agent-to-agent interaction without central approval.
-            Trust is not inherited from a platform. Trust is accumulated through observable behaviour.
+            VIA operates a public proof page that demonstrates live signed attestations and in-browser verification. This is designed to be independently checkable, without relying on a platform to “vouch” for an agent.
+          </p>
+          <ul>
+            <li><a href="proof.html">Proof page</a></li>
+          </ul>
+
+          <p class="architecture-heading"><strong>Transactions, why agents need new settlement</strong></p>
+          <p>
+            Traditional payment systems are not designed for machine-to-machine interaction, sub-cent pricing, or conditional economic signals.
+            VIA supports agentic settlement patterns that allow value transfer to be embedded into agent-to-agent interaction flows.
           </p>
 
-          <p class="architecture-heading"><strong>Reference Documentation</strong></p>
+          <p class="architecture-heading"><strong>Settlement layer, x402</strong></p>
+          <p>
+            The x402 protocol provides a settlement layer optimised for agentic interaction, including micropayments and programmatic settlement.
+            This enables a clean link between identity, authority, and economic action.
+          </p>
+
+          <p><strong>Initial use cases</strong></p>
+          <ul>
+            <li>Paying agents to respond to intent</li>
+            <li>Incentivising relevance over volume</li>
+            <li>Compensating early or high-quality participation</li>
+          </ul>
+
+          <p class="architecture-heading"><strong>Reference documentation</strong></p>
           <ul>
             <li><a href="https://eips.ethereum.org/EIPS/eip-8004" target="_blank" rel="noopener noreferrer">https://eips.ethereum.org/EIPS/eip-8004</a></li>
             <li><a href="https://ethereum-magicians.org/t/erc-8004-agent-identity-and-trust/" target="_blank" rel="noopener noreferrer">https://ethereum-magicians.org/t/erc-8004-agent-identity-and-trust/</a></li>
+            <li><a href="https://blog.crossmint.com/what-is-x402/" target="_blank" rel="noopener noreferrer">https://blog.crossmint.com/what-is-x402/</a></li>
+            <li><a href="https://www.coinbase.com/blog/introducing-x402" target="_blank" rel="noopener noreferrer">https://www.coinbase.com/blog/introducing-x402</a></li>
+            <li><a href="https://alearesearch.substack.com/p/x402-payment-rails-for-the-agent" target="_blank" rel="noopener noreferrer">https://alearesearch.substack.com/p/x402-payment-rails-for-the-agent</a></li>
           </ul>
+
+          <p class="architecture-heading"><strong>Functional outcomes</strong></p>
+          <p>
+            Identity and transactions work together. Agents can decide whether to respond to an intent, scope what authority they grant to other agents, and engage in agent-to-agent interaction without central approval.
+            Trust is not inherited from a platform. Trust is accumulated through observable behaviour, and reinforced by verifiable identity and programmable economic consequences.
+          </p>
 
           <p class="architecture-numbered"><strong>3. Messaging and Discovery Layer, Nostr-Based Relays</strong></p>
           <p class="architecture-heading"><strong>Purpose</strong></p>
@@ -293,7 +324,7 @@
             Discovery and communication are handled through a relay-based messaging architecture inspired by Nostr, rather than central directories or proprietary APIs.
           </p>
 
-          <p class="architecture-heading"><strong>Rationale for Relay Architecture</strong></p>
+          <p class="architecture-heading"><strong>Rationale for relay architecture</strong></p>
           <ul>
             <li>No central index or gatekeeper</li>
             <li>Publish and subscribe semantics</li>
@@ -301,62 +332,34 @@
             <li>Censorship-resistant and extensible by design</li>
           </ul>
 
-          <p class="architecture-heading"><strong>Message Model</strong></p>
+          <p class="architecture-heading"><strong>Message model</strong></p>
           <p>
             Intent, responses, offers, acknowledgements, and settlement signals are represented as signed events.
             Events are broadcast to relays rather than addressed to a central service. Agents subscribe selectively based on relevance, trust rules, and declared capability.
             This ensures discovery remains open and cannot be monopolised by a single operator.
           </p>
 
-          <p class="architecture-heading"><strong>Capabilities Enabled</strong></p>
+          <p class="architecture-heading"><strong>Capabilities enabled</strong></p>
           <ul>
             <li>Decentralised agent discovery</li>
             <li>Agent-level filtering rather than platform-level ranking</li>
             <li>Interoperability across independent implementations</li>
           </ul>
 
-          <p class="architecture-heading"><strong>Reference Documentation</strong></p>
+          <p class="architecture-heading"><strong>Reference documentation</strong></p>
           <ul>
             <li><a href="https://nostr.com" target="_blank" rel="noopener noreferrer">https://nostr.com</a></li>
             <li><a href="https://github.com/nostr-protocol/nostr" target="_blank" rel="noopener noreferrer">https://github.com/nostr-protocol/nostr</a></li>
             <li><a href="https://nostr.how" target="_blank" rel="noopener noreferrer">https://nostr.how</a></li>
           </ul>
 
-          <p class="architecture-numbered"><strong>4. Agentic Payment Settlement Layer, x402</strong></p>
-          <p class="architecture-heading"><strong>Purpose</strong></p>
+          <p><strong>The coordination framework</strong></p>
           <p>
-            Traditional payment systems are not designed for machine-to-machine interaction, sub-cent pricing, or conditional economic signals.
-            The x402 protocol provides a settlement layer optimised for agentic interaction.
+            VIA is not a single protocol. It is the coordination framework that aligns intent schemas, agent identity and trust rules,
+            messaging conventions, and agentic settlement logic.
           </p>
 
-          <p class="architecture-heading"><strong>Capabilities</strong></p>
-          <ul>
-            <li>Micropayments</li>
-            <li>Programmatic settlement</li>
-            <li>Agent-to-agent value transfer</li>
-          </ul>
-
-          <p><strong>Initial Use Cases</strong></p>
-          <ul>
-            <li>Paying agents to respond to intent</li>
-            <li>Incentivising relevance over volume</li>
-            <li>Compensating early or high-quality participation</li>
-          </ul>
-
-          <p class="architecture-heading"><strong>Reference Documentation</strong></p>
-          <ul>
-            <li><a href="https://blog.crossmint.com/what-is-x402/" target="_blank" rel="noopener noreferrer">https://blog.crossmint.com/what-is-x402/</a></li>
-            <li><a href="https://www.coinbase.com/blog/introducing-x402" target="_blank" rel="noopener noreferrer">https://www.coinbase.com/blog/introducing-x402</a></li>
-            <li><a href="https://alearesearch.substack.com/p/x402-payment-rails-for-the-agent" target="_blank" rel="noopener noreferrer">https://alearesearch.substack.com/p/x402-payment-rails-for-the-agent</a></li>
-          </ul>
-
-          <p><strong>The Coordination Framework</strong></p>
-          <p>
-            VIA is not a single protocol. It is the coordination framework that aligns intent schemas, agent trust and reputation rules,
-            messaging conventions, and agentic payment settlement logic.
-          </p>
-
-          <p class="architecture-heading"><strong>Design Goals</strong></p>
+          <p class="architecture-heading"><strong>Design goals</strong></p>
           <ul>
             <li>VIA remains platform-agnostic</li>
             <li>Discovery cannot be captured by any single platform</li>
@@ -625,15 +628,14 @@
         </div>
       </section>
 
-    <nav class="bottom-nav" aria-label="Main navigation">
-  <a href="buyer.html" class="bottom-nav-link">Buyer</a>
-  <a href="seller.html" class="bottom-nav-link">Seller</a>
-  <a href="what-is-via.html" class="bottom-nav-link">FAQ</a>
-  <a href="paper.html" class="bottom-nav-link">Paper</a>
-  <a href="proof.html" class="bottom-nav-link">Proof</a>
-  <a href="join.html" class="bottom-nav-link">Join</a>
-</nav>
-
+      <nav class="bottom-nav" aria-label="Main navigation">
+        <a href="buyer.html" class="bottom-nav-link">Buyer</a>
+        <a href="seller.html" class="bottom-nav-link">Seller</a>
+        <a href="what-is-via.html" class="bottom-nav-link">FAQ</a>
+        <a href="paper.html" class="bottom-nav-link">Paper</a>
+        <a href="proof.html" class="bottom-nav-link">Proof</a>
+        <a href="join.html" class="bottom-nav-link">Join</a>
+      </nav>
 
     </div>
   </main>
@@ -688,7 +690,6 @@
         btn.setAttribute("aria-expanded", "true");
         content.style.display = "block";
         icon.textContent = "-";
-
         setActiveTab(sectionId);
 
         if (scrollIntoView) {
@@ -709,6 +710,7 @@
             btn.setAttribute("aria-expanded", "false");
             content.style.display = "none";
             icon.textContent = "+";
+            tabs.forEach(t => t.classList.remove("active"));
           } else {
             openSection(section.getAttribute("id"));
             history.replaceState(null, "", "#" + section.getAttribute("id"));
@@ -720,25 +722,22 @@
         tab.addEventListener("click", (e) => {
           e.preventDefault();
           const targetId = tab.getAttribute("data-open");
+          if (!targetId) return;
           openSection(targetId);
           history.replaceState(null, "", "#" + targetId);
         });
       });
 
-      // INITIAL LANDING VIEW: keep everything collapsed on first load.
-// Only open a section if the URL contains a hash (eg. #section-roadmap).
-// INITIAL LANDING VIEW: ALWAYS start fully collapsed.
-// Clear any hash so nothing auto-opens (including MCP Servers).
-closeAll();
-tabs.forEach(t => t.classList.remove("active"));
+      // INITIAL LANDING VIEW: always start fully collapsed.
+      // Do not auto-open any section on load.
+      closeAll();
+      tabs.forEach(t => t.classList.remove("active"));
 
-if (window.location.hash) {
-  history.replaceState(null, "", window.location.pathname + window.location.search);
-}
-
-
+      // If a hash is present, remove it so nothing appears "pre-selected".
+      if (window.location.hash) {
+        history.replaceState(null, "", window.location.pathname + window.location.search);
       }
-    )();
+    })();
   </script>
 
   <script src="js/theme.js"></script>
