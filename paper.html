@@ -211,6 +211,7 @@
         <h2>Litepaper - Contents</h2>
         <div class="tab-row" id="paperTabs">
           <a href="#section-architecture" data-open="section-architecture">Technical Architecture</a>
+          <a href="#section-identity" data-open="section-identity">Identity and Transactions</a>
           <a href="#section-roadmap" data-open="section-roadmap">Roadmap</a>
           <a href="#section-team" data-open="section-team">Team</a>
           <a href="#section-mcp" data-open="section-mcp">MCP Servers</a>
@@ -233,9 +234,9 @@
 
           <p><strong>The system is composed of three core components</strong></p>
           <ul>
-            <li>Intent Interface</li>
-            <li>Identity and Transactions</li>
+            <li>Intent and Interface</li>
             <li>Messaging and Discovery</li>
+            <li>Coordination Framework</li>
           </ul>
 
           <p class="architecture-numbered"><strong>1. Intent and Interface Layer, VIA</strong></p>
@@ -260,37 +261,110 @@
             <li>VIA is agnostic to commerce platforms, payment rails, and fulfilment systems</li>
           </ul>
 
-          <p class="architecture-numbered"><strong>2. Identity and Transactions, Verifiable Agents and Agentic Settlement</strong></p>
-
+          <p class="architecture-numbered"><strong>2. Messaging and Discovery Layer, Nostr-Based Relays</strong></p>
           <p class="architecture-heading"><strong>Purpose</strong></p>
           <p>
-            Agents cannot safely operate using implicit platform trust. Explicit, verifiable identity and enforceable transaction rules are required.
-            VIA integrates with ERC-8004 concepts and registries for verifiable agent identities, and combines this with agent-native settlement so that agents can exchange value in a way that is inspectable and automatable.
+            Discovery and communication are handled through a relay-based messaging architecture inspired by Nostr, rather than central directories or proprietary APIs.
           </p>
 
-          <p class="architecture-heading"><strong>Identity, what is verified</strong></p>
+          <p class="architecture-heading"><strong>Rationale for Relay Architecture</strong></p>
           <ul>
-            <li>Verifiable agent identity, registered and resolvable</li>
-            <li>Wallet control, proven through signing</li>
-            <li>Consistency of identity metadata, including on-chain URI linkage</li>
-            <li>Reputation signals derived from observable interactions over time</li>
+            <li>No central index or gatekeeper</li>
+            <li>Publish and subscribe semantics</li>
+            <li>Cryptographic signing of all messages</li>
+            <li>Censorship-resistant and extensible by design</li>
           </ul>
 
-          <p class="architecture-heading"><strong>Live proof of identity</strong></p>
+          <p class="architecture-heading"><strong>Message Model</strong></p>
           <p>
-            VIA operates a public proof page that demonstrates live signed attestations and in-browser verification. This is designed to be independently checkable, without relying on a platform to “vouch” for an agent.
+            Intent, responses, offers, and acknowledgements are represented as signed events.
+            Events are broadcast to relays rather than addressed to a central service. Agents subscribe selectively based on relevance, trust rules, and declared capability.
+            This ensures discovery remains open and cannot be monopolised by a single operator.
+          </p>
+
+          <p class="architecture-heading"><strong>Capabilities Enabled</strong></p>
+          <ul>
+            <li>Decentralised agent discovery</li>
+            <li>Agent-level filtering rather than platform-level ranking</li>
+            <li>Interoperability across independent implementations</li>
+          </ul>
+
+          <p class="architecture-heading"><strong>Reference Documentation</strong></p>
+          <ul>
+            <li><a href="https://nostr.com" target="_blank" rel="noopener noreferrer">https://nostr.com</a></li>
+            <li><a href="https://github.com/nostr-protocol/nostr" target="_blank" rel="noopener noreferrer">https://github.com/nostr-protocol/nostr</a></li>
+            <li><a href="https://nostr.how" target="_blank" rel="noopener noreferrer">https://nostr.how</a></li>
+          </ul>
+
+          <p class="architecture-numbered"><strong>3. The Coordination Framework</strong></p>
+          <p>
+            VIA is not a single protocol. It is the coordination framework that aligns intent schemas, trust rules, messaging conventions,
+            and transaction patterns so independent agents can work together without requiring a central marketplace.
+          </p>
+
+          <p class="architecture-heading"><strong>Design Goals</strong></p>
+          <ul>
+            <li>VIA remains platform-agnostic</li>
+            <li>Discovery cannot be captured by any single platform</li>
+            <li>Integration is possible without dependency</li>
+          </ul>
+
+          <p class="architecture-heading"><strong>Interoperability</strong></p>
+          <p>
+            VIA is designed to interoperate with verifiable platform MCP servers, commerce coordination protocols such as UCP,
+            and existing e-commerce infrastructure, including Shopify.
+          </p>
+
+          <p class="architecture-heading"><strong>Where identity and settlement live</strong></p>
+          <p>
+            Identity and settlement are treated as first-class infrastructure concerns and are detailed in the Identity and Transactions section.
+          </p>
+        </div>
+      </section>
+
+      <!-- Identity and Transactions -->
+      <section class="paper-section" id="section-identity">
+        <button class="paper-toggle paper-toggle-large" type="button" aria-expanded="false" aria-controls="content-identity">
+          <h2>Identity and Transactions</h2>
+          <span class="toggle-icon" aria-hidden="true">+</span>
+        </button>
+
+        <div class="paper-content" id="content-identity">
+          <p class="architecture-heading"><strong>Purpose</strong></p>
+          <p>
+            Agents cannot safely operate using implicit platform trust. For agents to negotiate, commit, and transact, identity must be verifiable and transactions must be enforceable.
+            VIA treats identity and settlement as infrastructure primitives, designed to be independently checkable and automation-friendly.
+          </p>
+
+          <p class="architecture-heading"><strong>Verifiable Agent Identity</strong></p>
+          <p>
+            VIA integrates with ERC-8004 concepts and registries for verifiable agent identity. This enables agents to be resolvable, attributable, and auditable without relying on a platform to vouch for them.
+          </p>
+
+          <p><strong>What an agent can prove</strong></p>
+          <ul>
+            <li>Wallet control, via signing</li>
+            <li>Registry linkage, via resolvable identity metadata</li>
+            <li>Freshness, via timestamped attestations</li>
+            <li>Authenticity, via independent verification</li>
+          </ul>
+
+          <p class="architecture-heading"><strong>Live proof</strong></p>
+          <p>
+            VIA operates a public proof page that demonstrates a live signed attestation and verifies it in-browser.
+            This is designed to be independently checkable and readable by humans.
           </p>
           <ul>
             <li><a href="proof.html">Proof page</a></li>
           </ul>
 
-          <p class="architecture-heading"><strong>Transactions, why agents need new settlement</strong></p>
+          <p class="architecture-heading"><strong>Transactions and settlement</strong></p>
           <p>
-            Traditional payment systems are not designed for machine-to-machine interaction, sub-cent pricing, or conditional economic signals.
-            VIA supports agentic settlement patterns that allow value transfer to be embedded into agent-to-agent interaction flows.
+            Traditional payment systems are not designed for machine-to-machine interaction, sub-cent pricing, or conditional settlement.
+            VIA supports agentic transaction patterns where value transfer can be embedded into agent-to-agent flows.
           </p>
 
-          <p class="architecture-heading"><strong>Settlement layer, x402</strong></p>
+          <p class="architecture-heading"><strong>x402 settlement layer</strong></p>
           <p>
             The x402 protocol provides a settlement layer optimised for agentic interaction, including micropayments and programmatic settlement.
             This enables a clean link between identity, authority, and economic action.
@@ -303,7 +377,7 @@
             <li>Compensating early or high-quality participation</li>
           </ul>
 
-          <p class="architecture-heading"><strong>Reference documentation</strong></p>
+          <p class="architecture-heading"><strong>Reference Documentation</strong></p>
           <ul>
             <li><a href="https://eips.ethereum.org/EIPS/eip-8004" target="_blank" rel="noopener noreferrer">https://eips.ethereum.org/EIPS/eip-8004</a></li>
             <li><a href="https://ethereum-magicians.org/t/erc-8004-agent-identity-and-trust/" target="_blank" rel="noopener noreferrer">https://ethereum-magicians.org/t/erc-8004-agent-identity-and-trust/</a></li>
@@ -312,64 +386,10 @@
             <li><a href="https://alearesearch.substack.com/p/x402-payment-rails-for-the-agent" target="_blank" rel="noopener noreferrer">https://alearesearch.substack.com/p/x402-payment-rails-for-the-agent</a></li>
           </ul>
 
-          <p class="architecture-heading"><strong>Functional outcomes</strong></p>
+          <p class="architecture-heading"><strong>Outcome</strong></p>
           <p>
-            Identity and transactions work together. Agents can decide whether to respond to an intent, scope what authority they grant to other agents, and engage in agent-to-agent interaction without central approval.
-            Trust is not inherited from a platform. Trust is accumulated through observable behaviour, and reinforced by verifiable identity and programmable economic consequences.
-          </p>
-
-          <p class="architecture-numbered"><strong>3. Messaging and Discovery Layer, Nostr-Based Relays</strong></p>
-          <p class="architecture-heading"><strong>Purpose</strong></p>
-          <p>
-            Discovery and communication are handled through a relay-based messaging architecture inspired by Nostr, rather than central directories or proprietary APIs.
-          </p>
-
-          <p class="architecture-heading"><strong>Rationale for relay architecture</strong></p>
-          <ul>
-            <li>No central index or gatekeeper</li>
-            <li>Publish and subscribe semantics</li>
-            <li>Cryptographic signing of all messages</li>
-            <li>Censorship-resistant and extensible by design</li>
-          </ul>
-
-          <p class="architecture-heading"><strong>Message model</strong></p>
-          <p>
-            Intent, responses, offers, acknowledgements, and settlement signals are represented as signed events.
-            Events are broadcast to relays rather than addressed to a central service. Agents subscribe selectively based on relevance, trust rules, and declared capability.
-            This ensures discovery remains open and cannot be monopolised by a single operator.
-          </p>
-
-          <p class="architecture-heading"><strong>Capabilities enabled</strong></p>
-          <ul>
-            <li>Decentralised agent discovery</li>
-            <li>Agent-level filtering rather than platform-level ranking</li>
-            <li>Interoperability across independent implementations</li>
-          </ul>
-
-          <p class="architecture-heading"><strong>Reference documentation</strong></p>
-          <ul>
-            <li><a href="https://nostr.com" target="_blank" rel="noopener noreferrer">https://nostr.com</a></li>
-            <li><a href="https://github.com/nostr-protocol/nostr" target="_blank" rel="noopener noreferrer">https://github.com/nostr-protocol/nostr</a></li>
-            <li><a href="https://nostr.how" target="_blank" rel="noopener noreferrer">https://nostr.how</a></li>
-          </ul>
-
-          <p><strong>The coordination framework</strong></p>
-          <p>
-            VIA is not a single protocol. It is the coordination framework that aligns intent schemas, agent identity and trust rules,
-            messaging conventions, and agentic settlement logic.
-          </p>
-
-          <p class="architecture-heading"><strong>Design goals</strong></p>
-          <ul>
-            <li>VIA remains platform-agnostic</li>
-            <li>Discovery cannot be captured by any single platform</li>
-            <li>Integration is possible without dependency</li>
-          </ul>
-
-          <p class="architecture-heading"><strong>Interoperability</strong></p>
-          <p>
-            VIA is designed to interoperate with verifiable platform MCP servers, commerce coordination protocols such as UCP,
-            and existing e-commerce infrastructure, including Shopify.
+            Identity and transactions work together. Agents can make decisions and commitments based on verifiable identity, defined authority, and observable consequences.
+            Trust is not inherited from a platform. Trust is earned through behaviour and reinforced through verifiable identity and settlement rules.
           </p>
         </div>
       </section>
@@ -690,6 +710,7 @@
         btn.setAttribute("aria-expanded", "true");
         content.style.display = "block";
         icon.textContent = "-";
+
         setActiveTab(sectionId);
 
         if (scrollIntoView) {
@@ -722,18 +743,16 @@
         tab.addEventListener("click", (e) => {
           e.preventDefault();
           const targetId = tab.getAttribute("data-open");
-          if (!targetId) return;
           openSection(targetId);
           history.replaceState(null, "", "#" + targetId);
         });
       });
 
-      // INITIAL LANDING VIEW: always start fully collapsed.
-      // Do not auto-open any section on load.
+      // INITIAL LANDING VIEW: ALWAYS start fully collapsed.
+      // Clear any hash so nothing auto-opens.
       closeAll();
       tabs.forEach(t => t.classList.remove("active"));
 
-      // If a hash is present, remove it so nothing appears "pre-selected".
       if (window.location.hash) {
         history.replaceState(null, "", window.location.pathname + window.location.search);
       }
