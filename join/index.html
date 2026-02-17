@@ -1,22 +1,85 @@
 <!DOCTYPE html>
+<!-- JOIN_PAGE_V4 -->
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Join VIA - VIA - Making Agentic Commerce Work</title>
-  <meta name="description" content="Join VIA early access and be part of the first cohort.">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Join VIA</title>
+  <meta name="description" content="VIA is just around the corner. Tell us what you want to do with agentic commerce." />
+
   <link rel="icon" type="image/png" href="images/VIA_logo_large_black.png">
   <link rel="stylesheet" href="css/main.css">
+
+  <style>
+    .join-inline-role {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 18px;
+      margin-bottom: 18px;
+    }
+    .join-inline-role .role-label {
+      font-weight: 700;
+      margin-right: 6px;
+    }
+    .join-inline-role label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin: 0;
+    }
+
+    .join-two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-top: 14px;
+    }
+    @media (max-width: 720px) {
+      .join-two-col { grid-template-columns: 1fr; }
+    }
+
+    .join-textarea {
+      min-height: 210px;
+      resize: vertical;
+    }
+
+    .join-helper {
+      margin-top: 10px;
+      opacity: 0.9;
+    }
+
+    .join-thanks {
+      margin-top: 14px;
+      opacity: 0.9;
+    }
+
+    .claude-spacing p {
+      margin-top: 14px;
+      margin-bottom: 0;
+    }
+    .claude-spacing .form-group {
+      margin-top: 16px;
+    }
+  </style>
 </head>
+
 <body>
   <header>
-    <a href="index.html" class="logo" aria-label="VIA Home">
-      <img id="logo" src="images/VIA_logo_large_black.png" alt="VIA Logo">
+    <a class="logo" href="index.html" aria-label="VIA home">
+      <img
+        id="logo"
+        src="images/VIA_logo_large_black.png"
+        alt="VIA"
+        data-light="images/VIA_logo_large_black.png"
+        data-dark="images/VIA_logo_large_white.png"
+      />
     </a>
   </header>
 
-  <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark/light mode">
-    <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+  <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+    <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
       <circle cx="12" cy="12" r="5"></circle>
       <line x1="12" y1="1" x2="12" y2="3"></line>
       <line x1="12" y1="21" x2="12" y2="23"></line>
@@ -27,70 +90,213 @@
       <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
       <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
     </svg>
-    <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+    <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
       <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
     </svg>
   </button>
 
   <main>
     <div class="container container-narrow">
-      <h1>Join VIA</h1>
+      <h1>VIA IS JUST AROUND THE CORNER</h1>
 
-      <div class="content-section">
-        <p>Be part of VIA's first wave and get early access.</p>
-      </div>
+      <p class="subtitle">
+        Let us know what interests you about agentic commerce as a business owner or a seasoned shopper.
+        Help us get ready to give you the tools and services that work best for you.
+      </p>
 
-      <div style="max-width: 400px; margin: 2rem auto; text-align: center;">
-        <form action="https://api.web3forms.com/submit" method="POST" style="margin-top: 1rem;">
-          <input type="hidden" name="access_key" value="12fa6fe4-3b05-4bb6-8d28-b94420492e70">
-          <input type="hidden" name="subject" value="VIA interest">
-          <input type="hidden" name="redirect" value="https://getvia.xyz/thanks.html">
-          <input type="hidden" name="source" id="source" value="General">
+      <section class="content-section">
+        <form id="joinForm">
+          <div class="join-inline-role">
+            <span class="role-label">Are you</span>
 
-          <div class="form-group">
-            <label for="name">Name</label>
-            <input type="text" id="name" name="name" required>
+            <label>
+              <input type="radio" name="role" value="seller" required>
+              a seller
+            </label>
+
+            <label>
+              <input type="radio" name="role" value="buyer">
+              a buyer
+            </label>
+
+            <label>
+              <input type="radio" name="role" value="excited">
+              excited!
+            </label>
           </div>
 
           <div class="form-group">
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" required>
+            <label for="rawInput">What could VIA help you with?</label>
+            <textarea
+              id="rawInput"
+              name="rawInput"
+              class="join-textarea"
+              rows="8"
+              placeholder="Tell us what you want to buy, sell, explore, compare, or build."
+              required
+            ></textarea>
+
+            <p class="join-helper">
+              If you like, leave your contact and we will let you know when VIA is live. No spam. Promise!
+            </p>
           </div>
 
-          <button type="submit" class="cta-button">Request access</button>
+          <div class="join-two-col">
+            <div class="form-group">
+              <label for="name">Name</label>
+              <input id="name" name="name" type="text" autocomplete="name" />
+            </div>
+
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input id="email" name="email" type="email" autocomplete="email" />
+            </div>
+          </div>
+
+          <button class="cta-button" id="joinSubmitBtn" type="submit">Submit</button>
+
+          <p class="join-thanks">
+            Thanks for reaching out. We appreciate your interest.
+          </p>
         </form>
-      </div>
+      </section>
+
+      <section class="content-section claude-spacing">
+        <h3>Use VIA with Claude on paid plans</h3>
+
+        <p>Use VIA with Claude (other AI plugins are on their way!).</p>
+        <p>Just add a connector in your settings</p>
+
+        <p><strong>Connector address</strong></p>
+
+        <div class="form-group">
+          <input
+            id="mcpAddress"
+            type="text"
+            value="https://via-mcp-server.onrender.com/mcp"
+            readonly
+            onclick="this.select()"
+          />
+        </div>
+
+        <p>Then have a normal chat, for example:</p>
+        <p>
+          <em>
+            I am interested in getting my store into the VIA network. Ask me a few questions so we can set this up easily.
+          </em>
+        </p>
+      </section>
+
+      <!-- EMAIL ONLY: Web3Forms ONLY -->
+      <section class="content-section">
+        <h3>Email Updates</h3>
+        <p>If you only want updates, leave your email below.</p>
+        <p></p>
+
+        <form
+          id="updatesForm"
+          action="https://api.web3forms.com/submit"
+          method="POST"
+        >
+          <!-- Web3Forms key already present in your repo (join/index.html) -->
+          <input type="hidden" name="access_key" value="12fa6fe4-3b05-4bb6-8d28-b94420492e70">
+          <input type="hidden" name="subject" value="VIA Updates Only">
+          <input type="hidden" name="from_name" value="VIA Labs">
+          <input type="hidden" name="redirect" value="thanks.html">
+          <input type="hidden" name="source" value="join_updates">
+
+          <div class="form-group">
+            <label for="updatesEmail">Email</label>
+            <input id="updatesEmail" name="email" type="email" autocomplete="email" required />
+          </div>
+
+          <button class="cta-button" id="updatesSubmitBtn" type="submit">Subscribe</button>
+        </form>
+      </section>
 
       <nav class="bottom-nav" aria-label="Main navigation">
-        <a href="index.html" class="bottom-nav-link">Home</a>
-        <a href="who.html" class="bottom-nav-link">Who?</a>
-        <a href="what.html" class="bottom-nav-link">What?</a>
-        <a href="how.html" class="bottom-nav-link">How?</a>
-        <a href="paper.html" class="bottom-nav-link">Paper</a>
-        <a href="buyer.html" class="bottom-nav-link">Buyer?</a>
-        <a href="seller.html" class="bottom-nav-link">Seller?</a>
-      </nav>
+  <a href="buyer.html" class="bottom-nav-link">Buyer</a>
+  <a href="seller.html" class="bottom-nav-link">Seller</a>
+  <a href="what-is-via.html" class="bottom-nav-link">FAQ</a>
+  <a href="paper.html" class="bottom-nav-link">Paper</a>
+  <a href="proof.html" class="bottom-nav-link">Proof</a>
+  <a href="join.html" class="bottom-nav-link">Join</a>
+</nav>
+
+
+
     </div>
   </main>
 
   <div class="footer-left">© VIA Labs Pte Ltd</div>
-
   <div class="footer-right">
-    <a href="https://x.com/via_labs_sg" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Follow VIA Labs on X">
-      <img id="socialIcon" src="images/logo-black.png" alt="X (Twitter)" class="social-icon">
+    <a href="https://x.com/via_labs_sg" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="VIA on X">
+      <img
+        id="socialIcon"
+        src="images/logo-black.png"
+        alt="X (Twitter)"
+        class="social-icon"
+        data-light="images/logo-black.png"
+        data-dark="images/logo-white.png"
+      >
     </a>
   </div>
 
+  <!-- theme.js controls logo + X icon swapping using data-light/data-dark -->
+  <script src="js/intent.js"></script>
+<script src="js/theme.js"></script>
+<script src="js/forms.js"></script>
+
+
   <script>
-    (function() {
-      const params = new URLSearchParams(window.location.search);
-      const src = params.get('src');
-      const sourceInput = document.getElementById('source');
-      if (sourceInput) {
-        sourceInput.value = src ? src : 'General';
-      }
-    })();
+    // NOTE:
+    // This file expects a global submitIntent(payload) function to exist.
+    // If you implemented submitIntent elsewhere, keep it loaded before this runs.
+    // If you have not, the console will show "submitIntent is not defined".
+
+    const joinForm = document.getElementById("joinForm");
+
+    if (joinForm) {
+      joinForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const raw = document.getElementById("rawInput").value.trim();
+        const roleEl = joinForm.querySelector('input[name="role"]:checked');
+        const name = document.getElementById("name").value.trim();
+        const email = document.getElementById("email").value.trim();
+
+        if (!raw || !roleEl) return;
+
+        const payload = {
+  user_name: name ? name : null,
+  contact_email: email ? email : null,
+  role: roleEl ? roleEl.value : null,
+  raw_input: raw,
+  source: "join_intent",
+  status: "new"
+};
+
+
+
+        const btn = document.getElementById("joinSubmitBtn");
+
+        try {
+          btn.disabled = true;
+          btn.textContent = "Sending...";
+
+          await submitIntent(payload);
+
+          btn.textContent = "Saved";
+          joinForm.reset();
+        } catch (ex) {
+          console.error(ex);
+          alert("Something went wrong. Please try again.");
+        } finally {
+          btn.disabled = false;
+          btn.textContent = "Submit";
+        }
+      });
+    }
   </script>
-  <script src="js/theme.js"></script>
 </body>
 </html>
