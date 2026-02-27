@@ -67,9 +67,32 @@
     }
 
     /* Person block */
-    .person-block { background:rgba(255,255,255,0.025); border:1px solid rgba(255,255,255,0.06); border-radius:10px; padding:18px 20px; margin:14px 0; }
+    .person-block { background:rgba(255,255,255,0.025); border:1px solid rgba(255,255,255,0.06); border-radius:10px; padding:18px 20px; margin:14px 0; display:flex; gap:20px; align-items:flex-start; }
+    .person-info { flex:1; min-width:0; }
     .person-block h3 { font-family:'Syne',sans-serif; font-size:16px; font-weight:700; color:var(--text-primary); margin-bottom:4px; }
     .person-role { font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.05em; text-transform:uppercase; color:var(--amber); margin-bottom:12px; }
+    .person-headshot {
+      width:88px; height:88px;
+      flex-shrink:0;
+      border-radius:8px;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,0.08);
+      background:rgba(255,255,255,0.04);
+      display:flex; align-items:center; justify-content:center;
+    }
+    .person-headshot img { width:100%; height:100%; object-fit:cover; display:block; }
+    .person-headshot.empty::after {
+      content:'';
+      display:block;
+      width:32px; height:32px;
+      border-radius:50%;
+      background:rgba(245,158,11,0.15);
+      border:1px solid rgba(245,158,11,0.2);
+    }
+    @media (max-width:600px) {
+      .person-block { flex-direction:column; }
+      .person-headshot { width:56px; height:56px; }
+    }
 
     /* MCP */
     .mcp-address { width:100%; background:rgba(245,158,11,0.06); border:1px solid rgba(245,158,11,0.2); border-radius:8px; padding:10px 14px; font-family:'IBM Plex Mono',monospace; font-size:13px; color:var(--amber); cursor:pointer; outline:none; }
@@ -240,34 +263,41 @@
     <div class="paper-body"><div class="paper-body-inner">
       <div class="paper-heading">Founders</div>
       <div class="person-block">
-        <h3>Richard Hobbs</h3><div class="person-role">Founder and CEO</div>
-        <p>30+ years operating at the intersection of fashion, culture, technology, and commerce across Europe and Asia. Built, invested in, and advised global brands with deep experience in fashion ecosystems, brand partnerships, and new commercial models. At VIA Labs, he focuses on strategy, network development, and ensuring the product aligns with real buyer and seller behaviour.</p>
+        <div class="person-info"><h3>Richard Hobbs</h3><div class="person-role">Founder and CEO</div>
+        <p>30+ years operating at the intersection of fashion, culture, technology, and commerce across Europe and Asia. Built, invested in, and advised global brands with deep experience in fashion ecosystems, brand partnerships, and new commercial models. At VIA Labs, he focuses on strategy, network development, and ensuring the product aligns with real buyer and seller behaviour.</p></div>
+        <div class="person-headshot empty" data-person="richard"><!-- headshot-richard.jpg --></div>
       </div>
       <div class="person-block">
-        <h3>Daniel Yen-Tin Lin</h3><div class="person-role">Co-Founder and Head of Product</div>
-        <p>Product and technical leader with a rare blend of C-level strategy and hands-on execution. Leads end-to-end product architecture across AI, blockchain, and consumer platforms — spanning autonomous AI agents, token design, smart contracts, and scalable consumer applications. Trilingual and multicultural, bridging high-level vision with production-grade delivery.</p>
+        <div class="person-info"><h3>Daniel Yen-Tin Lin</h3><div class="person-role">Co-Founder and Head of Product</div>
+        <p>Product and technical leader with a rare blend of C-level strategy and hands-on execution. Leads end-to-end product architecture across AI, blockchain, and consumer platforms — spanning autonomous AI agents, token design, smart contracts, and scalable consumer applications. Trilingual and multicultural, bridging high-level vision with production-grade delivery.</p></div>
+        <div class="person-headshot empty" data-person="daniel"><!-- headshot-daniel.jpg --></div>
       </div>
 
       <div class="paper-heading" style="margin-top:24px">Team and Advisors</div>
       <div class="person-block">
-        <h3>Sheilen Rathod</h3><div class="person-role">Growth and Customer Experience</div>
-        <p>Senior growth and commercial leader with deep experience scaling customer-led businesses across Asia Pacific and Greater China. Founder and CEO of Future Proof Group. Previously Chief Growth Officer Asia Pacific and President of multiple experience and commerce divisions at Ogilvy.</p>
+        <div class="person-info"><h3>Sheilen Rathod</h3><div class="person-role">Growth and Customer Experience</div>
+        <p>Senior growth and commercial leader with deep experience scaling customer-led businesses across Asia Pacific and Greater China. Founder and CEO of Future Proof Group. Previously Chief Growth Officer Asia Pacific and President of multiple experience and commerce divisions at Ogilvy.</p></div>
+        <div class="person-headshot empty" data-person="sheilen"><!-- headshot-sheilen.jpg --></div>
       </div>
       <div class="person-block">
-        <h3>Moo Shanmugan</h3><div class="person-role">Technology and Systems</div>
-        <p>Seasoned technology leader with over two decades of experience across intelligent systems, applied engineering, and complex platform development. Has held CEO, CTO, and Director roles spanning AI-driven education platforms, blockchain-based media, and large-scale infrastructure businesses across Asia.</p>
+        <div class="person-info"><h3>Moo Shanmugan</h3><div class="person-role">Technology and Systems</div>
+        <p>Seasoned technology leader with over two decades of experience across intelligent systems, applied engineering, and complex platform development. Has held CEO, CTO, and Director roles spanning AI-driven education platforms, blockchain-based media, and large-scale infrastructure businesses across Asia.</p></div>
+        <div class="person-headshot empty" data-person="moo"><!-- headshot-moo.jpg --></div>
       </div>
       <div class="person-block">
-        <h3>Tony Magnetic</h3><div class="person-role">Design and Brand Partnerships</div>
-        <p>Veteran design and production leader with over 25 years at the intersection of global street culture, fashion, and manufacturing. Principal Director at TonyMagnetic Inc. Co-founded and helped scale MECCA USA into a globally influential streetwear brand. Has collaborated with Nike, Reebok, Mercedes, Rolls-Royce, and leading hospitality groups.</p>
+        <div class="person-info"><h3>Tony Magnetic</h3><div class="person-role">Design and Brand Partnerships</div>
+        <p>Veteran design and production leader with over 25 years at the intersection of global street culture, fashion, and manufacturing. Principal Director at TonyMagnetic Inc. Co-founded and helped scale MECCA USA into a globally influential streetwear brand. Has collaborated with Nike, Reebok, Mercedes, Rolls-Royce, and leading hospitality groups.</p></div>
+        <div class="person-headshot empty" data-person="tony"><!-- headshot-tony.jpg --></div>
       </div>
       <div class="person-block">
-        <h3>David Ward</h3><div class="person-role">Commercial Growth and Human–AI Operating Models</div>
-        <p>Senior commercial leader with three decades scaling international consumer brands. Regional Head of Sales, Asia Pacific at Quest Personal Care Global. Founder of Darla AI and the Greypreneur Movement. Former senior leader at Fred Perry, Oakley, Quiksilver, Perry Ellis, Deckers, and JD Sports.</p>
+        <div class="person-info"><h3>David Ward</h3><div class="person-role">Commercial Growth and Human–AI Operating Models</div>
+        <p>Senior commercial leader with three decades scaling international consumer brands. Regional Head of Sales, Asia Pacific at Quest Personal Care Global. Founder of Darla AI and the Greypreneur Movement. Former senior leader at Fred Perry, Oakley, Quiksilver, Perry Ellis, Deckers, and JD Sports.</p></div>
+        <div class="person-headshot empty" data-person="david"><!-- headshot-david.jpg --></div>
       </div>
       <div class="person-block">
-        <h3>Peter Caplowe</h3><div class="person-role">Premium Fashion, Brand Building and Strategy</div>
-        <p>Veteran fashion entrepreneur widely recognised as the originator of the Premium Denim category, having discovered Evisu in Osaka in 1994. Grew the Evisu business outside Japan from startup to approximately US$100m in retail sales without external financing.</p>
+        <div class="person-info"><h3>Peter Caplowe</h3><div class="person-role">Premium Fashion, Brand Building and Strategy</div>
+        <p>Veteran fashion entrepreneur widely recognised as the originator of the Premium Denim category, having discovered Evisu in Osaka in 1994. Grew the Evisu business outside Japan from startup to approximately US$100m in retail sales without external financing.</p></div>
+        <div class="person-headshot empty" data-person="peter"><!-- headshot-peter.jpg --></div>
       </div>
     </div></div>
   </div>
@@ -335,6 +365,28 @@
 </div>
 
 <script src="via-ui.js"></script>
+<script>
+  // Headshots — drop images into /images/team/ named by data-person slug
+  // e.g. images/team/richard.jpg — any format (jpg/png/webp) works
+  document.querySelectorAll('.person-headshot').forEach(function(el) {
+    var slug = el.dataset.person;
+    if (!slug) return;
+    var formats = ['jpg','jpeg','png','webp'];
+    var img = new Image();
+    var tried = 0;
+    function tryNext() {
+      if (tried >= formats.length) return; // stays as empty placeholder
+      img.src = 'images/team/' + slug + '.' + formats[tried++];
+    }
+    img.onload = function() {
+      el.classList.remove('empty');
+      el.innerHTML = '';
+      el.appendChild(img);
+    };
+    img.onerror = tryNext;
+    tryNext();
+  });
+</script>
 <script>
 (function () {
   var sections = Array.from(document.querySelectorAll('.paper-section'));
