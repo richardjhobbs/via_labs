@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FAQ — What is VIA?</title>
+  <meta name="description" content="Learn about VIA and agentic commerce through our comprehensive FAQ." />
+  <link rel="icon" type="image/png" href="vialogowhite.png" />
+  <link rel="stylesheet" href="via.css" />
+  <style>
+    main {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 56px 24px 80px;
+    }
+
+    .page-eyebrow {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 14px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .page-eyebrow::before {
+      content: ''; display: block;
+      width: 20px; height: 1px;
+      background: var(--amber); opacity: 0.5;
+    }
+
+    h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(34px, 5.5vw, 54px);
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      line-height: 1.05;
+      margin-bottom: 10px;
+    }
+
+    .page-sub {
+      font-size: 15px; color: var(--text-muted);
+      font-weight: 300; line-height: 1.6;
+      margin-bottom: 44px;
+    }
+
+    /* ── FAQ Category ───────────────────────────────── */
+    .faq-category {
+      margin-bottom: 36px;
+    }
+
+    .faq-category-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--text-dim);
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 12px;
+    }
+    .faq-category-label::after {
+      content: '';
+      flex: 1; height: 1px;
+      background: var(--border);
+    }
+
+    /* ── FAQ Item ───────────────────────────────────── */
+    .faq-item {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      margin-bottom: 8px;
+      overflow: hidden;
+      background: var(--bg-card);
+      transition: border-color 0.2s;
+    }
+    .faq-item[data-open="true"] {
+      border-color: rgba(245,158,11,0.3);
+    }
+
+    .faq-toggle {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 18px 20px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      text-align: left;
+      color: inherit;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .faq-toggle:hover .faq-question { color: var(--text-primary); }
+
+    .faq-question {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--text-muted);
+      line-height: 1.4;
+      transition: color 0.15s;
+    }
+    .faq-item[data-open="true"] .faq-question {
+      color: var(--text-primary);
+    }
+
+    .faq-plus {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px; height: 24px;
+      border-radius: 50%;
+      border: 1px solid rgba(245,158,11,0.3);
+      color: var(--amber);
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 1;
+      flex-shrink: 0;
+      transition: transform 0.2s, background 0.2s;
+    }
+    .faq-item[data-open="true"] .faq-plus {
+      transform: rotate(45deg);
+      background: var(--amber-dim);
+    }
+
+    .faq-answer-wrap {
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      transition: max-height 0.28s ease, opacity 0.22s ease;
+      border-top: 1px solid transparent;
+    }
+    .faq-item[data-open="true"] .faq-answer-wrap {
+      opacity: 1;
+      border-top-color: var(--border);
+    }
+
+    .faq-answer {
+      padding: 18px 20px 20px;
+    }
+    .faq-answer p {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.7;
+      font-weight: 300;
+    }
+    .faq-answer p + p { margin-top: 10px; }
+    .faq-answer a {
+      color: var(--amber);
+      text-decoration: none;
+    }
+    .faq-answer a:hover { text-decoration: underline; }
+
+    /* ── Bottom CTA ─────────────────────────────────── */
+    .faq-cta {
+      margin-top: 48px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 32px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    .faq-cta-text h3 {
+      font-family: 'Syne', sans-serif;
+      font-size: 20px; font-weight: 700;
+      letter-spacing: -0.01em;
+      margin-bottom: 6px;
+    }
+    .faq-cta-text p {
+      font-size: 13px; color: var(--text-muted);
+      font-weight: 300; line-height: 1.5;
+    }
+    .faq-cta-actions {
+      display: flex; gap: 10px; flex-shrink: 0;
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 600px) {
+      main { padding: 36px 16px 60px; }
+      .faq-cta { flex-direction: column; }
+      .faq-cta-actions { width: 100%; }
+      .faq-cta-actions .cta-btn { flex: 1; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<header class="nav-wrapper">
+  <nav class="nav-primary">
+    <a href="index.html" class="nav-logo">
+      <img src="vialogowhite.png" alt="VIA" />
+    </a>
+    <ul class="nav-primary-links">
+      <li><a href="buyer.html">Buyers</a></li>
+      <li><a href="seller.html">Sellers</a></li>
+      <li><a href="what-is-via.html" class="active">FAQ</a></li>
+      <li class="nav-divider" role="separator" aria-hidden="true"></li>
+      <li class="nav-clients">
+        <a href="#" onclick="openClientsModal(event)">Clients <span class="badge-soon">Soon</span></a>
+      </li>
+      <li><a href="join.html" class="nav-cta">Join</a></li>
+    </ul>
+    <button class="nav-hamburger" onclick="toggleMobileMenu()" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+  <div class="nav-secondary">
+    <div class="nav-secondary-inner">
+      <span class="nav-secondary-label">VIA Labs</span>
+      <ul class="nav-secondary-links">
+        <li><a href="paper.html">Research Paper</a></li>
+        <li><a href="proof.html">Proof of Concept</a></li>
+        <li><a href="https://demo.getvia.xyz" target="_blank" rel="noopener">Live Demo <span class="ext-icon">↗</span></a></li>
+      </ul>
+    </div>
+  </div>
+</header>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <div class="mobile-section-label">Navigation</div>
+  <a href="buyer.html">Buyers <span>→</span></a>
+  <a href="seller.html">Sellers <span>→</span></a>
+  <a href="what-is-via.html">FAQ <span>→</span></a>
+  <a href="#" class="mobile-clients" onclick="openClientsModal(event)">Clients <span class="badge-soon">Soon</span></a>
+  <a href="join.html" class="mobile-cta">Join VIA <span>→</span></a>
+  <div class="mobile-section-label" style="margin-top:6px">VIA Labs</div>
+  <a href="paper.html" class="mobile-secondary">Research Paper <span>→</span></a>
+  <a href="proof.html" class="mobile-secondary">Proof of Concept <span>→</span></a>
+  <a href="https://demo.getvia.xyz" target="_blank" class="mobile-secondary">Live Demo ↗</a>
+</div>
+
+<div class="nav-spacer"></div>
+
+<!-- CONTENT -->
+<main>
+  <div class="page-eyebrow anim-1">FAQ</div>
+  <h1 class="anim-2">What is VIA?</h1>
+  <p class="page-sub anim-3">Frequently asked questions about VIA and agentic commerce.</p>
+
+  <!-- ── Category: Understanding VIA ──────────────── -->
+  <div class="faq-category anim-4">
+    <div class="faq-category-label">Understanding VIA</div>
+
+    <div class="faq-item" data-open="false">
+      <button class="faq-toggle">
+        <span class="faq-question">What is VIA?</span>
+        <span class="faq-plus">+</span>
+      </button>
+      <div class="faq-answer-wrap">
+        <div class="faq-answer">
+          <p>VIA is a set of software tools and services combined into a protocol.</p>
+          <p>At the front is an interface where people interact in familiar ways.</p>
+          <p>Behind the scenes, VIA coordinates a series of processes that allow buyers and sellers, through their agents, to find each other, understand what is being asked for or offered, negotiate options, calculate outcomes, and eventually execute a transaction.</p>
+          <p>Today, approvals remain human-centric, but VIA is designed so agents can increasingly work directly with other agents across the full transaction lifecycle.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item" data-open="false">
+      <button class="faq-toggle">
+        <span class="faq-question">What is agentic commerce?</span>
+        <span class="faq-plus">+</span>
+      </button>
+      <div class="faq-answer-wrap">
+        <div class="faq-answer">
+          <p>Agentic commerce is the next stage of digital commerce.</p>
+          <p>We moved from websites, to search, to social commerce. Those systems are now noisy and inefficient. Sellers spend disproportionate amounts just to be seen, while buyers are left filtering through irrelevant results and products that often do not exist as advertised.</p>
+          <p>Agentic commerce replaces attention with intent. Buyers and sellers are represented by agents that communicate directly, negotiate at speed, and resolve complexity so people can focus on decisions, not process.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item" data-open="false">
+      <button class="faq-toggle">
+        <span class="faq-question">What problems does VIA solve?</span>
+        <span class="faq-plus">+</span>
+      </button>
+      <div class="faq-answer-wrap">
+        <div class="faq-answer">
+          <p>For buyers, VIA removes noise, endless searching, and wasted effort.</p>
+          <p>For sellers, it reduces high acquisition costs, inefficient marketing spend, and low-quality enquiries.</p>
+          <p>VIA reorganises where work happens, shifting it from people to agents, so time and money are only spent where there is real intent.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Category: For Buyers ──────────────────────── -->
+  <div class="faq-category anim-4">
+    <div class="faq-category-label">For Buyers</div>
+
+    <div class="faq-item" data-open="false">
+      <button class="faq-toggle">
+        <span class="faq-question">How does VIA work for buyers?</span>
+        <span class="faq-plus">+</span>
+      </button>
+      <div class="faq-answer-wrap">
+        <div class="faq-answer">
+          <p>VIA plugs into the AI tool you already use, whether that is ChatGPT, Gemini, Claude, or another assistant.</p>
+          <p>You work with your AI to express intent. That intent is broadcast through the VIA protocol to a relay, where seller agents only respond if they have a very high probability of fulfilling the request.</p>
+          <p>Your agent handles searching, filtering, and clarification so you do not have to.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item" data-open="false">
+      <button class="faq-toggle">
+        <span class="faq-question">Can my agent shop like crazy?</span>
+        <span class="faq-plus">+</span>
+      </button>
+      <div class="faq-answer-wrap">
+        <div class="faq-answer">
+          <p>No. VIA is designed around safety and control.</p>
+          <p>While the system is capable of full automation, you decide how much freedom your agent has and where the limits are set. Delegation is progressive, not reckless.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Category: For Sellers ─────────────────────── -->
+  <div class="faq-category anim-5">
+    <div class="faq-category-label">For Sellers</div>
+
+    <div class="faq-item" data-open="false">
+      <button class="faq-toggle">
+        <span class="faq-question">How does VIA work for sellers?</span>
+        <span class="faq-plus">+</span>
+      </button>
+      <div class="faq-answer-wrap">
+        <div class="faq-answer">
+          <p>VIA allows sellers to respond only to genuine buying intent.</p>
+          <p>Instead of spending on ads or promotion just to attract attention, your agent engages when a real need appears. Negotiation and qualification happen before you spend any marketing budget, dramatically reducing wasted costs.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item" data-open="false">
+      <button class="faq-toggle">
+        <span class="faq-question">What would my agent actually do?</span>
+        <span class="faq-plus">+</span>
+      </button>
+      <div class="faq-answer-wrap">
+        <div class="faq-answer">
+          <p>Your agent handles enquiries, clarification, negotiation, and filters out low-probability requests.</p>
+          <p>The aim is to free up hours of your day that would otherwise be lost to admin, so you can focus on running and growing your business.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Category: About VIA Labs ──────────────────── -->
+  <div class="faq-category anim-5">
+    <div class="faq-category-label">About VIA Labs</div>
+
+    <div class="faq-item" data-open="false">
+      <button class="faq-toggle">
+        <span class="faq-question">Who is behind VIA?</span>
+        <span class="faq-plus">+</span>
+      </button>
+      <div class="faq-answer-wrap">
+        <div class="faq-answer">
+          <p>VIA Labs is founded by specialists from fashion, global commerce, and technology.</p>
+          <p>The team has experience building brands, platforms, and systems used at scale across multiple markets. Over the past two and a half years, they have designed, tested, and deployed autonomous agents across social and commercial environments.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item" data-open="false">
+      <button class="faq-toggle">
+        <span class="faq-question">Where is VIA Labs based?</span>
+        <span class="faq-plus">+</span>
+      </button>
+      <div class="faq-answer-wrap">
+        <div class="faq-answer">
+          <p>VIA Labs operates as a global team with headquarters in Singapore.</p>
+          <p>The initial focus is Southeast Asia and Greater China, where relationships and experience are particularly strong.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Category: Getting Started ─────────────────── -->
+  <div class="faq-category anim-6">
+    <div class="faq-category-label">Getting Started</div>
+
+    <div class="faq-item" data-open="false">
+      <button class="faq-toggle">
+        <span class="faq-question">When will VIA be available?</span>
+        <span class="faq-plus">+</span>
+      </button>
+      <div class="faq-answer-wrap">
+        <div class="faq-answer">
+          <p>VIA has successfully deployed and tested all individual parts of the protocol.</p>
+          <p>The current phase is focused on stitching them into a cohesive, easy-to-use system with smooth onboarding. A staged rollout is planned for the coming months.</p>
+          <p>Register your interest to be part of the first cohort of buyers and sellers, with preferential terms.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item" data-open="false">
+      <button class="faq-toggle">
+        <span class="faq-question">How can I stay updated?</span>
+        <span class="faq-plus">+</span>
+      </button>
+      <div class="faq-answer-wrap">
+        <div class="faq-answer">
+          <p>Register your email through our registration form.</p>
+          <p>Or follow us on X at <a href="https://x.com/via_labs_sg" target="_blank" rel="noopener">@via_labs_sg</a>.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── CTA block ──────────────────────────────────── -->
+  <div class="faq-cta anim-6">
+    <div class="faq-cta-text">
+      <h3>Ready to get started?</h3>
+      <p>Join the first phase of VIA as a buyer or seller and get early access with preferential terms.</p>
+    </div>
+    <div class="faq-cta-actions">
+      <a href="join.html" class="cta-btn">Register Interest</a>
+      <a href="index.html" class="cta-btn cta-btn-ghost">Back to Home</a>
+    </div>
+  </div>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="footer-left">
+    <a href="index.html" class="footer-logo"><img src="vialogowhite.png" alt="VIA" /></a>
+    <span class="footer-copy">© VIA Labs Pte Ltd · Singapore</span>
+  </div>
+  <a href="https://x.com/via_labs_sg" target="_blank" rel="noopener" class="footer-x">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.259 5.63 5.905-5.63zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+    @via_labs_sg
+  </a>
+</footer>
+
+<!-- CLIENTS MODAL -->
+<div class="modal-overlay" id="clientsModal" onclick="handleClientsOverlay(event)">
+  <div class="modal" role="dialog" aria-modal="true">
+    <button class="modal-close" onclick="closeClientsModal()" aria-label="Close">✕</button>
+    <div class="modal-icon">⚙️</div>
+    <div class="modal-tag">Coming Soon</div>
+    <h2 class="modal-title">VIA Client Portal</h2>
+    <p class="modal-body">The <strong>Client Dashboard</strong> is coming soon. Leave your email and we'll notify you when access opens.</p>
+    <div class="modal-notify">
+      <input class="modal-input" type="email" id="notifyEmail" placeholder="your@email.com" />
+      <button class="modal-btn" onclick="handleNotify()">Notify Me</button>
+    </div>
+    <div class="modal-features">
+      <div class="modal-feature"><div class="modal-feature-dot"></div>Agent registration &amp; setup</div>
+      <div class="modal-feature"><div class="modal-feature-dot"></div>Real-time transaction dashboard</div>
+      <div class="modal-feature"><div class="modal-feature-dot"></div>Merchant profile management</div>
+      <div class="modal-feature"><div class="modal-feature-dot"></div>Analytics &amp; commerce insights</div>
+    </div>
+  </div>
+</div>
+
+<script src="via-ui.js"></script>
+<script>
+  // FAQ accordion
+  (function () {
+    const items = Array.from(document.querySelectorAll('.faq-item'));
+
+    function closeItem(item) {
+      item.setAttribute('data-open', 'false');
+      item.querySelector('.faq-answer-wrap').style.maxHeight = '0px';
+    }
+
+    function openItem(item) {
+      const wrap = item.querySelector('.faq-answer-wrap');
+      item.setAttribute('data-open', 'true');
+      wrap.style.maxHeight = wrap.firstElementChild.scrollHeight + 28 + 'px';
+    }
+
+    items.forEach(function(item) {
+      item.querySelector('.faq-toggle').addEventListener('click', function() {
+        const isOpen = item.getAttribute('data-open') === 'true';
+        items.forEach(function(i) { if (i !== item) closeItem(i); });
+        isOpen ? closeItem(item) : openItem(item);
+      });
+    });
+  })();
+</script>
+</body>
+</html>
