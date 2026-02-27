@@ -1,98 +1,289 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sellers - VIA - Making Agentic Commerce Work</title>
-  <meta name="description" content="Learn how VIA helps sellers find real buyers and reduce acquisition costs through agentic commerce.">
-  <link rel="icon" type="image/png" href="images/VIA_logo_large_black.png">
-  <link rel="stylesheet" href="css/main.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sellers — VIA Agentic Commerce</title>
+  <meta name="description" content="Stop burning ad budget. Let your VIA agent find real buyers while you focus on your business." />
+  <link rel="icon" type="image/png" href="vialogowhite.png" />
+  <link rel="stylesheet" href="via.css" />
+  <style>
+    main { max-width: 680px; margin: 0 auto; padding: 56px 24px 80px; }
+
+    .page-eyebrow {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 14px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .page-eyebrow::before {
+      content: ''; display: block;
+      width: 20px; height: 1px;
+      background: var(--amber); opacity: 0.5;
+    }
+
+    h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(36px, 6vw, 60px);
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      line-height: 1.05;
+      margin-bottom: 32px;
+    }
+
+    .video-section { margin-bottom: 24px; }
+    .video-caption {
+      font-size: 12px;
+      font-family: 'IBM Plex Mono', monospace;
+      color: var(--text-dim);
+      letter-spacing: 0.04em;
+      text-align: right;
+      margin-top: 8px;
+    }
+
+    .content-block {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 26px 28px;
+      margin-bottom: 12px;
+    }
+    .content-block-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 10px;
+    }
+    .content-block p {
+      font-size: 15px; color: var(--text-muted);
+      line-height: 1.7; font-weight: 300;
+    }
+    .content-block p + p { margin-top: 10px; }
+    .content-block strong { color: var(--text-primary); font-weight: 600; }
+
+    /* Benefit list */
+    .benefit-list {
+      list-style: none;
+      margin-top: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .benefit-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+    .benefit-dot {
+      width: 5px; height: 5px; border-radius: 50%;
+      background: var(--amber); opacity: 0.7;
+      margin-top: 6px; flex-shrink: 0;
+    }
+
+    /* How-it-works steps */
+    .steps {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      margin-top: 4px;
+    }
+    .step {
+      display: flex;
+      gap: 16px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .step:last-child { border-bottom: none; }
+    .step-num {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px; font-weight: 500;
+      color: var(--amber);
+      width: 20px; flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .step-text {
+      font-size: 14px; color: var(--text-muted); line-height: 1.55;
+    }
+    .step-text strong { color: var(--text-primary); }
+
+    .cta-block {
+      margin-top: 28px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+    .cta-note { font-size: 13px; color: var(--text-dim); line-height: 1.5; }
+
+    @media (max-width: 600px) {
+      main { padding: 36px 16px 60px; }
+    }
+  </style>
 </head>
 <body>
-  <header>
-    <a href="index.html" class="logo" aria-label="VIA Home">
-      <img id="logo" src="images/VIA_logo_large_black.png" alt="VIA Logo">
+
+<!-- NAV -->
+<header class="nav-wrapper">
+  <nav class="nav-primary">
+    <a href="index.html" class="nav-logo">
+      <img src="vialogowhite.png" alt="VIA" />
     </a>
-  </header>
-
-  <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark/light mode">
-    <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-      <circle cx="12" cy="12" r="5"></circle>
-      <line x1="12" y1="1" x2="12" y2="3"></line>
-      <line x1="12" y1="21" x2="12" y2="23"></line>
-      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-      <line x1="1" y1="12" x2="3" y2="12"></line>
-      <line x1="21" y1="12" x2="23" y2="12"></line>
-      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-    </svg>
-    <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-    </svg>
-  </button>
-
-  <main>
-    <div class="container container-narrow">
-      <h1>Sellers</h1>
-
-      <div class="video-container">
-        <iframe 
-          id="vimeo-player" 
-          src="https://player.vimeo.com/video/1161624433?autoplay=1&controls=0&muted=1&loop=1" 
-          frameborder="0" 
-          allow="autoplay; fullscreen; picture-in-picture"
-          title="VIA for Sellers">
-        </iframe>
-        <button id="audio-toggle" aria-label="Toggle video audio">🔇</button>
-      </div>
-
-      <div class="content-section">
-        <p><strong>How does VIA improve my work/life balance and make me money?</strong></p>
-        <p>Your VIA agent handles legitimate enquiries from real buyers so you can get on with your business.</p>
-        <p><strong>No ad spends. No wasted traffic. No empty clicks.</strong></p>
-        <p><strong>What's different?</strong></p>
-        <p>
-          You don't compete for attention.<br>
-          When someone actually wants what you offer, your agent steps in.<br>
-          They know your business, products, stock and availability.<br>
-          They handle all the back and forth and negotiation.
-        </p>
-        <p><strong>Do what you do best!</strong></p>
-      </div>
-
-      <div style="max-width: 400px; margin: 2rem auto; text-align: center;">
-        <a href="join.html" class="cta-button">REGISTER</a>
-        <p></p>
-        <p style="margin-top: 1rem; font-size: 0.875rem; opacity: 0.8;">
-          Are you ready to be early for the future?<br>
-          Get the benefits of being part of our first phase.
-        </p>
-      </div>
-
-      <nav class="bottom-nav" aria-label="Main navigation">
-  <a href="buyer.html" class="bottom-nav-link">Buyer</a>
-  <a href="seller.html" class="bottom-nav-link">Seller</a>
-  <a href="what-is-via.html" class="bottom-nav-link">FAQ</a>
-  <a href="paper.html" class="bottom-nav-link">Paper</a>
-  <a href="proof.html" class="bottom-nav-link">Proof</a>
-<a href="https://demo.getvia.xyz" class="bottom-nav-link">Demo</a>
-<a href="join.html" class="bottom-nav-link">Join</a>
-</nav>
-
-
+    <ul class="nav-primary-links">
+      <li><a href="buyer.html">Buyers</a></li>
+      <li><a href="seller.html" class="active">Sellers</a></li>
+      <li><a href="what-is-via.html">FAQ</a></li>
+      <li class="nav-divider" role="separator" aria-hidden="true"></li>
+      <li class="nav-clients">
+        <a href="#" onclick="openClientsModal(event)">Clients <span class="badge-soon">Soon</span></a>
+      </li>
+      <li><a href="join.html" class="nav-cta">Join</a></li>
+    </ul>
+    <button class="nav-hamburger" onclick="toggleMobileMenu()" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+  <div class="nav-secondary">
+    <div class="nav-secondary-inner">
+      <span class="nav-secondary-label">VIA Labs</span>
+      <ul class="nav-secondary-links">
+        <li><a href="paper.html">Research Paper</a></li>
+        <li><a href="proof.html">Proof of Concept</a></li>
+        <li><a href="https://demo.getvia.xyz" target="_blank" rel="noopener">Live Demo <span class="ext-icon">↗</span></a></li>
+      </ul>
     </div>
-  </main>
+  </div>
+</header>
 
-  <div class="footer-left">© VIA Labs Pte Ltd</div>
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <div class="mobile-section-label">Navigation</div>
+  <a href="buyer.html">Buyers <span>→</span></a>
+  <a href="seller.html">Sellers <span>→</span></a>
+  <a href="what-is-via.html">FAQ <span>→</span></a>
+  <a href="#" class="mobile-clients" onclick="openClientsModal(event)">Clients <span class="badge-soon">Soon</span></a>
+  <a href="join.html" class="mobile-cta">Join VIA <span>→</span></a>
+  <div class="mobile-section-label" style="margin-top:6px">VIA Labs</div>
+  <a href="paper.html" class="mobile-secondary">Research Paper <span>→</span></a>
+  <a href="proof.html" class="mobile-secondary">Proof of Concept <span>→</span></a>
+  <a href="https://demo.getvia.xyz" target="_blank" class="mobile-secondary">Live Demo ↗</a>
+</div>
 
-  <div class="footer-right">
-    <a href="https://x.com/via_labs_sg" target="_blank" rel="noopener noreferrer" class="social-link">
-      <img id="socialIcon" src="images/logo-black.png" alt="X (Twitter)" class="social-icon">
-    </a>
+<div class="nav-spacer"></div>
+
+<!-- CONTENT -->
+<main>
+  <div class="page-eyebrow anim-1">For Sellers</div>
+
+  <h1 class="anim-2">Reach real<br>customers.</h1>
+
+  <!-- Ambient looping video — seller-specific Vimeo -->
+  <div class="video-section anim-3">
+    <div class="video-ambient-wrap">
+      <iframe
+        id="vimeo-player"
+        src="https://player.vimeo.com/video/1161624433?autoplay=1&controls=0&muted=1&loop=1&title=0&byline=0&portrait=0"
+        frameborder="0"
+        allow="autoplay; fullscreen; picture-in-picture"
+        title="VIA for Sellers">
+      </iframe>
+      <button class="video-sound-btn" id="audio-toggle" aria-label="Toggle audio">🔇</button>
+    </div>
+    <p class="video-caption">tap 🔇 to unmute</p>
   </div>
 
-  <script src="https://player.vimeo.com/api/player.js"></script>
-  <script src="js/theme.js"></script>
+  <!-- Key benefits -->
+  <div class="content-block anim-4">
+    <div class="content-block-label">What you get</div>
+    <ul class="benefit-list">
+      <li><div class="benefit-dot"></div><span><strong>No ad spend.</strong> Your agent finds qualified buyers — you only engage with people who actually want what you sell.</span></li>
+      <li><div class="benefit-dot"></div><span><strong>No wasted traffic.</strong> No empty clicks, no bounce rates. Only real commercial intent.</span></li>
+      <li><div class="benefit-dot"></div><span><strong>24/7 presence.</strong> Your agent handles enquiries, negotiation, and qualification while you focus on your business.</span></li>
+      <li><div class="benefit-dot"></div><span><strong>Better margins.</strong> Remove the middlemen and the ad platforms eating into your revenue.</span></li>
+    </ul>
+  </div>
+
+  <!-- What's different -->
+  <div class="content-block anim-4">
+    <div class="content-block-label">What's different</div>
+    <p>You don't compete for attention. When someone actually wants what you offer, your VIA agent steps in.</p>
+    <p>It knows your business, products, stock, and availability. It handles all the back-and-forth so you can focus on delivering — not selling.</p>
+    <p><strong>Do what you do best.</strong></p>
+  </div>
+
+  <!-- How it works -->
+  <div class="content-block anim-5">
+    <div class="content-block-label">How it works</div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <div class="step-text"><strong>Register</strong> — Set up your VIA seller profile and configure your agent with your product catalogue.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <div class="step-text"><strong>Your agent goes to work</strong> — It responds to real buyer requests across the VIA network in real time.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <div class="step-text"><strong>You close</strong> — Qualified leads land in your dashboard, pre-negotiated and ready to fulfil.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-block anim-6">
+    <a href="join.html" class="cta-btn">Register as a Seller</a>
+    <p class="cta-note">
+      Be part of our first phase.<br>
+      Early access. Real benefits.
+    </p>
+  </div>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="footer-left">
+    <a href="index.html" class="footer-logo"><img src="vialogowhite.png" alt="VIA" /></a>
+    <span class="footer-copy">© VIA Labs Pte Ltd · Singapore</span>
+  </div>
+  <a href="https://x.com/via_labs_sg" target="_blank" rel="noopener" class="footer-x">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.259 5.63 5.905-5.63zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+    @via_labs_sg
+  </a>
+</footer>
+
+<!-- CLIENTS MODAL -->
+<div class="modal-overlay" id="clientsModal" onclick="handleClientsOverlay(event)">
+  <div class="modal" role="dialog" aria-modal="true">
+    <button class="modal-close" onclick="closeClientsModal()" aria-label="Close">✕</button>
+    <div class="modal-icon">⚙️</div>
+    <div class="modal-tag">Coming Soon</div>
+    <h2 class="modal-title">VIA Client Portal</h2>
+    <p class="modal-body">The <strong>Client Dashboard</strong> is coming soon. Leave your email and we'll notify you when access opens.</p>
+    <div class="modal-notify">
+      <input class="modal-input" type="email" id="notifyEmail" placeholder="your@email.com" />
+      <button class="modal-btn" onclick="handleNotify()">Notify Me</button>
+    </div>
+    <div class="modal-features">
+      <div class="modal-feature"><div class="modal-feature-dot"></div>Agent registration &amp; setup</div>
+      <div class="modal-feature"><div class="modal-feature-dot"></div>Real-time transaction dashboard</div>
+      <div class="modal-feature"><div class="modal-feature-dot"></div>Merchant profile management</div>
+      <div class="modal-feature"><div class="modal-feature-dot"></div>Analytics &amp; commerce insights</div>
+    </div>
+  </div>
+</div>
+
+<script src="https://player.vimeo.com/api/player.js"></script>
+<script src="via-ui.js"></script>
+<script>
+  window.addEventListener('load', function() {
+    initVimeoSound('vimeo-player', 'audio-toggle');
+  });
+</script>
 </body>
 </html>

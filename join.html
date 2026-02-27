@@ -1,303 +1,541 @@
 <!DOCTYPE html>
-<!-- JOIN_PAGE_V4 -->
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <title>Join VIA</title>
+  <title>Join VIA — Register Your Interest</title>
   <meta name="description" content="VIA is just around the corner. Tell us what you want to do with agentic commerce." />
-
-  <link rel="icon" type="image/png" href="images/VIA_logo_large_black.png">
-  <link rel="stylesheet" href="css/main.css">
-
+  <link rel="icon" type="image/png" href="vialogowhite.png" />
+  <link rel="stylesheet" href="via.css" />
   <style>
-    .join-inline-role {
+    main {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 56px 24px 80px;
+    }
+
+    .page-eyebrow {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 14px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .page-eyebrow::before {
+      content: ''; display: block;
+      width: 20px; height: 1px;
+      background: var(--amber); opacity: 0.5;
+    }
+
+    h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(32px, 5vw, 52px);
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      line-height: 1.05;
+      margin-bottom: 10px;
+    }
+
+    .page-sub {
+      font-size: 15px; color: var(--text-muted);
+      font-weight: 300; line-height: 1.65;
+      margin-bottom: 36px;
+      max-width: 540px;
+    }
+
+    /* ── Form card ──────────────────────────────────── */
+    .form-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 28px 28px 32px;
+      margin-bottom: 14px;
+    }
+
+    .form-card-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 18px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .form-card-label::after {
+      content: '';
+      flex: 1; height: 1px;
+      background: rgba(245,158,11,0.2);
+    }
+
+    /* Role selector */
+    .role-row {
       display: flex;
       align-items: center;
+      gap: 8px;
+      margin-bottom: 22px;
       flex-wrap: wrap;
-      gap: 18px;
-      margin-bottom: 18px;
     }
-    .join-inline-role .role-label {
-      font-weight: 700;
-      margin-right: 6px;
+    .role-label-text {
+      font-size: 14px;
+      color: var(--text-muted);
+      font-weight: 400;
+      margin-right: 4px;
     }
-    .join-inline-role label {
+    .role-btn {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      margin: 0;
+      gap: 6px;
+      padding: 7px 16px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text-dim);
+      font-size: 13px;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.15s;
     }
+    .role-btn:hover {
+      border-color: rgba(245,158,11,0.3);
+      color: var(--text-muted);
+    }
+    .role-btn.selected {
+      border-color: var(--amber);
+      background: var(--amber-dim);
+      color: var(--amber);
+    }
+    /* Hidden actual radio inputs */
+    .role-radio { display: none; }
 
-    .join-two-col {
+    /* Form fields */
+    .field-group {
+      margin-bottom: 16px;
+    }
+    .field-label {
+      display: block;
+      font-size: 12px;
+      font-family: 'IBM Plex Mono', monospace;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: 7px;
+    }
+    .field-input,
+    .field-textarea {
+      width: 100%;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 11px 14px;
+      font-size: 14px;
+      font-family: 'DM Sans', sans-serif;
+      color: var(--text-primary);
+      outline: none;
+      transition: border-color 0.18s;
+      resize: none;
+    }
+    .field-input::placeholder,
+    .field-textarea::placeholder { color: var(--text-dim); }
+    .field-input:focus,
+    .field-textarea:focus { border-color: rgba(245,158,11,0.5); }
+    .field-textarea { min-height: 140px; resize: vertical; }
+
+    .two-col {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 18px;
-      margin-top: 14px;
-    }
-    @media (max-width: 720px) {
-      .join-two-col { grid-template-columns: 1fr; }
+      gap: 12px;
     }
 
-    .join-textarea {
-      min-height: 210px;
-      resize: vertical;
+    .field-helper {
+      font-size: 12px;
+      color: var(--text-dim);
+      margin-top: 8px;
+      line-height: 1.5;
     }
 
-    .join-helper {
-      margin-top: 10px;
-      opacity: 0.9;
+    /* Submit button */
+    .submit-btn {
+      width: 100%;
+      padding: 13px;
+      background: var(--amber);
+      color: #0a0a0a;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.15s;
+      margin-top: 20px;
+      letter-spacing: 0.02em;
+    }
+    .submit-btn:hover { background: #fbbf24; }
+    .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    .submit-ghost {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+    }
+    .submit-ghost:hover { border-color: rgba(255,255,255,0.2); color: var(--text-primary); background: rgba(255,255,255,0.04); }
+
+    /* ── MCP / Claude section ───────────────────────── */
+    .mcp-section {
+      position: relative;
     }
 
-    .join-thanks {
-      margin-top: 14px;
-      opacity: 0.9;
+    .mcp-intro {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.65;
+      font-weight: 300;
+      margin-bottom: 18px;
+    }
+    .mcp-intro + .mcp-intro { margin-top: -10px; }
+
+    .mcp-address-wrap {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .mcp-address {
+      flex: 1;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 13px;
+      font-family: 'IBM Plex Mono', monospace;
+      color: var(--amber);
+      outline: none;
+      cursor: pointer;
+    }
+    .mcp-copy-btn {
+      padding: 10px 16px;
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-dim);
+      font-size: 12px;
+      font-family: 'IBM Plex Mono', monospace;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.15s;
+      flex-shrink: 0;
+    }
+    .mcp-copy-btn:hover {
+      border-color: rgba(255,255,255,0.2);
+      color: var(--text-primary);
+    }
+    .mcp-copy-btn.copied {
+      border-color: #22c55e;
+      color: #22c55e;
     }
 
-    .claude-spacing p {
-      margin-top: 14px;
-      margin-bottom: 0;
+    .mcp-example {
+      background: rgba(245,158,11,0.06);
+      border: 1px solid rgba(245,158,11,0.15);
+      border-radius: 8px;
+      padding: 14px 16px;
+      font-size: 13px;
+      font-style: italic;
+      color: var(--text-muted);
+      line-height: 1.6;
     }
-    .claude-spacing .form-group {
-      margin-top: 16px;
+
+    /* ── Email-only section ─────────────────────────── */
+    .updates-row {
+      display: flex;
+      gap: 8px;
+    }
+
+    /* ── Section divider ─────────────────────────────── */
+    .page-divider {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--text-dim);
+      display: flex; align-items: center; gap: 12px;
+      margin: 28px 0 14px;
+    }
+    .page-divider::before,
+    .page-divider::after {
+      content: ''; flex: 1; height: 1px; background: var(--border);
+    }
+
+    @media (max-width: 600px) {
+      main { padding: 36px 16px 60px; }
+      .two-col { grid-template-columns: 1fr; }
+      .mcp-address-wrap { flex-direction: column; align-items: stretch; }
+      .updates-row { flex-direction: column; }
     }
   </style>
 </head>
-
 <body>
-  <header>
-    <a class="logo" href="index.html" aria-label="VIA home">
-      <img
-        id="logo"
-        src="images/VIA_logo_large_black.png"
-        alt="VIA"
-        data-light="images/VIA_logo_large_black.png"
-        data-dark="images/VIA_logo_large_white.png"
-      />
+
+<!-- NAV -->
+<header class="nav-wrapper">
+  <nav class="nav-primary">
+    <a href="index.html" class="nav-logo">
+      <img src="vialogowhite.png" alt="VIA" />
     </a>
-  </header>
-
-  <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
-    <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-      <circle cx="12" cy="12" r="5"></circle>
-      <line x1="12" y1="1" x2="12" y2="3"></line>
-      <line x1="12" y1="21" x2="12" y2="23"></line>
-      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-      <line x1="1" y1="12" x2="3" y2="12"></line>
-      <line x1="21" y1="12" x2="23" y2="12"></line>
-      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-    </svg>
-    <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-    </svg>
-  </button>
-
-  <main>
-    <div class="container container-narrow">
-      <h1>VIA IS JUST AROUND THE CORNER</h1>
-
-      <p class="subtitle">
-        Let us know what interests you about agentic commerce as a business owner or a seasoned shopper.
-        Help us get ready to give you the tools and services that work best for you.
-      </p>
-
-      <section class="content-section">
-        <form id="joinForm">
-          <div class="join-inline-role">
-            <span class="role-label">Are you</span>
-
-            <label>
-              <input type="radio" name="role" value="seller" required>
-              a seller
-            </label>
-
-            <label>
-              <input type="radio" name="role" value="buyer">
-              a buyer
-            </label>
-
-            <label>
-              <input type="radio" name="role" value="excited">
-              excited!
-            </label>
-          </div>
-
-          <div class="form-group">
-            <label for="rawInput">What could VIA help you with?</label>
-            <textarea
-              id="rawInput"
-              name="rawInput"
-              class="join-textarea"
-              rows="8"
-              placeholder="Tell us what you want to buy, sell, explore, compare, or build."
-              required
-            ></textarea>
-
-            <p class="join-helper">
-              If you like, leave your contact and we will let you know when VIA is live. No spam. Promise!
-            </p>
-          </div>
-
-          <div class="join-two-col">
-            <div class="form-group">
-              <label for="name">Name</label>
-              <input id="name" name="name" type="text" autocomplete="name" />
-            </div>
-
-            <div class="form-group">
-              <label for="email">Email</label>
-              <input id="email" name="email" type="email" autocomplete="email" />
-            </div>
-          </div>
-
-          <button class="cta-button" id="joinSubmitBtn" type="submit">Submit</button>
-
-          <p class="join-thanks">
-            Thanks for reaching out. We appreciate your interest.
-          </p>
-        </form>
-      </section>
-
-      <section class="content-section claude-spacing">
-        <h3>Use VIA with Claude on paid plans</h3>
-
-        <p>Use VIA with Claude (other AI plugins are on their way!).</p>
-        <p>Just add a connector in your settings</p>
-
-        <p><strong>Connector address</strong></p>
-
-        <div class="form-group">
-          <input
-            id="mcpAddress"
-            type="text"
-            value="https://via-mcp-server.onrender.com/mcp"
-            readonly
-            onclick="this.select()"
-          />
-        </div>
-
-        <p>Then have a normal chat, for example:</p>
-        <p>
-          <em>
-            I am interested in getting my store into the VIA network. Ask me a few questions so we can set this up easily.
-          </em>
-        </p>
-      </section>
-
-      <!-- EMAIL ONLY: Web3Forms ONLY -->
-      <section class="content-section">
-        <h3>Email Updates</h3>
-        <p>If you only want updates, leave your email below.</p>
-        <p></p>
-
-        <form
-          id="updatesForm"
-          action="https://api.web3forms.com/submit"
-          method="POST"
-        >
-          <!-- Web3Forms key already present in your repo (join/index.html) -->
-          <input type="hidden" name="access_key" value="12fa6fe4-3b05-4bb6-8d28-b94420492e70">
-          <input type="hidden" name="subject" value="VIA Updates Only">
-          <input type="hidden" name="from_name" value="VIA Labs">
-          <input type="hidden" name="redirect" value="thanks.html">
-          <input type="hidden" name="source" value="join_updates">
-
-          <div class="form-group">
-            <label for="updatesEmail">Email</label>
-            <input id="updatesEmail" name="email" type="email" autocomplete="email" required />
-          </div>
-
-          <button class="cta-button" id="updatesSubmitBtn" type="submit">Subscribe</button>
-        </form>
-      </section>
-
-      <nav class="bottom-nav" aria-label="Main navigation">
-  <a href="buyer.html" class="bottom-nav-link">Buyer</a>
-  <a href="seller.html" class="bottom-nav-link">Seller</a>
-  <a href="what-is-via.html" class="bottom-nav-link">FAQ</a>
-  <a href="paper.html" class="bottom-nav-link">Paper</a>
-  <a href="proof.html" class="bottom-nav-link">Proof</a>
-<a href="https://demo.getvia.xyz" class="bottom-nav-link">Demo</a>
-<a href="join.html" class="bottom-nav-link">Join</a>
-</nav>
-
-
-
+    <ul class="nav-primary-links">
+      <li><a href="buyer.html">Buyers</a></li>
+      <li><a href="seller.html">Sellers</a></li>
+      <li><a href="what-is-via.html">FAQ</a></li>
+      <li class="nav-divider" role="separator" aria-hidden="true"></li>
+      <li class="nav-clients">
+        <a href="#" onclick="openClientsModal(event)">Clients <span class="badge-soon">Soon</span></a>
+      </li>
+      <li><a href="join.html" class="active nav-cta">Join</a></li>
+    </ul>
+    <button class="nav-hamburger" onclick="toggleMobileMenu()" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+  <div class="nav-secondary">
+    <div class="nav-secondary-inner">
+      <span class="nav-secondary-label">VIA Labs</span>
+      <ul class="nav-secondary-links">
+        <li><a href="paper.html">Research Paper</a></li>
+        <li><a href="proof.html">Proof of Concept</a></li>
+        <li><a href="https://demo.getvia.xyz" target="_blank" rel="noopener">Live Demo <span class="ext-icon">↗</span></a></li>
+      </ul>
     </div>
-  </main>
+  </div>
+</header>
 
-  <div class="footer-left">© VIA Labs Pte Ltd</div>
-  <div class="footer-right">
-    <a href="https://x.com/via_labs_sg" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="VIA on X">
-      <img
-        id="socialIcon"
-        src="images/logo-black.png"
-        alt="X (Twitter)"
-        class="social-icon"
-        data-light="images/logo-black.png"
-        data-dark="images/logo-white.png"
-      >
-    </a>
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <div class="mobile-section-label">Navigation</div>
+  <a href="buyer.html">Buyers <span>→</span></a>
+  <a href="seller.html">Sellers <span>→</span></a>
+  <a href="what-is-via.html">FAQ <span>→</span></a>
+  <a href="#" class="mobile-clients" onclick="openClientsModal(event)">Clients <span class="badge-soon">Soon</span></a>
+  <a href="join.html" class="mobile-cta">Join VIA <span>→</span></a>
+  <div class="mobile-section-label" style="margin-top:6px">VIA Labs</div>
+  <a href="paper.html" class="mobile-secondary">Research Paper <span>→</span></a>
+  <a href="proof.html" class="mobile-secondary">Proof of Concept <span>→</span></a>
+  <a href="https://demo.getvia.xyz" target="_blank" class="mobile-secondary">Live Demo ↗</a>
+</div>
+
+<div class="nav-spacer"></div>
+
+<!-- CONTENT -->
+<main>
+  <div class="page-eyebrow anim-1">Early Access</div>
+  <h1 class="anim-2">VIA is just around<br>the corner.</h1>
+  <p class="page-sub anim-3">
+    Let us know what interests you about agentic commerce — as a business owner or a seasoned shopper.
+    Help us shape the tools and services that work best for you.
+  </p>
+
+  <!-- ── Main intent form ──────────────────────────── -->
+  <div class="form-card anim-4">
+    <div class="form-card-label">Register Your Interest</div>
+
+    <form id="joinForm">
+      <!-- Role selector -->
+      <div class="role-row">
+        <span class="role-label-text">I am</span>
+        <input type="radio" name="role" value="seller" id="role-seller" class="role-radio" required />
+        <button type="button" class="role-btn" data-role="seller" onclick="selectRole('seller')">📦 A Seller</button>
+
+        <input type="radio" name="role" value="buyer" id="role-buyer" class="role-radio" />
+        <button type="button" class="role-btn" data-role="buyer" onclick="selectRole('buyer')">🛍️ A Buyer</button>
+
+        <input type="radio" name="role" value="excited" id="role-excited" class="role-radio" />
+        <button type="button" class="role-btn" data-role="excited" onclick="selectRole('excited')">⚡ Just Excited</button>
+      </div>
+
+      <!-- Intent textarea -->
+      <div class="field-group">
+        <label class="field-label" for="rawInput">What could VIA help you with?</label>
+        <textarea
+          id="rawInput" name="rawInput"
+          class="field-textarea"
+          placeholder="Tell us what you want to buy, sell, explore, compare, or build."
+          required
+        ></textarea>
+        <p class="field-helper">Be as specific or open-ended as you like — this goes directly to the team.</p>
+      </div>
+
+      <!-- Name + Email -->
+      <div class="two-col">
+        <div class="field-group">
+          <label class="field-label" for="name">Name</label>
+          <input id="name" name="name" type="text" class="field-input" autocomplete="name" placeholder="Optional" />
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="email">Email</label>
+          <input id="email" name="email" type="email" class="field-input" autocomplete="email" placeholder="Optional" />
+        </div>
+      </div>
+      <p class="field-helper" style="margin-top:-8px">Leave your email and we'll let you know when VIA is live. No spam. Promise.</p>
+
+      <button class="submit-btn" id="joinSubmitBtn" type="submit">Submit</button>
+    </form>
   </div>
 
-  <!-- theme.js controls logo + X icon swapping using data-light/data-dark -->
-  <script src="js/intent.js"></script>
-<script src="js/theme.js"></script>
-<script src="js/forms.js"></script>
+  <!-- ── Claude / MCP section ─────────────────────── -->
+  <div class="page-divider">Or try VIA right now</div>
 
+  <div class="form-card anim-5 mcp-section">
+    <div class="form-card-label">Use VIA with Claude</div>
 
-  <script>
-    // NOTE:
-    // This file expects a global submitIntent(payload) function to exist.
-    // If you implemented submitIntent elsewhere, keep it loaded before this runs.
-    // If you have not, the console will show "submitIntent is not defined".
+    <p class="mcp-intro">VIA plugs into Claude on paid plans (and other AI tools are on the way). Add a connector in your Claude settings:</p>
 
-    const joinForm = document.getElementById("joinForm");
+    <div class="mcp-address-wrap">
+      <input
+        id="mcpAddress"
+        class="mcp-address"
+        type="text"
+        value="https://via-mcp-server.onrender.com/mcp"
+        readonly
+        onclick="this.select()"
+        aria-label="MCP connector address"
+      />
+      <button class="mcp-copy-btn" id="copyBtn" onclick="copyMcp()">Copy</button>
+    </div>
 
-    if (joinForm) {
-      joinForm.addEventListener("submit", async (e) => {
-        e.preventDefault();
+    <p class="mcp-intro">Then have a normal chat, for example:</p>
+    <div class="mcp-example">
+      "I am interested in getting my store into the VIA network. Ask me a few questions so we can set this up easily."
+    </div>
+  </div>
 
-        const raw = document.getElementById("rawInput").value.trim();
-        const roleEl = joinForm.querySelector('input[name="role"]:checked');
-        const name = document.getElementById("name").value.trim();
-        const email = document.getElementById("email").value.trim();
+  <!-- ── Email updates only ────────────────────────── -->
+  <div class="page-divider">Just want updates?</div>
 
-        if (!raw || !roleEl) return;
+  <div class="form-card anim-6">
+    <div class="form-card-label">Email Updates</div>
+    <p class="mcp-intro" style="margin-bottom:16px">No interest form, no commitments — just drop your email and we'll keep you in the loop.</p>
 
-        const payload = {
-  user_name: name ? name : null,
-  contact_email: email ? email : null,
-  role: roleEl ? roleEl.value : null,
-  raw_input: raw,
-  source: "join_intent",
-  status: "new"
-};
+    <form
+      id="updatesForm"
+      action="https://api.web3forms.com/submit"
+      method="POST"
+    >
+      <input type="hidden" name="access_key" value="12fa6fe4-3b05-4bb6-8d28-b94420492e70">
+      <input type="hidden" name="subject" value="VIA Updates Only">
+      <input type="hidden" name="from_name" value="VIA Labs">
+      <input type="hidden" name="redirect" value="thanks.html">
+      <input type="hidden" name="source" value="join_updates">
 
+      <div class="updates-row">
+        <input
+          id="updatesEmail" name="email" type="email"
+          class="field-input" autocomplete="email"
+          placeholder="your@email.com" required
+          style="flex:1"
+        />
+        <button class="submit-btn" id="updatesSubmitBtn" type="submit" style="width:auto;padding:11px 24px;margin-top:0">
+          Subscribe
+        </button>
+      </div>
+    </form>
+  </div>
 
+</main>
 
-        const btn = document.getElementById("joinSubmitBtn");
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="footer-left">
+    <a href="index.html" class="footer-logo"><img src="vialogowhite.png" alt="VIA" /></a>
+    <span class="footer-copy">© VIA Labs Pte Ltd · Singapore</span>
+  </div>
+  <a href="https://x.com/via_labs_sg" target="_blank" rel="noopener" class="footer-x">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.259 5.63 5.905-5.63zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+    @via_labs_sg
+  </a>
+</footer>
 
-        try {
-          btn.disabled = true;
-          btn.textContent = "Sending...";
+<!-- CLIENTS MODAL -->
+<div class="modal-overlay" id="clientsModal" onclick="handleClientsOverlay(event)">
+  <div class="modal" role="dialog" aria-modal="true">
+    <button class="modal-close" onclick="closeClientsModal()" aria-label="Close">✕</button>
+    <div class="modal-icon">⚙️</div>
+    <div class="modal-tag">Coming Soon</div>
+    <h2 class="modal-title">VIA Client Portal</h2>
+    <p class="modal-body">The <strong>Client Dashboard</strong> is coming soon. Leave your email and we'll notify you when access opens.</p>
+    <div class="modal-notify">
+      <input class="modal-input" type="email" id="notifyEmail" placeholder="your@email.com" />
+      <button class="modal-btn" onclick="handleNotify()">Notify Me</button>
+    </div>
+    <div class="modal-features">
+      <div class="modal-feature"><div class="modal-feature-dot"></div>Agent registration &amp; setup</div>
+      <div class="modal-feature"><div class="modal-feature-dot"></div>Real-time transaction dashboard</div>
+      <div class="modal-feature"><div class="modal-feature-dot"></div>Merchant profile management</div>
+      <div class="modal-feature"><div class="modal-feature-dot"></div>Analytics &amp; commerce insights</div>
+    </div>
+  </div>
+</div>
 
+<script src="js/intent.js"></script>
+<script src="via-ui.js"></script>
+<script>
+  // ── Role selector ─────────────────────────────────
+  function selectRole(role) {
+    document.querySelectorAll('.role-btn').forEach(function(btn) {
+      btn.classList.toggle('selected', btn.dataset.role === role);
+    });
+    const radio = document.getElementById('role-' + role);
+    if (radio) radio.checked = true;
+  }
+
+  // ── Copy MCP address ──────────────────────────────
+  function copyMcp() {
+    const val = document.getElementById('mcpAddress').value;
+    const btn = document.getElementById('copyBtn');
+    navigator.clipboard.writeText(val).then(function() {
+      btn.textContent = 'Copied ✓';
+      btn.classList.add('copied');
+      setTimeout(function() {
+        btn.textContent = 'Copy';
+        btn.classList.remove('copied');
+      }, 2000);
+    });
+  }
+
+  // ── Join form submit ──────────────────────────────
+  const joinForm = document.getElementById('joinForm');
+  if (joinForm) {
+    joinForm.addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      const raw    = document.getElementById('rawInput').value.trim();
+      const roleEl = joinForm.querySelector('input[name="role"]:checked');
+      const name   = document.getElementById('name').value.trim();
+      const email  = document.getElementById('email').value.trim();
+
+      if (!raw || !roleEl) return;
+
+      const payload = {
+        user_name:     name   || null,
+        contact_email: email  || null,
+        role:          roleEl ? roleEl.value : null,
+        raw_input:     raw,
+        source:        'join_intent',
+        status:        'new'
+      };
+
+      const btn = document.getElementById('joinSubmitBtn');
+      try {
+        btn.disabled = true;
+        btn.textContent = 'Sending…';
+        if (typeof submitIntent === 'function') {
           await submitIntent(payload);
-
-          btn.textContent = "Saved";
-          joinForm.reset();
-        } catch (ex) {
-          console.error(ex);
-          alert("Something went wrong. Please try again.");
-        } finally {
-          btn.disabled = false;
-          btn.textContent = "Submit";
         }
-      });
-    }
-  </script>
+        btn.textContent = 'Sent ✓';
+        btn.style.background = '#16a34a';
+        joinForm.reset();
+        document.querySelectorAll('.role-btn').forEach(function(b) { b.classList.remove('selected'); });
+      } catch (ex) {
+        console.error(ex);
+        btn.textContent = 'Try again';
+        btn.disabled = false;
+      }
+    });
+  }
+</script>
 </body>
 </html>

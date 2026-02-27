@@ -1,300 +1,323 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>VIA - Making Agentic Commerce Work</title>
-  <meta name="description" content="VIA enables buyers to shop without ads and algorithms while helping sellers find real buyers through intelligent agent technology.">
-  <link rel="icon" type="image/png" href="images/VIA_logo_large_black.png">
-  <link rel="stylesheet" href="css/main.css">
-
-  <link rel="canonical" href="https://getvia.xyz/">
-
-  <meta property="og:url" content="https://getvia.xyz/">
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="VIA - Making Agentic Commerce Work">
-  <meta property="og:description" content="VIA enables buyers to shop without ads and algorithms while helping sellers find real buyers through intelligent agent technology.">
-  <meta property="og:image" content="https://getvia.xyz/images/opengraph_2.jpg">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
-
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="VIA - Making Agentic Commerce Work">
-  <meta name="twitter:description" content="VIA enables buyers to shop without ads and algorithms while helping sellers find real buyers through intelligent agent technology.">
-  <meta name="twitter:image" content="https://getvia.xyz/images/opengraph_2.jpg">
-
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VIA — Making Agentic Commerce Work</title>
+  <meta name="description" content="VIA enables buyers to shop without ads and algorithms while helping sellers find real buyers through intelligent agent technology." />
+  <link rel="icon" type="image/png" href="vialogowhite.png" />
+  <link rel="canonical" href="https://getvia.xyz/" />
+  <meta property="og:url" content="https://getvia.xyz/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="VIA — Making Agentic Commerce Work" />
+  <meta property="og:description" content="VIA enables buyers to shop without ads and algorithms while helping sellers find real buyers through intelligent agent technology." />
+  <meta property="og:image" content="https://getvia.xyz/images/opengraph_2.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="stylesheet" href="via.css" />
   <style>
-    .cards-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 2rem;
-      grid-auto-rows: 1fr;
-      align-items: stretch;
-    }
-
-    .bottom-nav {
+    .hero {
+      min-height: calc(100svh - var(--nav-h) - var(--nav-secondary-h));
       display: flex;
+      flex-direction: column;
+      align-items: center;
       justify-content: center;
-      gap: 0.75rem;
-      margin-top: 3rem;
-      flex-wrap: wrap;
+      padding: 72px 24px 60px;
+      position: relative;
+      overflow: hidden;
     }
-
-    /* Keep hero video aligned with card edges */
-    .video-container {
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -10%; left: 50%;
+      transform: translateX(-50%);
+      width: 900px; height: 500px;
+      background: radial-gradient(ellipse at center, rgba(245,158,11,0.07) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border) 30%, var(--border) 70%, transparent);
+    }
+    .hero-eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 24px;
+    }
+    .hero-eyebrow::before, .hero-eyebrow::after {
+      content: ''; display: block;
+      width: 28px; height: 1px;
+      background: var(--amber); opacity: 0.45;
+    }
+    .hero-headline {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(42px, 7.5vw, 88px);
+      font-weight: 800;
+      line-height: 1.0;
+      letter-spacing: -0.028em;
+      text-align: center;
       max-width: 800px;
-      margin-left: auto;
-      margin-right: auto;
     }
-
-    .bottom-nav-link {
-      text-decoration: none;
-      padding: 0.5rem 1rem;
-      border: 1px solid var(--color-border);
-      border-radius: 999px;
-      font-size: 0.875rem;
-      line-height: 1;
-      color: inherit;
-      background: transparent;
-      transition:
-        background-color 0.2s ease,
-        color 0.2s ease,
-        box-shadow 0.2s ease,
-        transform 0.2s ease;
+    .hero-headline em { font-style: normal; color: var(--amber); }
+    .hero-sub {
+      margin-top: 22px;
+      font-size: 17px; font-weight: 300;
+      color: var(--text-muted);
+      text-align: center;
+      max-width: 460px;
+      line-height: 1.65;
     }
-
-    .bottom-nav-link:hover,
-    .bottom-nav-link:focus {
-      background-color: rgba(200, 90, 84, 0.12);
-      box-shadow: 0 0 6px rgba(200, 90, 84, 0.4);
-      transform: translateY(-1px);
-      text-decoration: none;
+    .hero-watch-btn {
+      display: inline-flex; align-items: center; gap: 10px;
+      margin-top: 28px;
+      padding: 10px 22px 10px 10px;
+      border-radius: 50px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.03);
+      color: var(--text-muted);
+      font-size: 14px; font-weight: 500;
+      font-family: 'DM Sans', sans-serif;
+      cursor: pointer; text-decoration: none;
+      transition: border-color 0.2s, background 0.2s, color 0.2s;
     }
-
-    .bottom-nav-link.active {
-      background-color: var(--color-border);
-      color: white;
+    .hero-watch-btn:hover {
+      border-color: rgba(245,158,11,0.4);
+      background: var(--amber-dim);
+      color: var(--amber);
     }
+    .play-circle {
+      width: 32px; height: 32px; border-radius: 50%;
+      background: var(--amber);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; transition: background 0.2s;
+    }
+    .hero-watch-btn:hover .play-circle { background: #fbbf24; }
+    .play-circle svg { width: 10px; height: 10px; fill: #0a0a0a; margin-left: 2px; }
 
-    html.dark .bottom-nav-link {
-      border-color: var(--color-border);
+    .cards-grid {
+      margin-top: 52px;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      max-width: 820px;
+      width: 100%;
+    }
+    .investor-section { margin-top: 56px; width: 100%; max-width: 820px; }
+    .investor-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 16px;
     }
 
     @media (max-width: 768px) {
-      .cards-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    .card-link {
-      height: 100%;
-      display: block;
-    }
-
-    .card {
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      position: relative;
-    }
-
-    .card-arrow {
-      position: absolute;
-      bottom: 16px;
-      right: 16px;
-      color: var(--color-border);
-      opacity: 0.75;
-      transition: opacity 0.2s ease, transform 0.2s ease, filter 0.2s ease;
-      pointer-events: none;
-    }
-
-    .card:hover .card-arrow {
-      opacity: 1;
-      transform: translateX(6px);
-      filter: drop-shadow(0 0 6px rgba(200, 90, 84, 0.7));
+      .hero { padding: 48px 16px 44px; min-height: calc(100svh - var(--nav-h)); }
+      .hero-headline { font-size: clamp(36px, 10vw, 52px); }
+      .hero-sub { font-size: 15px; max-width: 100%; }
+      .cards-grid { grid-template-columns: 1fr; gap: 10px; margin-top: 36px; }
+      .investor-section { margin-top: 40px; }
+      .investor-grid { grid-template-columns: 1fr; gap: 8px; }
     }
   </style>
 </head>
 <body>
 
-<header>
-  <a href="index.html" class="logo" aria-label="VIA Home">
-    <img id="logo" src="images/VIA_logo_large_black.png" alt="VIA Logo">
-  </a>
+<!-- NAV -->
+<header class="nav-wrapper">
+  <nav class="nav-primary">
+    <a href="index.html" class="nav-logo">
+      <img src="vialogowhite.png" alt="VIA" />
+    </a>
+    <ul class="nav-primary-links">
+      <li><a href="buyer.html">Buyers</a></li>
+      <li><a href="seller.html">Sellers</a></li>
+      <li><a href="what-is-via.html">FAQ</a></li>
+      <li class="nav-divider" role="separator" aria-hidden="true"></li>
+      <li class="nav-clients">
+        <a href="#" onclick="openClientsModal(event)">Clients <span class="badge-soon">Soon</span></a>
+      </li>
+      <li><a href="join.html" class="nav-cta">Join</a></li>
+    </ul>
+    <button class="nav-hamburger" onclick="toggleMobileMenu()" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+  <div class="nav-secondary">
+    <div class="nav-secondary-inner">
+      <span class="nav-secondary-label">VIA Labs</span>
+      <ul class="nav-secondary-links">
+        <li><a href="paper.html">Research Paper</a></li>
+        <li><a href="proof.html">Proof of Concept</a></li>
+        <li><a href="https://demo.getvia.xyz" target="_blank" rel="noopener">Live Demo <span class="ext-icon">↗</span></a></li>
+      </ul>
+    </div>
+  </div>
 </header>
 
-<button class="theme-toggle" id="themeToggle" aria-label="Toggle dark/light mode">
-  <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-    <circle cx="12" cy="12" r="5"></circle>
-    <line x1="12" y1="1" x2="12" y2="3"></line>
-    <line x1="12" y1="21" x2="12" y2="23"></line>
-    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-    <line x1="1" y1="12" x2="3" y2="12"></line>
-    <line x1="21" y1="12" x2="23" y2="12"></line>
-    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-  </svg>
-  <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-  </svg>
-</button>
-
-<main>
-  <div class="container">
-    <h1>Making Agentic Commerce Work</h1>
-
-    <div class="video-container">
-      <iframe
-        id="vimeo-player"
-        src="https://player.vimeo.com/video/1161363296?autoplay=1&controls=0&muted=1&loop=1"
-        frameborder="0"
-        allow="autoplay; fullscreen; picture-in-picture"
-        title="Introducing VIA">
-      </iframe>
-      <button id="audio-toggle" aria-label="Toggle video audio">🔇</button>
-    </div>
-
-    <div class="cards-grid">
-
-      <a href="buyer.html" class="card-link">
-        <article class="card">
-          <h2>Buyers</h2>
-          <p>Shopping without tabs, ads, or noise.</p>
-          <p>Your agent does the work.</p>
-          <p>Because who has time for all that scrolling through the wrong links!</p>
-
-          <span class="card-arrow">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <line x1="5" y1="12" x2="19" y2="12"></line>
-              <polyline points="12 5 19 12 12 19"></polyline>
-            </svg>
-          </span>
-        </article>
-      </a>
-
-      <a href="seller.html" class="card-link">
-        <article class="card">
-          <h2>Sellers</h2>
-          <p>Don't waste cash on unproductive ads and paid promotions.</p>
-          <p>Build your business while your VIA agent finds and deals with real customers.</p>
-          <p>Save time and money. Do what matters.</p>
-
-          <span class="card-arrow">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <line x1="5" y1="12" x2="19" y2="12"></line>
-              <polyline points="12 5 19 12 12 19"></polyline>
-            </svg>
-          </span>
-        </article>
-      </a>
-
-      <a href="what-is-via.html" class="card-link">
-        <article class="card">
-          <h2>What is VIA?</h2>
-          <p>Explore the FAQs and get a feel for agentic commerce.</p>
-          <p>Check Buyers or Sellers to see what’s relevant.</p>
-
-          <span class="card-arrow">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <line x1="5" y1="12" x2="19" y2="12"></line>
-              <polyline points="12 5 19 12 12 19"></polyline>
-            </svg>
-          </span>
-        </article>
-      </a>
-
- <a href="/join.html" class="card-link">
-  <article class="card" id="register-card">
-    <h2>Talk to VIA</h2>
-    <p>
-      We will be live soon. Talk to an agent to get the latest news.
-      Whether you are a buyer, seller or just excited by the future.
-    </p>
-
-    <span class="card-arrow">
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-        <line x1="5" y1="12" x2="19" y2="12"></line>
-        <polyline points="12 5 19 12 12 19"></polyline>
-      </svg>
-    </span>
-  </article>
-</a>
-
-
-        <span class="card-arrow">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-            <line x1="5" y1="12" x2="19" y2="12"></line>
-            <polyline points="12 5 19 12 12 19"></polyline>
-          </svg>
-        </span>
-      </article>
-
-    </div>
-
-  <<nav class="bottom-nav" aria-label="Main navigation">
-  <a href="buyer.html" class="bottom-nav-link">Buyer</a>
-  <a href="seller.html" class="bottom-nav-link">Seller</a>
-  <a href="what-is-via.html" class="bottom-nav-link">FAQ</a>
-  <a href="paper.html" class="bottom-nav-link">Paper</a>
-  <a href="proof.html" class="bottom-nav-link">Proof</a>
-<a href="https://demo.getvia.xyz" class="bottom-nav-link">Demo</a>
-<a href="join.html" class="bottom-nav-link">Join</a>
-</nav>
-
-
-
-
-  </div>
-</main>
-
-<div class="footer-left">© VIA Labs Pte Ltd</div>
-<div class="footer-right">
-    <a href="https://x.com/via_labs_sg" target="_blank" rel="noopener noreferrer" class="social-link">
-    <img
-      id="socialIcon"
-      src="images/logo-black.png"
-      alt="X (Twitter)"
-      class="social-icon"
-      data-light="images/logo-black.png"
-      data-dark="images/logo-white.png"
-    >
-  </a>
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <div class="mobile-section-label">Navigation</div>
+  <a href="buyer.html">Buyers <span>→</span></a>
+  <a href="seller.html">Sellers <span>→</span></a>
+  <a href="what-is-via.html">FAQ <span>→</span></a>
+  <a href="#" class="mobile-clients" onclick="openClientsModal(event)">Clients <span class="badge-soon">Soon</span></a>
+  <a href="join.html" class="mobile-cta">Join VIA <span>→</span></a>
+  <div class="mobile-section-label" style="margin-top:6px">VIA Labs</div>
+  <a href="paper.html" class="mobile-secondary">Research Paper <span>→</span></a>
+  <a href="proof.html" class="mobile-secondary">Proof of Concept <span>→</span></a>
+  <a href="https://demo.getvia.xyz" target="_blank" class="mobile-secondary">Live Demo ↗</a>
 </div>
 
-<script src="https://player.vimeo.com/api/player.js"></script>
+<div class="nav-spacer"></div>
 
-<script>
-  (function() {
-    let player;
-    let isMuted = true;
-    const audioButton = document.getElementById('audio-toggle');
+<!-- HERO -->
+<main>
+  <section class="hero">
+    <div class="hero-eyebrow anim-1">Agentic Commerce</div>
 
-    window.addEventListener('load', function() {
-      const iframe = document.getElementById('vimeo-player');
-      if (!iframe || !audioButton) return;
+    <h1 class="hero-headline anim-2">
+      Making <em>Agentic</em><br>Commerce Work
+    </h1>
 
-      player = new Vimeo.Player(iframe);
-      player.setVolume(0);
-      player.setLoop(true);
+    <p class="hero-sub anim-3">
+      A new layer between buyers, sellers, and the internet —
+      where AI agents handle the commerce so you don't have to.
+    </p>
 
-      audioButton.addEventListener('click', function() {
-        if (isMuted) {
-          player.setVolume(1);
-          audioButton.textContent = '🔊';
-          isMuted = false;
-        } else {
-          player.setVolume(0);
-          audioButton.textContent = '🔇';
-          isMuted = true;
-        }
-      });
-    });
-  })();
-</script>
+    <button class="hero-watch-btn anim-4" onclick="openVideoModal()">
+      <span class="play-circle">
+        <svg viewBox="0 0 10 12"><polygon points="0,0 10,6 0,12"/></svg>
+      </span>
+      Watch how it works
+    </button>
 
-<script src="js/theme.js"></script>
-<script src="js/forms.js"></script>
+    <!-- 4 primary cards -->
+    <div class="cards-grid anim-5">
+      <a href="buyer.html" class="card">
+        <div class="card-icon">🛍️</div>
+        <div class="card-label">For Buyers</div>
+        <div class="card-title">Shop without the noise</div>
+        <p class="card-desc">No tabs, no ads, no scrolling through irrelevant results. Your agent finds what you need and gets it done.</p>
+        <span class="card-arrow">→</span>
+      </a>
+      <a href="seller.html" class="card">
+        <div class="card-icon">📦</div>
+        <div class="card-label">For Sellers</div>
+        <div class="card-title">Reach real customers</div>
+        <p class="card-desc">Stop burning budget on ads. Let your VIA agent find genuine buyers while you focus on what matters.</p>
+        <span class="card-arrow">→</span>
+      </a>
+      <a href="what-is-via.html" class="card">
+        <div class="card-icon">💡</div>
+        <div class="card-label">Learn More</div>
+        <div class="card-title">What is VIA?</div>
+        <p class="card-desc">Explore the FAQs. Understand agentic commerce and what it means for buyers and sellers across Asia.</p>
+        <span class="card-arrow">→</span>
+      </a>
+      <a href="#" class="card card-coming-soon" onclick="openClientsModal(event)">
+        <div class="card-icon">⚙️</div>
+        <div class="card-label">Clients <span class="badge-soon">Coming Soon</span></div>
+        <div class="card-title">Agent Dashboard</div>
+        <p class="card-desc">Register your agent, monitor activity, and manage your VIA merchant profile — all in one place.</p>
+        <span class="card-arrow">→</span>
+      </a>
+    </div>
 
+    <!-- Investor/developer row -->
+    <div class="investor-section anim-6">
+      <div class="section-label">VIA Labs</div>
+      <div class="investor-grid">
+        <a href="paper.html" class="card card-secondary">
+          <div class="card-icon">📄</div>
+          <div class="card-label">Research</div>
+          <div class="card-title">Paper</div>
+          <p class="card-desc">The technical thesis behind agentic commerce.</p>
+          <span class="card-arrow">→</span>
+        </a>
+        <a href="proof.html" class="card card-secondary">
+          <div class="card-icon">🔬</div>
+          <div class="card-label">Validation</div>
+          <div class="card-title">Proof</div>
+          <p class="card-desc">Evidence and results from early experiments.</p>
+          <span class="card-arrow">→</span>
+        </a>
+        <a href="https://demo.getvia.xyz" target="_blank" rel="noopener" class="card card-secondary">
+          <div class="card-icon">▶️</div>
+          <div class="card-label">Live Demo</div>
+          <div class="card-title">Demo ↗</div>
+          <p class="card-desc">See a VIA agent handling a real transaction.</p>
+          <span class="card-arrow">→</span>
+        </a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="footer-left">
+    <a href="index.html" class="footer-logo"><img src="vialogowhite.png" alt="VIA" /></a>
+    <span class="footer-copy">© VIA Labs Pte Ltd · Singapore</span>
+  </div>
+  <a href="https://x.com/via_labs_sg" target="_blank" rel="noopener" class="footer-x">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.259 5.63 5.905-5.63zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+    @via_labs_sg
+  </a>
+</footer>
+
+<!-- VIDEO MODAL — Vimeo 1161363296 (overview, plays with sound) -->
+<div class="video-modal-overlay" id="videoModal" onclick="handleVideoOverlay(event)">
+  <div class="video-modal-inner">
+    <div class="video-modal-header">
+      <span class="video-modal-title">Introducing VIA</span>
+      <button class="video-modal-close" onclick="closeVideoModal()" aria-label="Close">✕</button>
+    </div>
+    <div class="video-wrapper">
+      <iframe
+        id="video-modal-iframe"
+        data-src="https://player.vimeo.com/video/1161363296?autoplay=1&controls=1&muted=0&title=0&byline=0&portrait=0"
+        src="about:blank"
+        frameborder="0"
+        allow="autoplay; fullscreen; picture-in-picture"
+        allowfullscreen
+        title="Introducing VIA">
+      </iframe>
+    </div>
+  </div>
+</div>
+
+<!-- CLIENTS MODAL -->
+<div class="modal-overlay" id="clientsModal" onclick="handleClientsOverlay(event)">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <button class="modal-close" onclick="closeClientsModal()" aria-label="Close">✕</button>
+    <div class="modal-icon">⚙️</div>
+    <div class="modal-tag">Coming Soon</div>
+    <h2 class="modal-title" id="modal-title">VIA Client Portal</h2>
+    <p class="modal-body">
+      The <strong>Client Dashboard</strong> is where sellers register their agent, configure their VIA presence, and track commerce activity in real time.<br><br>
+      We're building it now. Leave your email and we'll notify you when access opens.
+    </p>
+    <div class="modal-notify">
+      <input class="modal-input" type="email" id="notifyEmail" placeholder="your@email.com" />
+      <button class="modal-btn" onclick="handleNotify()">Notify Me</button>
+    </div>
+    <div class="modal-features">
+      <div class="modal-feature"><div class="modal-feature-dot"></div>Agent registration &amp; setup</div>
+      <div class="modal-feature"><div class="modal-feature-dot"></div>Real-time transaction dashboard</div>
+      <div class="modal-feature"><div class="modal-feature-dot"></div>Merchant profile management</div>
+      <div class="modal-feature"><div class="modal-feature-dot"></div>Analytics &amp; commerce insights</div>
+    </div>
+  </div>
+</div>
+
+<script src="via-ui.js"></script>
 </body>
 </html>

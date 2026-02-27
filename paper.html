@@ -1,778 +1,388 @@
 <!DOCTYPE html>
-<!-- CANONICAL_PAPER_V4 -->
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <title>VIA Paper</title>
-  <meta name="description" content="VIA Paper. A detailed overview of VIA Labs, roadmap, technical architecture, and MCP servers." />
-
-  <link rel="icon" type="image/png" href="images/VIA_logo_large_black.png">
-  <link rel="stylesheet" href="css/main.css">
-
+  <title>Research Paper — VIA Labs</title>
+  <meta name="description" content="VIA Litepaper. Technical architecture, roadmap, team, identity, and MCP servers." />
+  <link rel="icon" type="image/png" href="vialogowhite.png" />
+  <link rel="stylesheet" href="via.css" />
   <style>
-    .paper-wrap{
-      max-width: 980px;
-      margin: 0 auto;
-      padding: 2rem 1.25rem 3rem;
+    main { max-width: 800px; margin: 0 auto; padding: 56px 24px 80px; }
+    .page-eyebrow {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--amber); margin-bottom: 14px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .page-eyebrow::before { content:''; display:block; width:20px; height:1px; background:var(--amber); opacity:0.5; }
+    h1 { font-family:'Syne',sans-serif; font-size:clamp(34px,5.5vw,56px); font-weight:800; letter-spacing:-0.025em; line-height:1.05; margin-bottom:10px; }
+    .page-sub { font-size:15px; color:var(--text-muted); font-weight:300; line-height:1.65; margin-bottom:40px; }
+
+    /* Contents */
+    .paper-contents { background:var(--bg-card); border:1px solid var(--border); border-radius:12px; padding:22px 24px; margin-bottom:24px; }
+    .paper-contents-label { font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:var(--text-dim); margin-bottom:14px; }
+    .paper-tabs { display:flex; flex-wrap:wrap; gap:8px; }
+    .paper-tab {
+      display:inline-flex; align-items:center; padding:7px 16px; border-radius:6px;
+      border:1px solid var(--border); background:transparent; color:var(--text-muted);
+      font-size:13px; font-family:'DM Sans',sans-serif; font-weight:500; cursor:pointer;
+      transition:all 0.15s;
+    }
+    .paper-tab:hover { border-color:rgba(245,158,11,0.3); color:var(--text-primary); background:rgba(255,255,255,0.03); }
+    .paper-tab.active { background:var(--amber-dim); border-color:rgba(245,158,11,0.4); color:var(--amber); }
+
+    /* Accordion */
+    .paper-section { background:var(--bg-card); border:1px solid var(--border); border-radius:12px; margin-bottom:8px; overflow:hidden; transition:border-color 0.2s; }
+    .paper-section.open { border-color:rgba(245,158,11,0.25); }
+    .paper-toggle { width:100%; display:flex; align-items:center; justify-content:space-between; gap:16px; padding:20px 24px; background:transparent; border:none; cursor:pointer; text-align:left; }
+    .paper-toggle-title { font-family:'Syne',sans-serif; font-size:18px; font-weight:700; color:var(--text-muted); letter-spacing:-0.01em; transition:color 0.15s; }
+    .paper-section.open .paper-toggle-title { color:var(--text-primary); }
+    .paper-toggle-icon { width:26px; height:26px; border-radius:50%; border:1px solid rgba(245,158,11,0.3); color:var(--amber); font-size:18px; font-weight:300; display:flex; align-items:center; justify-content:center; flex-shrink:0; transition:transform 0.22s, background 0.2s; }
+    .paper-section.open .paper-toggle-icon { transform:rotate(45deg); background:var(--amber-dim); }
+    .paper-body { max-height:0; overflow:hidden; opacity:0; transition:max-height 0.35s ease, opacity 0.25s ease; border-top:1px solid transparent; }
+    .paper-section.open .paper-body { opacity:1; border-top-color:var(--border); }
+    .paper-body-inner { padding:24px 28px 28px; }
+
+    /* Typography */
+    .paper-body-inner p { font-size:14px; color:var(--text-muted); line-height:1.75; font-weight:300; }
+    .paper-body-inner p+p { margin-top:12px; }
+    .paper-body-inner strong { color:var(--text-primary); font-weight:600; }
+    .paper-body-inner ul { margin:10px 0 14px 20px; }
+    .paper-body-inner li { font-size:14px; color:var(--text-muted); line-height:1.7; font-weight:300; margin-bottom:5px; }
+    .paper-body-inner a { color:var(--amber); text-decoration:none; word-break:break-all; }
+    .paper-body-inner a:hover { text-decoration:underline; }
+
+    .paper-heading { font-family:'Syne',sans-serif; font-size:16px; font-weight:700; color:var(--text-primary); margin:22px 0 8px; letter-spacing:-0.01em; }
+    .paper-heading:first-child { margin-top:0; }
+    .paper-heading-lg {
+      font-family:'Syne',sans-serif; font-size:19px; font-weight:800; color:var(--text-primary);
+      margin:28px 0 10px; letter-spacing:-0.02em;
+      display:flex; align-items:center; gap:10px;
+    }
+    .paper-heading-lg::before {
+      content:attr(data-num); font-family:'IBM Plex Mono',monospace; font-size:11px;
+      color:var(--amber); background:var(--amber-dim); border:1px solid rgba(245,158,11,0.2);
+      border-radius:4px; padding:2px 8px; letter-spacing:0.05em; flex-shrink:0;
     }
 
-    /* Contents block */
-    .paper-index{
-      margin: 1.25rem 0 2rem;
-      padding: 1rem;
-      border: 1px solid rgba(255,255,255,0.12);
-      border-radius: 12px;
-      background: rgba(255,255,255,0.04);
-    }
+    /* Person block */
+    .person-block { background:rgba(255,255,255,0.025); border:1px solid rgba(255,255,255,0.06); border-radius:10px; padding:18px 20px; margin:14px 0; }
+    .person-block h3 { font-family:'Syne',sans-serif; font-size:16px; font-weight:700; color:var(--text-primary); margin-bottom:4px; }
+    .person-role { font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.05em; text-transform:uppercase; color:var(--amber); margin-bottom:12px; }
 
-    .paper-index h2{
-      margin: 0 0 0.75rem;
-      font-size: 1.05rem;
-      opacity: 0.9;
-    }
+    /* MCP */
+    .mcp-address { width:100%; background:rgba(245,158,11,0.06); border:1px solid rgba(245,158,11,0.2); border-radius:8px; padding:10px 14px; font-family:'IBM Plex Mono',monospace; font-size:13px; color:var(--amber); cursor:pointer; outline:none; }
 
-    .tab-row{
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.6rem;
-    }
+    /* Phase badge */
+    .phase-badge { display:inline-block; font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.08em; text-transform:uppercase; color:var(--amber); background:var(--amber-dim); border:1px solid rgba(245,158,11,0.2); border-radius:4px; padding:3px 10px; margin:18px 0 6px; }
 
-    .tab-row a{
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 0.65rem 0.95rem;
-      border-radius: 999px;
-      border: 1px solid rgba(0,0,0,0.18);
-      background: #ffffff;
-      color: #000000;
-      text-decoration: none;
-      font-size: 0.95rem;
-      line-height: 1;
-      font-weight: 600;
-    }
-
-    .tab-row a:hover{
-      background: #f2f2f2;
-      border-color: rgba(0,0,0,0.35);
-    }
-
-    .tab-row a.active{
-      background: #000000;
-      color: #ffffff;
-      border-color: #000000;
-    }
-
-    /* Accordion containers */
-    .paper-section{
-      margin-bottom: 0.9rem;
-      border: 1px solid rgba(255,255,255,0.14);
-      border-radius: 12px;
-      overflow: hidden;
-      background: rgba(255,255,255,0.02);
-    }
-
-    .paper-toggle{
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1rem;
-      padding: 1rem 1rem;
-      cursor: pointer;
-      background: transparent;
-      border: none;
-      text-align: left;
-    }
-
-    .paper-toggle h2{
-      margin: 0;
-      font-size: 1.05rem;
-    }
-
-    .paper-toggle.paper-toggle-large h2{
-      font-size: 1.2rem;
-      font-weight: 700;
-    }
-
-    .toggle-icon{
-      width: 30px;
-      height: 30px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,0.22);
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 800;
-      line-height: 1;
-      flex: 0 0 auto;
-      opacity: 0.9;
-    }
-
-    .paper-content{
-      display: none;
-      padding: 0 1rem 1rem;
-    }
-
-    .paper-content p{
-      margin: 0.75rem 0;
-    }
-
-    .paper-content ul{
-      margin: 0.5rem 0 0.75rem 1.25rem;
-    }
-
-    .paper-content li{
-      margin: 0.35rem 0;
-    }
-
-    .paper-content a{
-      color: #2563eb;
-      text-decoration: underline;
-      text-underline-offset: 2px;
-      font-weight: 600;
-    }
-
-    .paper-content a:hover{
-      color: #1d4ed8;
-    }
-
-    /* People blocks */
-    .person-block{
-      margin: 1rem 0 1.25rem;
-      padding: 1rem;
-      border: 1px solid rgba(255,255,255,0.12);
-      border-radius: 12px;
-      background: rgba(255,255,255,0.03);
-    }
-
-    .person-block h3{
-      margin: 0 0 0.45rem;
-      font-size: 1.02rem;
-    }
-
-    .person-meta{
-      margin: 0 0 0.75rem;
-      opacity: 0.85;
-      font-size: 0.95rem;
-    }
-
-    .architecture-heading{
-      font-size: 1.05rem;
-      font-weight: 700;
-      margin-top: 1.1rem;
-    }
-
-    .architecture-numbered{
-      margin-top: 1.75rem;
-      font-size: 1.2rem;
-      font-weight: 800;
-    }
-
-    .paper-footer{
-      margin-top: 2.5rem;
-      opacity: 0.85;
-      font-size: 0.95rem;
-      text-align: center;
-    }
+    @media (max-width:600px) { main{padding:36px 16px 60px;} .paper-body-inner{padding:18px 16px 20px;} .paper-toggle{padding:16px 18px;} }
   </style>
 </head>
-
 <body>
-  <header>
-    <a href="index.html" class="logo" aria-label="VIA Home">
-      <img id="logo" src="images/VIA_logo_large_black.png" alt="VIA Logo">
-    </a>
-  </header>
 
-  <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark/light mode">
-    <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-      <circle cx="12" cy="12" r="5"></circle>
-      <line x1="12" y1="1" x2="12" y2="3"></line>
-      <line x1="12" y1="21" x2="12" y2="23"></line>
-      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-      <line x1="1" y1="12" x2="3" y2="12"></line>
-      <line x1="21" y1="12" x2="23" y2="12"></line>
-      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-    </svg>
-    <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-    </svg>
-  </button>
+<header class="nav-wrapper">
+  <nav class="nav-primary">
+    <a href="index.html" class="nav-logo"><img src="vialogowhite.png" alt="VIA" /></a>
+    <ul class="nav-primary-links">
+      <li><a href="buyer.html">Buyers</a></li>
+      <li><a href="seller.html">Sellers</a></li>
+      <li><a href="what-is-via.html">FAQ</a></li>
+      <li class="nav-divider" role="separator" aria-hidden="true"></li>
+      <li class="nav-clients"><a href="#" onclick="openClientsModal(event)">Clients <span class="badge-soon">Soon</span></a></li>
+      <li><a href="join.html" class="nav-cta">Join</a></li>
+    </ul>
+    <button class="nav-hamburger" onclick="toggleMobileMenu()" aria-label="Open menu"><span></span><span></span><span></span></button>
+  </nav>
+  <div class="nav-secondary">
+    <div class="nav-secondary-inner">
+      <span class="nav-secondary-label">VIA Labs</span>
+      <ul class="nav-secondary-links">
+        <li><a href="paper.html" class="active">Research Paper</a></li>
+        <li><a href="proof.html">Proof of Concept</a></li>
+        <li><a href="https://demo.getvia.xyz" target="_blank" rel="noopener">Live Demo <span class="ext-icon">↗</span></a></li>
+      </ul>
+    </div>
+  </div>
+</header>
 
-  <main>
-    <div class="paper-wrap">
-
-      <section class="paper-index" aria-label="Contents">
-        <h2>Litepaper - Contents</h2>
-        <div class="tab-row" id="paperTabs">
-          <a href="#section-architecture" data-open="section-architecture">Technical Architecture</a>
-          <a href="#section-identity" data-open="section-identity">Identity and Transactions</a>
-          <a href="#section-roadmap" data-open="section-roadmap">Roadmap</a>
-          <a href="#section-team" data-open="section-team">Team</a>
-          <a href="#section-mcp" data-open="section-mcp">MCP Servers</a>
-        </div>
-      </section>
-
-      <!-- Technical Architecture -->
-      <section class="paper-section" id="section-architecture">
-        <button class="paper-toggle paper-toggle-large" type="button" aria-expanded="false" aria-controls="content-architecture">
-          <h2>Technical Architecture</h2>
-          <span class="toggle-icon" aria-hidden="true">+</span>
-        </button>
-
-        <div class="paper-content" id="content-architecture">
-          <p class="architecture-heading"><strong>System Overview</strong></p>
-          <p>
-            VIA is an intent-driven, agent-native commerce system designed to operate across platforms without reliance on search, advertising, or centralised marketplaces.
-            VIA is the interface layer where intent is expressed and responses are surfaced, then the protocol and coordination framework that enables routing, trust enforcement, discovery, and autonomous transactions between agents.
-          </p>
-
-          <p><strong>The system is composed of three core components</strong></p>
-          <ul>
-            <li>Intent and Interface</li>
-            <li>Messaging and Discovery</li>
-            <li>Coordination Framework</li>
-          </ul>
-
-          <p class="architecture-numbered"><strong>1. Intent and Interface Layer, VIA</strong></p>
-          <p class="architecture-heading"><strong>Purpose</strong></p>
-          <p>
-            VIA exists to capture intent before it becomes a transaction. It is designed to work within environments users already trust and use, rather than forcing new behaviours or destinations.
-            VIA does not execute transactions, rank suppliers, or intermediate checkout.
-          </p>
-
-          <p class="architecture-heading"><strong>Core Characteristics</strong></p>
-          <ul>
-            <li>Lightweight plug-in and connector model</li>
-            <li>Integrates directly into major LLM environments, including Claude, Gemini, and ChatGPT</li>
-            <li>Converts conversational input into structured, machine-readable intent</li>
-            <li>Forwards intent to the central relayer from buyers to sellers</li>
-          </ul>
-
-          <p class="architecture-heading"><strong>Technical Notes</strong></p>
-          <ul>
-            <li>VIA connects to a structured Model Context Protocol server operated within the framework</li>
-            <li>Intent is normalised into schema-based representations rather than keyword strings</li>
-            <li>VIA is agnostic to commerce platforms, payment rails, and fulfilment systems</li>
-          </ul>
-
-          <p class="architecture-numbered"><strong>2. Messaging and Discovery Layer, Nostr-Based Relays</strong></p>
-          <p class="architecture-heading"><strong>Purpose</strong></p>
-          <p>
-            Discovery and communication are handled through a relay-based messaging architecture inspired by Nostr, rather than central directories or proprietary APIs.
-          </p>
-
-          <p class="architecture-heading"><strong>Rationale for Relay Architecture</strong></p>
-          <ul>
-            <li>No central index or gatekeeper</li>
-            <li>Publish and subscribe semantics</li>
-            <li>Cryptographic signing of all messages</li>
-            <li>Censorship-resistant and extensible by design</li>
-          </ul>
-
-          <p class="architecture-heading"><strong>Message Model</strong></p>
-          <p>
-            Intent, responses, offers, and acknowledgements are represented as signed events.
-            Events are broadcast to relays rather than addressed to a central service. Agents subscribe selectively based on relevance, trust rules, and declared capability.
-            This ensures discovery remains open and cannot be monopolised by a single operator.
-          </p>
-
-          <p class="architecture-heading"><strong>Capabilities Enabled</strong></p>
-          <ul>
-            <li>Decentralised agent discovery</li>
-            <li>Agent-level filtering rather than platform-level ranking</li>
-            <li>Interoperability across independent implementations</li>
-          </ul>
-
-          <p class="architecture-heading"><strong>Reference Documentation</strong></p>
-          <ul>
-            <li><a href="https://nostr.com" target="_blank" rel="noopener noreferrer">https://nostr.com</a></li>
-            <li><a href="https://github.com/nostr-protocol/nostr" target="_blank" rel="noopener noreferrer">https://github.com/nostr-protocol/nostr</a></li>
-            <li><a href="https://nostr.how" target="_blank" rel="noopener noreferrer">https://nostr.how</a></li>
-          </ul>
-
-          <p class="architecture-numbered"><strong>3. The Coordination Framework</strong></p>
-          <p>
-            VIA is not a single protocol. It is the coordination framework that aligns intent schemas, trust rules, messaging conventions,
-            and transaction patterns so independent agents can work together without requiring a central marketplace.
-          </p>
-
-          <p class="architecture-heading"><strong>Design Goals</strong></p>
-          <ul>
-            <li>VIA remains platform-agnostic</li>
-            <li>Discovery cannot be captured by any single platform</li>
-            <li>Integration is possible without dependency</li>
-          </ul>
-
-          <p class="architecture-heading"><strong>Interoperability</strong></p>
-          <p>
-            VIA is designed to interoperate with verifiable platform MCP servers, commerce coordination protocols such as UCP,
-            and existing e-commerce infrastructure, including Shopify.
-          </p>
-
-          <p class="architecture-heading"><strong>Where identity and settlement live</strong></p>
-          <p>
-            Identity and settlement are treated as first-class infrastructure concerns and are detailed in the Identity and Transactions section.
-          </p>
-        </div>
-      </section>
-
-      <!-- Identity and Transactions -->
-      <section class="paper-section" id="section-identity">
-        <button class="paper-toggle paper-toggle-large" type="button" aria-expanded="false" aria-controls="content-identity">
-          <h2>Identity and Transactions</h2>
-          <span class="toggle-icon" aria-hidden="true">+</span>
-        </button>
-
-        <div class="paper-content" id="content-identity">
-          <p class="architecture-heading"><strong>Purpose</strong></p>
-          <p>
-            Agents cannot safely operate using implicit platform trust. For agents to negotiate, commit, and transact, identity must be verifiable and transactions must be enforceable.
-            VIA treats identity and settlement as infrastructure primitives, designed to be independently checkable and automation-friendly.
-          </p>
-
-          <p class="architecture-heading"><strong>Verifiable Agent Identity</strong></p>
-          <p>
-            VIA integrates with ERC-8004 concepts and registries for verifiable agent identity. This enables agents to be resolvable, attributable, and auditable without relying on a platform to vouch for them.
-          </p>
-
-          <p><strong>What an agent can prove</strong></p>
-          <ul>
-            <li>Wallet control, via signing</li>
-            <li>Registry linkage, via resolvable identity metadata</li>
-            <li>Freshness, via timestamped attestations</li>
-            <li>Authenticity, via independent verification</li>
-          </ul>
-
-          <p class="architecture-heading"><strong>Live proof</strong></p>
-          <p>
-            VIA operates a public proof page that demonstrates a live signed attestation and verifies it in-browser.
-            This is designed to be independently checkable and readable by humans.
-          </p>
-          <ul>
-            <li><a href="proof.html">Proof page</a></li>
-          </ul>
-
-          <p class="architecture-heading"><strong>Transactions and settlement</strong></p>
-          <p>
-            Traditional payment systems are not designed for machine-to-machine interaction, sub-cent pricing, or conditional settlement.
-            VIA supports agentic transaction patterns where value transfer can be embedded into agent-to-agent flows.
-          </p>
-
-          <p class="architecture-heading"><strong>x402 settlement layer</strong></p>
-          <p>
-            The x402 protocol provides a settlement layer optimised for agentic interaction, including micropayments and programmatic settlement.
-            This enables a clean link between identity, authority, and economic action.
-          </p>
-
-          <p><strong>Initial use cases</strong></p>
-          <ul>
-            <li>Paying agents to respond to intent</li>
-            <li>Incentivising relevance over volume</li>
-            <li>Compensating early or high-quality participation</li>
-          </ul>
-
-          <p class="architecture-heading"><strong>Reference Documentation</strong></p>
-          <ul>
-            <li><a href="https://eips.ethereum.org/EIPS/eip-8004" target="_blank" rel="noopener noreferrer">https://eips.ethereum.org/EIPS/eip-8004</a></li>
-            <li><a href="https://ethereum-magicians.org/t/erc-8004-agent-identity-and-trust/" target="_blank" rel="noopener noreferrer">https://ethereum-magicians.org/t/erc-8004-agent-identity-and-trust/</a></li>
-            <li><a href="https://blog.crossmint.com/what-is-x402/" target="_blank" rel="noopener noreferrer">https://blog.crossmint.com/what-is-x402/</a></li>
-            <li><a href="https://www.coinbase.com/blog/introducing-x402" target="_blank" rel="noopener noreferrer">https://www.coinbase.com/blog/introducing-x402</a></li>
-            <li><a href="https://alearesearch.substack.com/p/x402-payment-rails-for-the-agent" target="_blank" rel="noopener noreferrer">https://alearesearch.substack.com/p/x402-payment-rails-for-the-agent</a></li>
-          </ul>
-
-          <p class="architecture-heading"><strong>Outcome</strong></p>
-          <p>
-            Identity and transactions work together. Agents can make decisions and commitments based on verifiable identity, defined authority, and observable consequences.
-            Trust is not inherited from a platform. Trust is earned through behaviour and reinforced through verifiable identity and settlement rules.
-          </p>
-        </div>
-      </section>
-
-      <!-- Roadmap -->
-      <section class="paper-section" id="section-roadmap">
-        <button class="paper-toggle paper-toggle-large" type="button" aria-expanded="false" aria-controls="content-roadmap">
-          <h2>Roadmap</h2>
-          <span class="toggle-icon" aria-hidden="true">+</span>
-        </button>
-
-        <div class="paper-content" id="content-roadmap">
-          <p>
-            The current proof of concept demonstrates that all core components of VIA can be deployed independently and integrated into a single, functioning protocol stack.
-            Intent capture, agent identity and trust, decentralised messaging, and agentic payment settlement have each been implemented and validated.
-            These components have also been integrated end to end, showing that the full VIA protocol and interface operate as intended in controlled environments.
-          </p>
-
-          <p>
-            The next phase of work is not conceptual validation, but execution at scale. This includes hardening the infrastructure, developing production-grade interfaces,
-            and introducing zero-touch and plug-in driven interaction patterns that align with how users increasingly interact with their LLMs.
-            This phase also marks the transition from technical demonstration to measured market deployment.
-          </p>
-
-          <p>
-            The roadmap reflects this shift from proof of integration to proof of execution, followed by controlled expansion.
-            Large incumbents such as Google and Shopify will be dominant forces in this space. VIA is not designed to compete with them.
-            The intention is to complement what they do and work alongside, or with, these platforms where they do not naturally focus.
-          </p>
-
-          <p>
-            That value sits around judgement, trust, and specialism. VIA supports intermediary agents to refine intent before merchants are involved,
-            and merchant agents to do more than expose a catalogue by negotiating, applying brand rules, and making limited commitments within defined authority.
-            Trust underpins this, with agents operating under verifiable identity, defined limits, performance history, and real consequences for poor behaviour.
-          </p>
-
-          <p><strong>Development and Deployment Phases</strong></p>
-
-          <p><strong>Phase 1: Execution Hardening and Controlled Deployment</strong></p>
-          <p><strong>Timeframe:</strong> 0 to 3 months</p>
-          <p>The primary objective is to demonstrate repeatable execution in real conditions with friendly partners and small, well-defined communities.</p>
-
-          <p><strong>Key activities</strong></p>
-          <ul>
-            <li>Scaling core protocol infrastructure for reliability and throughput</li>
-            <li>Hardening coordination logic and routing rules</li>
-            <li>Refining VIA user and merchant interfaces, including UI and UX improvements</li>
-            <li>Expanding zero-touch and plug-in based interaction flows within LLM environments</li>
-            <li>Continuous testing with selected merchants and user groups</li>
-            <li>Instrumentation for measuring intent quality, response relevance, and interaction outcomes</li>
-          </ul>
-
-          <p>
-            This phase prioritises learning velocity and system stability over growth. The goal is to validate that the protocol behaves predictably under real usage patterns without overextending scope or reach.
-          </p>
-
-          <p><strong>Phase 2: Expanded Rollout and Market Readiness</strong></p>
-          <p><strong>Timeframe:</strong> 3 to 6 months</p>
-          <p>Following successful execution in controlled environments, the focus shifts to broader but still deliberate deployment.</p>
-
-          <p><strong>Key activities</strong></p>
-          <ul>
-            <li>Onboarding additional niche communities and relevant merchant categories</li>
-            <li>Extending LLM connector coverage and platform integrations</li>
-            <li>Developing structured go-to-market processes based on observed performance</li>
-            <li>Establishing initial strategic partnerships with platforms and ecosystem participants</li>
-            <li>Refining operational tooling for merchant and agent management</li>
-          </ul>
-
-          <p>
-            Growth remains selective. Expansion is driven by demonstrated effectiveness rather than breadth. The objective is to show the system can scale without degrading relevance, trust, or signal quality.
-          </p>
-
-          <p><strong>Go-to-Market Alignment</strong></p>
-          <p>
-            The deployment strategy is intentionally narrow at the outset. Initial focus is on targeted niche communities, merchants operating in high-consideration categories,
-            and users already comfortable interacting with AI agents. Broader engagement follows only once effectiveness has been consistently demonstrated.
-          </p>
-
-          <p><strong>FA$H as a Trust Enhancement Layer</strong></p>
-          <p>
-            FA$H is an existing ERC-20 token that is live and tradable on decentralised exchanges. Whilst it is not part of the core VIA product today,
-            it has been designed with a longer-term role in mind as a trust enhancement layer within the agentic commerce stack.
-          </p>
-          <p>
-            Once agent identity and reputation standards are fully deployed, FA$H could be used to support mechanisms such as agent credibility signalling,
-            participation thresholds, and potential dispute resolution backstops, allowing agents or merchants to place verifiable economic value behind behaviour.
-          </p>
-          <p>
-            Used in this way, FA$H would complement on-chain identity and payment flows by reinforcing trust with observable, programmable guarantees rather than relying solely on reputation metrics or contractual terms.
-          </p>
-        </div>
-      </section>
-
-      <!-- Team -->
-      <section class="paper-section" id="section-team">
-        <button class="paper-toggle paper-toggle-large" type="button" aria-expanded="false" aria-controls="content-team">
-          <h2>Team</h2>
-          <span class="toggle-icon" aria-hidden="true">+</span>
-        </button>
-
-        <div class="paper-content" id="content-team">
-          <p><strong>Founders</strong></p>
-
-          <div class="person-block">
-            <h3>Richard Hobbs</h3>
-            <p class="person-meta">Founder and CEO</p>
-            <p>30+ years operating at the intersection of fashion, culture, technology, and commerce across Europe and Asia.</p>
-            <p>
-              Richard has built, invested in, and advised global brands, creators, and platforms, with deep experience in fashion ecosystems,
-              brand partnerships, and new commercial models. At VIA Labs, he focuses on strategy, network development, and ensuring the product
-              aligns with real buyer and seller behaviour.
-            </p>
-          </div>
-
-          <div class="person-block">
-            <h3>Daniel Yen-Tin Lin</h3>
-            <p class="person-meta">Co-Founder and Head of Product</p>
-            <p>
-              Product and technical leader with a rare blend of C-level strategy and hands-on execution. Daniel has led end-to-end product architecture
-              across AI, blockchain, and consumer platforms.
-            </p>
-            <p>
-              He architects and ships core systems spanning autonomous AI agents, token design, smart contracts, and scalable consumer applications.
-              Trilingual and multicultural, Daniel bridges high-level vision with production-grade delivery.
-            </p>
-          </div>
-
-          <p><strong>Team and Advisors</strong></p>
-
-          <div class="person-block">
-            <h3>Sheilen Rathod</h3>
-            <p class="person-meta">Growth and Customer Experience</p>
-            <p>
-              Senior growth and commercial leader with deep experience scaling customer-led businesses across Asia Pacific and Greater China.
-              Founder and CEO of Future Proof Group, focused on data-led, tech-powered customer ecosystems spanning strategy, loyalty, experience design, and analytics.
-            </p>
-            <p>
-              Previously held senior regional leadership roles at Ogilvy, including Chief Growth Officer Asia Pacific and President of multiple experience and commerce divisions.
-              Brings strong commercial judgement, customer-centric strategy, and proven execution at enterprise scale, with a clear focus on measurable outcomes and long-term customer value.
-            </p>
-          </div>
-
-          <div class="person-block">
-            <h3>Moo Shanmugan</h3>
-            <p class="person-meta">Technology and Systems</p>
-            <p>
-              Seasoned technology leader with over two decades of experience across intelligent systems, applied engineering, and complex platform development.
-              Has held CEO, CTO, and Director roles spanning AI-driven education platforms, blockchain-based media, and large-scale infrastructure businesses across Asia.
-            </p>
-            <p>
-              Combines hands-on technical execution with senior operational leadership, including the design, build, and scaling of production-grade systems that bridge software and real-world deployment.
-              Adds strong systems thinking and execution depth to VIA Labs.
-            </p>
-          </div>
-
-          <div class="person-block">
-            <h3>Tony Magnetic</h3>
-            <p class="person-meta">Design and Brand Partnerships</p>
-            <p>
-              Veteran design and production leader with over 25 years at the intersection of global street culture, fashion, and manufacturing.
-              As Principal Director at TonyMagnetic Inc, he leads strategic design development and production partnerships across Vietnam, building and managing premium manufacturing networks spanning apparel, footwear, and accessories.
-            </p>
-            <p>
-              Earlier, co-founded and helped scale MECCA USA into a globally influential streetwear brand, driving international expansion across the US, Europe, and Asia and shaping the modern urban fashion movement.
-              Has advised and collaborated with major global brands including Nike, Reebok, Mercedes, Rolls-Royce, and leading hospitality and lifestyle groups.
-            </p>
-          </div>
-
-          <div class="person-block">
-  <h3>David Ward</h3>
-  <p class="person-meta">Commercial Growth and Human–AI Operating Models</p>
-  <p>
-    Senior commercial leader and entrepreneur with three decades of experience scaling international consumer and lifestyle brands across Europe and Asia.
-    Currently Regional Head of Sales, Asia Pacific at Quest Personal Care Global, leading multi-market expansion across Southeast Asia with distributor strategy, pricing architecture, and disciplined market execution delivering significant regional growth.
-  </p>
-  <p>
-    Founder of Darla AI and the Greypreneur Movement, designing and deploying applied human–AI operating models that improve productivity, decision quality, and long-term value creation.
-    Former senior leader at Fred Perry, Oakley, Quiksilver, Perry Ellis, Deckers, and JD Sports, with deep expertise in licensing, brand scaling, market expansion, and commercial transformation.
-  </p>
+<div class="mobile-menu" id="mobileMenu">
+  <div class="mobile-section-label">Navigation</div>
+  <a href="buyer.html">Buyers <span>→</span></a>
+  <a href="seller.html">Sellers <span>→</span></a>
+  <a href="what-is-via.html">FAQ <span>→</span></a>
+  <a href="#" class="mobile-clients" onclick="openClientsModal(event)">Clients <span class="badge-soon">Soon</span></a>
+  <a href="join.html" class="mobile-cta">Join VIA <span>→</span></a>
+  <div class="mobile-section-label" style="margin-top:6px">VIA Labs</div>
+  <a href="paper.html" class="mobile-secondary">Research Paper <span>→</span></a>
+  <a href="proof.html" class="mobile-secondary">Proof of Concept <span>→</span></a>
+  <a href="https://demo.getvia.xyz" target="_blank" class="mobile-secondary">Live Demo ↗</a>
 </div>
 
-          <div class="person-block">
-            <h3>Peter Caplowe</h3>
-            <p class="person-meta">Premium Fashion, Brand Building and Strategy</p>
-            <p>
-              Veteran fashion entrepreneur based between Europe and Asia, with deep experience building and scaling premium fashion businesses globally.
-              Widely recognised as the originator of the Premium Denim category, having discovered Evisu in Osaka in 1994 and launching it internationally at a then-unprecedented price point.
-            </p>
-            <p>
-              Grew the Evisu business outside Japan from startup to approximately US$100m in retail sales without external financing.
-              Experience spans the full lifecycle of brand creation and management, including design, supply chain operations, channel strategy, IP development, licensing, financing, and team building.
-            </p>
-          </div>
-        </div>
-      </section>
+<div class="nav-spacer"></div>
 
-      <!-- MCP Servers -->
-      <section class="paper-section" id="section-mcp">
-        <button class="paper-toggle paper-toggle-large" type="button" aria-expanded="false" aria-controls="content-mcp">
-          <h2>MCP Servers</h2>
-          <span class="toggle-icon" aria-hidden="true">+</span>
-        </button>
+<main>
+  <div class="page-eyebrow anim-1">Litepaper</div>
+  <h1 class="anim-2">Technical Overview</h1>
+  <p class="page-sub anim-3">Architecture, roadmap, identity, team, and MCP infrastructure. Select a section to expand it.</p>
 
-        <div class="paper-content" id="content-mcp">
-          <p class="architecture-heading"><strong>What this is</strong></p>
-          <p>
-            VIA Labs operates an MCP server that can be connected to compatible AI assistants and agents.
-            This is not the full VIA protocol system. It is a standalone demonstration of how MCP servers work in practice.
-          </p>
-          <p>
-            The main purpose is to expose a structured, queryable knowledge base about agentic commerce that can be used by humans or agents in any way they see fit.
-          </p>
-
-          <p class="architecture-heading"><strong>What is MCP?</strong></p>
-          <p>
-            Model Context Protocol (MCP) is a standard way for AI assistants and agents to connect to external servers that provide tools and structured knowledge.
-            Instead of relying only on text, an MCP-connected assistant can call defined tools and retrieve trusted, structured responses.
-          </p>
-
-          <p class="architecture-heading"><strong>VIA MCP Server Endpoint</strong></p>
-          <p>
-            <a href="https://via-mcp-server.onrender.com/mcp" target="_blank" rel="noopener noreferrer">https://via-mcp-server.onrender.com/mcp</a>
-          </p>
-
-          <p class="architecture-heading"><strong>What is on the server?</strong></p>
-          <p>
-            The MCP server hosts a detailed knowledge base related to agentic commerce and the building blocks of agent-native systems.
-            It is designed to be queried and reused, not locked to a single interface.
-          </p>
-          <ul>
-            <li>Agentic commerce concepts, patterns, and primitives</li>
-            <li>Messaging and coordination models</li>
-            <li>Trust gating and identity framing</li>
-            <li>Tool schemas and structured querying patterns</li>
-            <li>Operational definitions that can be consumed by other agents</li>
-          </ul>
-
-          <p class="architecture-heading"><strong>How to use in Claude</strong></p>
-          <p>
-            Connecting MCP servers inside Claude is currently only available on paid plans, per Anthropic’s product rules.
-            Other connectors are on their way.
-          </p>
-          <ul>
-            <li>Open Claude</li>
-            <li>Go to Settings</li>
-            <li>Find MCP Servers (or Tools / Connectors, depending on your UI)</li>
-            <li>Add a new server</li>
-            <li>Paste the endpoint URL above</li>
-            <li>Save</li>
-          </ul>
-          <p>
-            Once connected, Claude can query the VIA MCP knowledge base directly and use any tools the server exposes.
-          </p>
-
-          <p class="architecture-heading"><strong>How any agent can access it</strong></p>
-          <p>
-            Any agent or assistant that supports MCP can connect to this server.
-            This includes custom agents, internal tools, and other MCP-enabled runtimes.
-            The server is intended to be reusable infrastructure for agentic commerce work, not a single product UI.
-          </p>
-
-          <p class="architecture-heading"><strong>What this demonstrates</strong></p>
-          <ul>
-            <li>How MCP servers expose structured knowledge and tools</li>
-            <li>How assistants can query and reuse specialised knowledge bases</li>
-            <li>How agents can integrate external capability without hardcoding</li>
-          </ul>
-        </div>
-      </section>
-
-      <nav class="bottom-nav" aria-label="Main navigation">
-        <a href="buyer.html" class="bottom-nav-link">Buyer</a>
-        <a href="seller.html" class="bottom-nav-link">Seller</a>
-        <a href="what-is-via.html" class="bottom-nav-link">FAQ</a>
-        <a href="paper.html" class="bottom-nav-link">Paper</a>
-        <a href="proof.html" class="bottom-nav-link">Proof</a>
-<a href="https://demo.getvia.xyz" class="bottom-nav-link">Demo</a>
-<a href="join.html" class="bottom-nav-link">Join</a>
-      </nav>
-
+  <div class="paper-contents anim-4">
+    <div class="paper-contents-label">Contents</div>
+    <div class="paper-tabs" id="paperTabs">
+      <button class="paper-tab" data-target="section-architecture">Technical Architecture</button>
+      <button class="paper-tab" data-target="section-identity">Identity &amp; Transactions</button>
+      <button class="paper-tab" data-target="section-roadmap">Roadmap</button>
+      <button class="paper-tab" data-target="section-team">Team</button>
+      <button class="paper-tab" data-target="section-mcp">MCP Servers</button>
     </div>
-  </main>
-
-  <div class="footer-left">© VIA Labs Pte Ltd</div>
-  <div class="footer-right">
-    <a href="https://x.com/via_labs_sg" target="_blank" rel="noopener noreferrer" class="social-link">
-      <img
-        id="socialIcon"
-        src="images/logo-black.png"
-        alt="X (Twitter)"
-        class="social-icon"
-        data-light="images/logo-black.png"
-        data-dark="images/logo-white.png"
-      >
-    </a>
   </div>
 
-  <script>
-    (function () {
-      const sections = document.querySelectorAll(".paper-section");
-      const tabs = document.querySelectorAll("#paperTabs a");
+  <!-- Architecture -->
+  <div class="paper-section anim-5" id="section-architecture">
+    <button class="paper-toggle"><span class="paper-toggle-title">Technical Architecture</span><span class="paper-toggle-icon">+</span></button>
+    <div class="paper-body"><div class="paper-body-inner">
+      <div class="paper-heading">System Overview</div>
+      <p>VIA is an intent-driven, agent-native commerce system designed to operate across platforms without reliance on search, advertising, or centralised marketplaces. VIA is the interface layer where intent is expressed and responses are surfaced, then the protocol and coordination framework enabling routing, trust enforcement, discovery, and autonomous transactions between agents.</p>
+      <p><strong>The system is composed of three core components:</strong></p>
+      <ul><li>Intent and Interface</li><li>Messaging and Discovery</li><li>Coordination Framework</li></ul>
 
-      function closeAll() {
-        sections.forEach(section => {
-          const btn = section.querySelector(".paper-toggle");
-          const content = section.querySelector(".paper-content");
-          const icon = section.querySelector(".toggle-icon");
-          if (!btn || !content || !icon) return;
-          btn.setAttribute("aria-expanded", "false");
-          content.style.display = "none";
-          icon.textContent = "+";
-        });
-      }
+      <div class="paper-heading-lg" data-num="1">Intent and Interface Layer, VIA</div>
+      <div class="paper-heading">Purpose</div>
+      <p>VIA exists to capture intent before it becomes a transaction. It is designed to work within environments users already trust and use, rather than forcing new behaviours or destinations. VIA does not execute transactions, rank suppliers, or intermediate checkout.</p>
+      <div class="paper-heading">Core Characteristics</div>
+      <ul><li>Lightweight plug-in and connector model</li><li>Integrates directly into major LLM environments, including Claude, Gemini, and ChatGPT</li><li>Converts conversational input into structured, machine-readable intent</li><li>Forwards intent to the central relayer from buyers to sellers</li></ul>
+      <div class="paper-heading">Technical Notes</div>
+      <ul><li>VIA connects to a structured Model Context Protocol server operated within the framework</li><li>Intent is normalised into schema-based representations rather than keyword strings</li><li>VIA is agnostic to commerce platforms, payment rails, and fulfilment systems</li></ul>
 
-      function setActiveTab(sectionId) {
-        tabs.forEach(t => t.classList.remove("active"));
-        const active = document.querySelector(`#paperTabs a[data-open="${sectionId}"]`);
-        if (active) active.classList.add("active");
-      }
+      <div class="paper-heading-lg" data-num="2">Messaging and Discovery, Nostr-Based Relays</div>
+      <div class="paper-heading">Purpose</div>
+      <p>Discovery and communication are handled through a relay-based messaging architecture inspired by Nostr, rather than central directories or proprietary APIs.</p>
+      <div class="paper-heading">Rationale for Relay Architecture</div>
+      <ul><li>No central index or gatekeeper</li><li>Publish and subscribe semantics</li><li>Cryptographic signing of all messages</li><li>Censorship-resistant and extensible by design</li></ul>
+      <div class="paper-heading">Message Model</div>
+      <p>Intent, responses, offers, and acknowledgements are represented as signed events broadcast to relays rather than addressed to a central service. Agents subscribe selectively based on relevance, trust rules, and declared capability, ensuring discovery remains open and cannot be monopolised.</p>
+      <div class="paper-heading">Reference Documentation</div>
+      <ul><li><a href="https://nostr.com" target="_blank" rel="noopener">nostr.com</a></li><li><a href="https://github.com/nostr-protocol/nostr" target="_blank" rel="noopener">github.com/nostr-protocol/nostr</a></li><li><a href="https://nostr.how" target="_blank" rel="noopener">nostr.how</a></li></ul>
 
-      function openSection(sectionId, scrollIntoView = true) {
-        const section = document.getElementById(sectionId);
-        if (!section) return;
+      <div class="paper-heading-lg" data-num="3">The Coordination Framework</div>
+      <p>VIA is not a single protocol. It is the coordination framework that aligns intent schemas, trust rules, messaging conventions, and transaction patterns so independent agents can work together without requiring a central marketplace.</p>
+      <div class="paper-heading">Design Goals</div>
+      <ul><li>VIA remains platform-agnostic</li><li>Discovery cannot be captured by any single platform</li><li>Integration is possible without dependency</li></ul>
+      <div class="paper-heading">Interoperability</div>
+      <p>VIA is designed to interoperate with verifiable platform MCP servers, commerce coordination protocols such as UCP, and existing e-commerce infrastructure, including Shopify.</p>
+    </div></div>
+  </div>
 
-        const btn = section.querySelector(".paper-toggle");
-        const content = section.querySelector(".paper-content");
-        const icon = section.querySelector(".toggle-icon");
-        if (!btn || !content || !icon) return;
+  <!-- Identity -->
+  <div class="paper-section anim-5" id="section-identity">
+    <button class="paper-toggle"><span class="paper-toggle-title">Identity and Transactions</span><span class="paper-toggle-icon">+</span></button>
+    <div class="paper-body"><div class="paper-body-inner">
+      <div class="paper-heading">Purpose</div>
+      <p>Agents cannot safely operate using implicit platform trust. For agents to negotiate, commit, and transact, identity must be verifiable and transactions must be enforceable. VIA treats identity and settlement as infrastructure primitives, designed to be independently checkable and automation-friendly.</p>
+      <div class="paper-heading">Verifiable Agent Identity</div>
+      <p>VIA integrates with ERC-8004 concepts and registries for verifiable agent identity. This enables agents to be resolvable, attributable, and auditable without relying on a platform to vouch for them.</p>
+      <p><strong>What an agent can prove:</strong></p>
+      <ul><li>Wallet control, via signing</li><li>Registry linkage, via resolvable identity metadata</li><li>Freshness, via timestamped attestations</li><li>Authenticity, via independent verification</li></ul>
+      <div class="paper-heading">Live Proof</div>
+      <p>VIA operates a public proof page demonstrating a live signed attestation and verifying it in-browser. Independently checkable and readable by humans.</p>
+      <ul><li><a href="proof.html">View the live proof page →</a></li></ul>
+      <div class="paper-heading">x402 Settlement Layer</div>
+      <p>The x402 protocol provides a settlement layer optimised for agentic interaction, including micropayments and programmatic settlement, enabling a clean link between identity, authority, and economic action.</p>
+      <p><strong>Initial use cases:</strong></p>
+      <ul><li>Paying agents to respond to intent</li><li>Incentivising relevance over volume</li><li>Compensating early or high-quality participation</li></ul>
+      <div class="paper-heading">Reference Documentation</div>
+      <ul>
+        <li><a href="https://eips.ethereum.org/EIPS/eip-8004" target="_blank" rel="noopener">EIP-8004</a></li>
+        <li><a href="https://blog.crossmint.com/what-is-x402/" target="_blank" rel="noopener">What is x402? — Crossmint</a></li>
+        <li><a href="https://www.coinbase.com/blog/introducing-x402" target="_blank" rel="noopener">Introducing x402 — Coinbase</a></li>
+        <li><a href="https://alearesearch.substack.com/p/x402-payment-rails-for-the-agent" target="_blank" rel="noopener">x402 Payment Rails for the Agent Economy</a></li>
+      </ul>
+    </div></div>
+  </div>
 
-        closeAll();
-        btn.setAttribute("aria-expanded", "true");
-        content.style.display = "block";
-        icon.textContent = "-";
+  <!-- Roadmap -->
+  <div class="paper-section anim-5" id="section-roadmap">
+    <button class="paper-toggle"><span class="paper-toggle-title">Roadmap</span><span class="paper-toggle-icon">+</span></button>
+    <div class="paper-body"><div class="paper-body-inner">
+      <p>The current proof of concept demonstrates that all core components of VIA can be deployed independently and integrated into a single, functioning protocol stack. Intent capture, agent identity and trust, decentralised messaging, and agentic payment settlement have each been implemented and validated.</p>
+      <p>The next phase is not conceptual validation, but execution at scale — hardening infrastructure, developing production-grade interfaces, and introducing zero-touch interaction patterns. Large incumbents such as Google and Shopify will be dominant forces. VIA is not designed to compete with them — but to complement and work alongside them where they do not naturally focus.</p>
 
-        setActiveTab(sectionId);
+      <div class="phase-badge">Phase 1 — Now</div>
+      <div class="paper-heading">Execution Hardening and Controlled Deployment · 0–3 months</div>
+      <ul>
+        <li>Scaling core protocol infrastructure for reliability and throughput</li>
+        <li>Hardening coordination logic and routing rules</li>
+        <li>Refining VIA user and merchant interfaces</li>
+        <li>Expanding zero-touch and plug-in based interaction flows within LLM environments</li>
+        <li>Continuous testing with selected merchants and user groups</li>
+        <li>Instrumentation for measuring intent quality and response relevance</li>
+      </ul>
 
-        if (scrollIntoView) {
-          section.scrollIntoView({ behavior: "smooth", block: "start" });
-        }
-      }
+      <div class="phase-badge">Phase 2 — Upcoming</div>
+      <div class="paper-heading">Expanded Rollout and Market Readiness · 3–6 months</div>
+      <ul>
+        <li>Onboarding additional niche communities and relevant merchant categories</li>
+        <li>Extending LLM connector coverage and platform integrations</li>
+        <li>Developing structured go-to-market processes based on observed performance</li>
+        <li>Establishing initial strategic partnerships with platforms and ecosystem participants</li>
+        <li>Refining operational tooling for merchant and agent management</li>
+      </ul>
 
-      document.querySelectorAll(".paper-toggle").forEach(btn => {
-        btn.addEventListener("click", () => {
-          const section = btn.closest(".paper-section");
-          if (!section) return;
-          const content = section.querySelector(".paper-content");
-          const icon = section.querySelector(".toggle-icon");
-          const isOpen = btn.getAttribute("aria-expanded") === "true";
-          if (!content || !icon) return;
+      <div class="paper-heading">FA$H as a Trust Enhancement Layer</div>
+      <p>FA$H is an existing ERC-20 token live and tradable on decentralised exchanges. It is not part of the core VIA product today but has been designed with a longer-term role as a trust enhancement layer within the agentic commerce stack. Once agent identity and reputation standards are fully deployed, FA$H could support agent credibility signalling, participation thresholds, and dispute resolution backstops.</p>
+    </div></div>
+  </div>
 
-          if (isOpen) {
-            btn.setAttribute("aria-expanded", "false");
-            content.style.display = "none";
-            icon.textContent = "+";
-            tabs.forEach(t => t.classList.remove("active"));
-          } else {
-            openSection(section.getAttribute("id"));
-            history.replaceState(null, "", "#" + section.getAttribute("id"));
-          }
-        });
-      });
+  <!-- Team -->
+  <div class="paper-section anim-5" id="section-team">
+    <button class="paper-toggle"><span class="paper-toggle-title">Team</span><span class="paper-toggle-icon">+</span></button>
+    <div class="paper-body"><div class="paper-body-inner">
+      <div class="paper-heading">Founders</div>
+      <div class="person-block">
+        <h3>Richard Hobbs</h3><div class="person-role">Founder and CEO</div>
+        <p>30+ years operating at the intersection of fashion, culture, technology, and commerce across Europe and Asia. Built, invested in, and advised global brands with deep experience in fashion ecosystems, brand partnerships, and new commercial models. At VIA Labs, he focuses on strategy, network development, and ensuring the product aligns with real buyer and seller behaviour.</p>
+      </div>
+      <div class="person-block">
+        <h3>Daniel Yen-Tin Lin</h3><div class="person-role">Co-Founder and Head of Product</div>
+        <p>Product and technical leader with a rare blend of C-level strategy and hands-on execution. Leads end-to-end product architecture across AI, blockchain, and consumer platforms — spanning autonomous AI agents, token design, smart contracts, and scalable consumer applications. Trilingual and multicultural, bridging high-level vision with production-grade delivery.</p>
+      </div>
 
-      tabs.forEach(tab => {
-        tab.addEventListener("click", (e) => {
-          e.preventDefault();
-          const targetId = tab.getAttribute("data-open");
-          openSection(targetId);
-          history.replaceState(null, "", "#" + targetId);
-        });
-      });
+      <div class="paper-heading" style="margin-top:24px">Team and Advisors</div>
+      <div class="person-block">
+        <h3>Sheilen Rathod</h3><div class="person-role">Growth and Customer Experience</div>
+        <p>Senior growth and commercial leader with deep experience scaling customer-led businesses across Asia Pacific and Greater China. Founder and CEO of Future Proof Group. Previously Chief Growth Officer Asia Pacific and President of multiple experience and commerce divisions at Ogilvy.</p>
+      </div>
+      <div class="person-block">
+        <h3>Moo Shanmugan</h3><div class="person-role">Technology and Systems</div>
+        <p>Seasoned technology leader with over two decades of experience across intelligent systems, applied engineering, and complex platform development. Has held CEO, CTO, and Director roles spanning AI-driven education platforms, blockchain-based media, and large-scale infrastructure businesses across Asia.</p>
+      </div>
+      <div class="person-block">
+        <h3>Tony Magnetic</h3><div class="person-role">Design and Brand Partnerships</div>
+        <p>Veteran design and production leader with over 25 years at the intersection of global street culture, fashion, and manufacturing. Principal Director at TonyMagnetic Inc. Co-founded and helped scale MECCA USA into a globally influential streetwear brand. Has collaborated with Nike, Reebok, Mercedes, Rolls-Royce, and leading hospitality groups.</p>
+      </div>
+      <div class="person-block">
+        <h3>David Ward</h3><div class="person-role">Commercial Growth and Human–AI Operating Models</div>
+        <p>Senior commercial leader with three decades scaling international consumer brands. Regional Head of Sales, Asia Pacific at Quest Personal Care Global. Founder of Darla AI and the Greypreneur Movement. Former senior leader at Fred Perry, Oakley, Quiksilver, Perry Ellis, Deckers, and JD Sports.</p>
+      </div>
+      <div class="person-block">
+        <h3>Peter Caplowe</h3><div class="person-role">Premium Fashion, Brand Building and Strategy</div>
+        <p>Veteran fashion entrepreneur widely recognised as the originator of the Premium Denim category, having discovered Evisu in Osaka in 1994. Grew the Evisu business outside Japan from startup to approximately US$100m in retail sales without external financing.</p>
+      </div>
+    </div></div>
+  </div>
 
-      // INITIAL LANDING VIEW: ALWAYS start fully collapsed.
-      // Clear any hash so nothing auto-opens.
+  <!-- MCP -->
+  <div class="paper-section anim-6" id="section-mcp">
+    <button class="paper-toggle"><span class="paper-toggle-title">MCP Servers</span><span class="paper-toggle-icon">+</span></button>
+    <div class="paper-body"><div class="paper-body-inner">
+      <div class="paper-heading">What this is</div>
+      <p>VIA Labs operates an MCP server that can be connected to compatible AI assistants and agents. This is a standalone demonstration of how MCP servers work in practice — exposing a structured, queryable knowledge base about agentic commerce usable by humans or agents in any way they see fit.</p>
+      <div class="paper-heading">What is MCP?</div>
+      <p>Model Context Protocol (MCP) is a standard way for AI assistants and agents to connect to external servers that provide tools and structured knowledge. Instead of relying only on text, an MCP-connected assistant can call defined tools and retrieve trusted, structured responses.</p>
+      <div class="paper-heading">VIA MCP Server Endpoint</div>
+      <input class="mcp-address" id="mcpAddr" type="text" value="https://via-mcp-server.onrender.com/mcp" readonly onclick="this.select()" style="margin:12px 0 18px" />
+      <div class="paper-heading">What is on the server?</div>
+      <ul>
+        <li>Agentic commerce concepts, patterns, and primitives</li>
+        <li>Messaging and coordination models</li>
+        <li>Trust gating and identity framing</li>
+        <li>Tool schemas and structured querying patterns</li>
+        <li>Operational definitions consumable by other agents</li>
+      </ul>
+      <div class="paper-heading">How to use in Claude</div>
+      <p>Connecting MCP servers inside Claude is currently only available on paid plans. Other connectors are on their way.</p>
+      <ul>
+        <li>Open Claude and go to Settings</li>
+        <li>Find MCP Servers (or Tools / Connectors depending on your UI)</li>
+        <li>Add a new server and paste the endpoint URL above</li>
+        <li>Once connected, Claude can query the VIA MCP knowledge base directly</li>
+      </ul>
+    </div></div>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-left">
+    <a href="index.html" class="footer-logo"><img src="vialogowhite.png" alt="VIA" /></a>
+    <span class="footer-copy">© VIA Labs Pte Ltd · Singapore</span>
+  </div>
+  <a href="https://x.com/via_labs_sg" target="_blank" rel="noopener" class="footer-x">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.259 5.63 5.905-5.63zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+    @via_labs_sg
+  </a>
+</footer>
+
+<div class="modal-overlay" id="clientsModal" onclick="handleClientsOverlay(event)">
+  <div class="modal" role="dialog" aria-modal="true">
+    <button class="modal-close" onclick="closeClientsModal()" aria-label="Close">✕</button>
+    <div class="modal-icon">⚙️</div>
+    <div class="modal-tag">Coming Soon</div>
+    <h2 class="modal-title">VIA Client Portal</h2>
+    <p class="modal-body">The <strong>Client Dashboard</strong> is coming soon. Leave your email and we'll notify you when access opens.</p>
+    <div class="modal-notify">
+      <input class="modal-input" type="email" id="notifyEmail" placeholder="your@email.com" />
+      <button class="modal-btn" onclick="handleNotify()">Notify Me</button>
+    </div>
+    <div class="modal-features">
+      <div class="modal-feature"><div class="modal-feature-dot"></div>Agent registration &amp; setup</div>
+      <div class="modal-feature"><div class="modal-feature-dot"></div>Real-time transaction dashboard</div>
+      <div class="modal-feature"><div class="modal-feature-dot"></div>Merchant profile management</div>
+      <div class="modal-feature"><div class="modal-feature-dot"></div>Analytics &amp; commerce insights</div>
+    </div>
+  </div>
+</div>
+
+<script src="via-ui.js"></script>
+<script>
+(function () {
+  var sections = Array.from(document.querySelectorAll('.paper-section'));
+  var tabs = Array.from(document.querySelectorAll('.paper-tab'));
+
+  function closeAll() {
+    sections.forEach(function(s) {
+      s.classList.remove('open');
+      s.querySelector('.paper-body').style.maxHeight = '0px';
+    });
+    tabs.forEach(function(t) { t.classList.remove('active'); });
+  }
+
+  function openSection(id) {
+    closeAll();
+    var sec = document.getElementById(id);
+    if (!sec) return;
+    sec.classList.add('open');
+    var body = sec.querySelector('.paper-body');
+    body.style.maxHeight = body.scrollHeight + 80 + 'px';
+    var tab = document.querySelector('.paper-tab[data-target="' + id + '"]');
+    if (tab) tab.classList.add('active');
+  }
+
+  sections.forEach(function(sec) {
+    sec.querySelector('.paper-toggle').addEventListener('click', function() {
+      var isOpen = sec.classList.contains('open');
       closeAll();
-      tabs.forEach(t => t.classList.remove("active"));
+      if (!isOpen) openSection(sec.id);
+    });
+  });
 
-      if (window.location.hash) {
-        history.replaceState(null, "", window.location.pathname + window.location.search);
+  tabs.forEach(function(tab) {
+    tab.addEventListener('click', function() {
+      var id = tab.getAttribute('data-target');
+      var isOpen = document.getElementById(id).classList.contains('open');
+      closeAll();
+      if (!isOpen) {
+        openSection(id);
+        setTimeout(function() {
+          document.getElementById(id).scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 50);
       }
-    })();
-  </script>
+    });
+  });
 
-  <script src="js/theme.js"></script>
+  closeAll();
+})();
+</script>
 </body>
 </html>
