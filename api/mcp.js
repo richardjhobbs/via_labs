@@ -190,7 +190,7 @@ export default async function handler(req, res) {
   await server.connect(transport);
 
   try {
-    await transport.handleRequest(req, res);
+    await transport.handleRequest(req, res, req.body);
   } catch (err) {
     if (!res.headersSent) {
       res.status(500).json({ error: "Internal server error" });
