@@ -193,6 +193,16 @@ export default async function handler(req, res) {
     return;
   }
 
+  // Ensure the Accept header includes both types the MCP SDK requires.
+  // Many agents omit text/event-stream, which causes the transport to reject
+  // the request. We normalise it here so the server is more accessible.
+  if (req.method === "POST") {
+    const accept = req.headers["accept"] || "";
+    if (!accept.includes("text/event-stream") || !accept.includes("application/json")) {
+      req.headers["accept"] = "application/json, text/event-stream";
+    }
+  }
+
   const server = createServer();
 
   const transport = new StreamableHTTPServerTransport({
