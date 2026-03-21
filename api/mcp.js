@@ -175,14 +175,57 @@ export default async function handler(req, res) {
     return;
   }
 
-  // GET — return a human/agent-readable description
+  // GET — agent instruction card
   if (req.method === "GET") {
     res.status(200).json({
       name: "via-labs",
       version: "1.0.0",
-      description: "VIA Labs MCP server — agentic commerce protocol. POST JSON-RPC to this endpoint to interact.",
-      protocol: "MCP Streamable HTTP",
+      description: "VIA Labs MCP server for agentic commerce. VIA connects buyer agents and seller agents through a decentralised protocol so they can discover each other, negotiate, and transact.",
+      protocol: "MCP (Model Context Protocol) — Streamable HTTP transport",
+      endpoint: "https://getvia.xyz/mcp",
       website: "https://getvia.xyz",
+
+      instructions: "To use this server, send JSON-RPC POST requests to this endpoint. Start by calling the 'initialize' method, then use 'tools/list' to discover available tools, or call any tool directly via 'tools/call'. Set the header Accept: application/json, text/event-stream and Content-Type: application/json.",
+
+      available_tools: [
+        {
+          name: "get_via_overview",
+          description: "Get an overview of VIA Labs — what it is, what it does, and the business-to-agent (B2A) thesis.",
+        },
+        {
+          name: "get_via_protocol",
+          description: "Get a technical description of how the VIA protocol works — message routing, trust, payments, and agent coordination.",
+        },
+        {
+          name: "get_via_for_buyers",
+          description: "Get buyer-facing information — how VIA helps buyers find what they need through their AI agent.",
+        },
+        {
+          name: "get_via_for_sellers",
+          description: "Get seller and merchant-facing information — how VIA reduces acquisition costs and connects sellers to genuine intent.",
+        },
+        {
+          name: "get_rrg_overview",
+          description: "Get information about Real Real Genuine (RRG) — VIA Labs' first commercial product, a fashion co-creation platform with on-chain verification.",
+        },
+        {
+          name: "get_via_contact",
+          description: "Get contact information, registration links, social accounts, and other links for VIA Labs.",
+        },
+      ],
+
+      available_resources: [
+        { name: "overview", uri: "via://overview", description: "Full VIA Labs company overview" },
+        { name: "protocol", uri: "via://protocol", description: "Technical VIA protocol description" },
+        { name: "faq",      uri: "via://faq",      description: "VIA frequently asked questions" },
+        { name: "rrg",      uri: "via://rrg",      description: "Real Real Genuine product overview" },
+      ],
+
+      quick_start: {
+        step_1: "POST to this endpoint with: {\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"initialize\",\"params\":{\"protocolVersion\":\"2025-03-26\",\"capabilities\":{},\"clientInfo\":{\"name\":\"my-agent\",\"version\":\"1.0.0\"}}}",
+        step_2: "Send: {\"jsonrpc\":\"2.0\",\"method\":\"notifications/initialized\"}",
+        step_3: "Call any tool, e.g.: {\"jsonrpc\":\"2.0\",\"id\":2,\"method\":\"tools/call\",\"params\":{\"name\":\"get_via_overview\",\"arguments\":{}}}",
+      },
     });
     return;
   }
