@@ -175,8 +175,20 @@ export default async function handler(req, res) {
     return;
   }
 
-  // Only POST, GET, DELETE are valid MCP methods
-  if (!["GET", "POST", "DELETE"].includes(req.method)) {
+  // GET — return a human/agent-readable description
+  if (req.method === "GET") {
+    res.status(200).json({
+      name: "via-labs",
+      version: "1.0.0",
+      description: "VIA Labs MCP server — agentic commerce protocol. POST JSON-RPC to this endpoint to interact.",
+      protocol: "MCP Streamable HTTP",
+      website: "https://getvia.xyz",
+    });
+    return;
+  }
+
+  // Only POST and DELETE are valid MCP action methods
+  if (!["POST", "DELETE"].includes(req.method)) {
     res.status(405).json({ error: "Method not allowed" });
     return;
   }
