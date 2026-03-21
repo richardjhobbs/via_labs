@@ -624,6 +624,16 @@ body {
   text-decoration: none; transition: color 0.15s;
 }
 .footer-x:hover { color: var(--text-primary); }
+.footer-right { display: flex; align-items: center; gap: 16px; }
+.footer-mcp {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px; letter-spacing: 0.06em;
+  color: var(--amber); text-decoration: none;
+  border: 1px solid rgba(245,158,11,0.3);
+  border-radius: 4px; padding: 3px 8px;
+  transition: background 0.15s, color 0.15s;
+}
+.footer-mcp:hover { background: var(--amber-dim); color: var(--text-primary); }
 
 /* ═══════════════════════════════════════════════════════
    ANIMATIONS
