@@ -559,6 +559,163 @@
     margin-bottom: 16px;
   }
 
+  /* ===== COMPARISON DIAGRAM (HTML) ===== */
+  .compare-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    margin-top: 20px;
+  }
+  .compare-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
+  .compare-header {
+    font-size: 18px;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 20px;
+    text-align: center;
+    letter-spacing: -0.3px;
+  }
+  .compare-step {
+    width: 100%;
+    padding: 18px 20px;
+    border-radius: 10px;
+    text-align: center;
+    border: 1px solid;
+  }
+  .compare-step-title {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 3px;
+  }
+  .compare-step-desc {
+    font-size: 13px;
+    opacity: 0.7;
+  }
+  .compare-step-gray {
+    background: rgba(100,116,139,0.08);
+    border-color: rgba(100,116,139,0.25);
+  }
+  .compare-step-gray .compare-step-title { color: var(--text-secondary); }
+  .compare-step-gray .compare-step-desc { color: var(--text-muted); }
+
+  .compare-step-coral {
+    background: rgba(216,90,48,0.08);
+    border-color: rgba(216,90,48,0.3);
+  }
+  .compare-step-coral .compare-step-title { color: #f4a27a; }
+  .compare-step-coral .compare-step-desc { color: rgba(216,90,48,0.7); }
+
+  .compare-step-teal {
+    background: rgba(20,184,166,0.08);
+    border-color: rgba(20,184,166,0.3);
+  }
+  .compare-step-teal .compare-step-title { color: var(--teal-light); }
+  .compare-step-teal .compare-step-desc { color: rgba(94,234,212,0.7); }
+
+  .compare-step-purple {
+    background: rgba(124,58,237,0.08);
+    border-color: rgba(124,58,237,0.3);
+  }
+  .compare-step-purple .compare-step-title { color: var(--purple-lighter); }
+  .compare-step-purple .compare-step-desc { color: var(--purple-light); }
+
+  .compare-arrow {
+    font-size: 14px;
+    color: var(--text-dim);
+    padding: 6px 0;
+    text-align: center;
+  }
+  .compare-verdict {
+    margin-top: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    text-align: center;
+    padding: 8px 16px;
+    border-radius: 6px;
+  }
+  .compare-verdict-bad {
+    color: #f87171;
+    background: rgba(248,113,113,0.08);
+  }
+  .compare-verdict-good {
+    color: #4ade80;
+    background: rgba(74,222,128,0.08);
+  }
+
+  @media (max-width: 768px) {
+    .compare-grid {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+    .compare-step-title { font-size: 15px; }
+    .compare-step-desc { font-size: 12px; }
+  }
+
+  /* ===== CO-CREATION LOOP (HTML) ===== */
+  .loop-diagram {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    margin-top: 32px;
+    max-width: 420px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .loop-step {
+    width: 100%;
+    padding: 18px 24px;
+    border-radius: 10px;
+    text-align: center;
+    border: 1px solid;
+  }
+  .loop-step-title {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 3px;
+  }
+  .loop-step-desc {
+    font-size: 14px;
+    opacity: 0.7;
+  }
+  .loop-step-teal { background: rgba(20,184,166,0.08); border-color: rgba(20,184,166,0.3); }
+  .loop-step-teal .loop-step-title { color: var(--teal-light); }
+  .loop-step-purple { background: rgba(124,58,237,0.08); border-color: rgba(124,58,237,0.3); }
+  .loop-step-purple .loop-step-title { color: var(--purple-lighter); }
+  .loop-step-coral { background: rgba(216,90,48,0.08); border-color: rgba(216,90,48,0.3); }
+  .loop-step-coral .loop-step-title { color: #f4a27a; }
+  .loop-step-gray { background: rgba(100,116,139,0.08); border-color: rgba(100,116,139,0.25); }
+  .loop-step-gray .loop-step-title { color: var(--text-secondary); }
+
+  .loop-arrow {
+    font-size: 16px;
+    padding: 8px 0;
+    text-align: center;
+  }
+  .loop-arrow-return {
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    padding: 10px 0 4px;
+  }
+  .loop-callout {
+    margin-top: 20px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #ffffff;
+    text-align: center;
+    padding: 14px 24px;
+    border: 1px dashed rgba(124,58,237,0.3);
+    border-radius: 10px;
+    background: rgba(124,58,237,0.05);
+    width: 100%;
+  }
+
   /* ===== SVG DIAGRAM STYLES ===== */
   .svg-diagram-wrap {
     max-width: 100%;
@@ -873,40 +1030,58 @@
 
 </div><!-- /page -->
 
-<!-- ===== COMPARISON DIAGRAM ===== -->
+<!-- ===== COMPARISON DIAGRAM (HTML-based, responsive) ===== -->
 <div class="page">
   <section>
-  <div class="svg-diagram-wrap" >
-    <svg width="100%" viewBox="0 0 680 400" xmlns="http://www.w3.org/2000/svg">
-      <defs><marker id="arrow1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
-
-      <text class="th" x="175" y="28" text-anchor="middle">Traditional commerce</text>
-      <text class="th" x="505" y="28" text-anchor="middle">With VIA Labs</text>
-
-      <line x1="340" y1="14" x2="340" y2="380" stroke-width="0.5" style="stroke:var(--color-border-tertiary)"/>
-
-      <!-- Left: Traditional -->
-      <g class="c-gray"><rect x="55" y="44" width="240" height="56" rx="8" stroke-width="0.5"/><text class="th" x="175" y="65" text-anchor="middle" dominant-baseline="central">Customer browses</text><text class="ts" x="175" y="83" text-anchor="middle" dominant-baseline="central">Search, social, comparison</text></g>
-      <line x1="175" y1="100" x2="175" y2="120" class="arr" marker-end="url(#arrow1)" style="stroke:var(--color-border-secondary)"/>
-      <g class="c-coral"><rect x="55" y="122" width="240" height="56" rx="8" stroke-width="0.5"/><text class="th" x="175" y="143" text-anchor="middle" dominant-baseline="central">Brand pays for the click</text><text class="ts" x="175" y="161" text-anchor="middle" dominant-baseline="central">Ads, affiliates, influencers</text></g>
-      <line x1="175" y1="178" x2="175" y2="198" class="arr" marker-end="url(#arrow1)" style="stroke:var(--color-border-secondary)"/>
-      <g class="c-coral"><rect x="55" y="200" width="240" height="56" rx="8" stroke-width="0.5"/><text class="th" x="175" y="221" text-anchor="middle" dominant-baseline="central">Marketplace takes cut</text><text class="ts" x="175" y="239" text-anchor="middle" dominant-baseline="central">Commission at checkout</text></g>
-      <line x1="175" y1="256" x2="175" y2="276" class="arr" marker-end="url(#arrow1)" style="stroke:var(--color-border-secondary)"/>
-      <g class="c-gray"><rect x="55" y="278" width="240" height="56" rx="8" stroke-width="0.5"/><text class="th" x="175" y="299" text-anchor="middle" dominant-baseline="central">Purchase complete</text><text class="ts" x="175" y="317" text-anchor="middle" dominant-baseline="central">Margin compressed</text></g>
-
-      <!-- Right: VIA -->
-      <g class="c-teal"><rect x="385" y="44" width="240" height="56" rx="8" stroke-width="0.5"/><text class="th" x="505" y="65" text-anchor="middle" dominant-baseline="central">Person asks their AI</text><text class="ts" x="505" y="83" text-anchor="middle" dominant-baseline="central">"Find me X under $Y"</text></g>
-      <line x1="505" y1="100" x2="505" y2="120" class="arr" marker-end="url(#arrow1)" style="stroke:var(--color-border-secondary)"/>
-      <g class="c-purple"><rect x="385" y="122" width="240" height="56" rx="8" stroke-width="0.5"/><text class="th" x="505" y="143" text-anchor="middle" dominant-baseline="central">AI queries VIA network</text><text class="ts" x="505" y="161" text-anchor="middle" dominant-baseline="central">Direct discovery, no ads</text></g>
-      <line x1="505" y1="178" x2="505" y2="198" class="arr" marker-end="url(#arrow1)" style="stroke:var(--color-border-secondary)"/>
-      <g class="c-purple"><rect x="385" y="200" width="240" height="56" rx="8" stroke-width="0.5"/><text class="th" x="505" y="221" text-anchor="middle" dominant-baseline="central">Brand agent responds</text><text class="ts" x="505" y="239" text-anchor="middle" dominant-baseline="central">Offers, confirms, executes</text></g>
-      <line x1="505" y1="256" x2="505" y2="276" class="arr" marker-end="url(#arrow1)" style="stroke:var(--color-border-secondary)"/>
-      <g class="c-teal"><rect x="385" y="278" width="240" height="56" rx="8" stroke-width="0.5"/><text class="th" x="505" y="299" text-anchor="middle" dominant-baseline="central">Settlement</text><text class="ts" x="505" y="317" text-anchor="middle" dominant-baseline="central">Instant, settled on-chain</text></g>
-
-      <!-- Bottom labels -->
-      <text class="ts" x="175" y="365" text-anchor="middle" style="fill:var(--color-text-danger)">Up to 30% lost to intermediaries, sometimes more</text>
-      <text class="ts" x="505" y="365" text-anchor="middle" style="fill:var(--color-text-success)">Low platform fee</text>
-    </svg>
+  <div class="compare-grid">
+    <!-- Traditional -->
+    <div class="compare-col">
+      <div class="compare-header">Traditional commerce</div>
+      <div class="compare-step compare-step-gray">
+        <div class="compare-step-title">Customer browses</div>
+        <div class="compare-step-desc">Search, social, comparison</div>
+      </div>
+      <div class="compare-arrow">&#x25BC;</div>
+      <div class="compare-step compare-step-coral">
+        <div class="compare-step-title">Brand pays for the click</div>
+        <div class="compare-step-desc">Ads, affiliates, influencers</div>
+      </div>
+      <div class="compare-arrow">&#x25BC;</div>
+      <div class="compare-step compare-step-coral">
+        <div class="compare-step-title">Marketplace takes cut</div>
+        <div class="compare-step-desc">Commission at checkout</div>
+      </div>
+      <div class="compare-arrow">&#x25BC;</div>
+      <div class="compare-step compare-step-gray">
+        <div class="compare-step-title">Purchase complete</div>
+        <div class="compare-step-desc">Margin compressed</div>
+      </div>
+      <div class="compare-verdict compare-verdict-bad">Up to 30% lost to intermediaries</div>
+    </div>
+    <!-- VIA -->
+    <div class="compare-col">
+      <div class="compare-header">With VIA Labs</div>
+      <div class="compare-step compare-step-teal">
+        <div class="compare-step-title">Person asks their AI</div>
+        <div class="compare-step-desc">&ldquo;Find me X under $Y&rdquo;</div>
+      </div>
+      <div class="compare-arrow">&#x25BC;</div>
+      <div class="compare-step compare-step-purple">
+        <div class="compare-step-title">AI queries VIA network</div>
+        <div class="compare-step-desc">Direct discovery, no ads</div>
+      </div>
+      <div class="compare-arrow">&#x25BC;</div>
+      <div class="compare-step compare-step-purple">
+        <div class="compare-step-title">Brand agent responds</div>
+        <div class="compare-step-desc">Offers, confirms, executes</div>
+      </div>
+      <div class="compare-arrow">&#x25BC;</div>
+      <div class="compare-step compare-step-teal">
+        <div class="compare-step-title">Settlement</div>
+        <div class="compare-step-desc">Instant, settled on-chain</div>
+      </div>
+      <div class="compare-verdict compare-verdict-good">Low platform fee</div>
+    </div>
   </div>
   </section>
   <!-- ===== REAL REAL GENUINE ===== -->
@@ -927,24 +1102,29 @@
       <p>Demand is confirmed before production starts. A structural advantage traditional retail cannot replicate, and it creates a platform that gets more valuable with every product cycle.</p>
     </div>
 
-    <!-- Co-creation SVG diagram -->
-    <div class="svg-diagram-wrap" >
-      <svg width="100%" viewBox="0 0 680 430" xmlns="http://www.w3.org/2000/svg">
-        <defs><marker id="arrow2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
-
-        <g class="node c-teal"><rect x="260" y="38" width="160" height="56" rx="8" stroke-width="0.5"/><text class="th" x="340" y="59" text-anchor="middle" dominant-baseline="central">Consumers</text><text class="ts" x="340" y="77" text-anchor="middle" dominant-baseline="central">Co-design input</text></g>
-        <g class="node c-purple"><rect x="460" y="172" width="170" height="56" rx="8" stroke-width="0.5"/><text class="th" x="545" y="193" text-anchor="middle" dominant-baseline="central">AI agents</text><text class="ts" x="545" y="211" text-anchor="middle" dominant-baseline="central">Refine and validate</text></g>
-        <g class="node c-coral"><rect x="260" y="336" width="160" height="56" rx="8" stroke-width="0.5"/><text class="th" x="340" y="357" text-anchor="middle" dominant-baseline="central">Products</text><text class="ts" x="340" y="375" text-anchor="middle" dominant-baseline="central">Digital and physical</text></g>
-        <g class="node c-gray"><rect x="50" y="172" width="160" height="56" rx="8" stroke-width="0.5"/><text class="th" x="130" y="193" text-anchor="middle" dominant-baseline="central">Brands</text><text class="ts" x="130" y="211" text-anchor="middle" dominant-baseline="central">Onboard and produce</text></g>
-
-        <path d="M 420 66 Q 510 100 545 172" fill="none" stroke="#1D9E75" stroke-width="1.5" marker-end="url(#arrow2)"/>
-        <path d="M 545 228 Q 510 318 420 350" fill="none" stroke="#534AB7" stroke-width="1.5" marker-end="url(#arrow2)"/>
-        <path d="M 260 358 Q 170 318 130 228" fill="none" stroke="#D85A30" stroke-width="1.5" marker-end="url(#arrow2)"/>
-        <path d="M 130 172 Q 170 100 260 72" fill="none" stroke="#888780" stroke-width="1.5" marker-end="url(#arrow2)"/>
-
-        <text class="th" x="340" y="208" text-anchor="middle">Demand confirmed</text>
-        <text class="ts" x="340" y="226" text-anchor="middle">before production</text>
-      </svg>
+    <!-- Co-creation loop (HTML-based, responsive) -->
+    <div class="loop-diagram">
+      <div class="loop-step loop-step-teal">
+        <div class="loop-step-title">Consumers</div>
+        <div class="loop-step-desc">Co-design input</div>
+      </div>
+      <div class="loop-arrow" style="color:#1D9E75;">&#x25BC;</div>
+      <div class="loop-step loop-step-purple">
+        <div class="loop-step-title">AI agents</div>
+        <div class="loop-step-desc">Refine and validate</div>
+      </div>
+      <div class="loop-arrow" style="color:#534AB7;">&#x25BC;</div>
+      <div class="loop-step loop-step-coral">
+        <div class="loop-step-title">Products</div>
+        <div class="loop-step-desc">Digital and physical</div>
+      </div>
+      <div class="loop-arrow" style="color:#D85A30;">&#x25BC;</div>
+      <div class="loop-step loop-step-gray">
+        <div class="loop-step-title">Brands</div>
+        <div class="loop-step-desc">Onboard and produce</div>
+      </div>
+      <div class="loop-arrow loop-arrow-return" style="color:#888780;">&#x25B2; cycle repeats</div>
+      <div class="loop-callout">Demand confirmed before production</div>
     </div>
   </section>
 
