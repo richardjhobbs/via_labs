@@ -693,12 +693,27 @@
     background: rgba(74,222,128,0.08);
   }
 
+  .compare-header-subtitle {
+    display: none;
+  }
   @media (max-width: 768px) {
     .compare-grid {
       grid-template-columns: 1fr;
       gap: 40px;
     }
     .compare-side-label { display: none; }
+    .compare-header-subtitle {
+      display: block;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-top: -12px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    .compare-header-subtitle-bad { color: #f87171; opacity: 0.7; }
+    .compare-header-subtitle-good { color: #4ade80; opacity: 0.7; }
     .compare-step-title { font-size: 15px; }
     .compare-step-desc { font-size: 12px; }
   }
@@ -1114,6 +1129,7 @@
     <!-- Traditional -->
     <div class="compare-col">
       <div class="compare-header-www">WWW</div>
+      <div class="compare-header-subtitle compare-header-subtitle-bad">Inefficient and expensive</div>
       <div class="compare-step compare-step-gray">
         <div class="compare-step-title">Customer browses</div>
         <div class="compare-step-desc">Search, social, comparison</div>
@@ -1138,6 +1154,7 @@
     <!-- VIA -->
     <div class="compare-col">
       <div class="compare-header-via"><img src="vialogowhite.png" alt="VIA"></div>
+      <div class="compare-header-subtitle compare-header-subtitle-good">Frictionless and cost-effective</div>
       <div class="compare-step compare-step-teal">
         <div class="compare-step-title">Person asks their AI</div>
         <div class="compare-step-desc">&ldquo;Find me X under $Y&rdquo;</div>
