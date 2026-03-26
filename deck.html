@@ -562,9 +562,31 @@
   /* ===== COMPARISON DIAGRAM (HTML) ===== */
   .compare-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 32px;
+    grid-template-columns: auto 1fr 1fr auto;
+    gap: 0 32px;
     margin-top: 20px;
+    align-items: stretch;
+  }
+  .compare-side-label {
+    writing-mode: vertical-lr;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 6px;
+    white-space: nowrap;
+  }
+  .compare-side-label-left {
+    transform: rotate(180deg);
+    color: #f87171;
+    opacity: 0.7;
+  }
+  .compare-side-label-right {
+    color: #4ade80;
+    opacity: 0.7;
   }
   .compare-col {
     display: flex;
@@ -579,6 +601,25 @@
     margin-bottom: 20px;
     text-align: center;
     letter-spacing: -0.3px;
+  }
+  .compare-header-www {
+    font-size: 36px;
+    font-weight: 800;
+    color: rgba(148,163,184,0.6);
+    letter-spacing: 4px;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  .compare-header-via {
+    margin-bottom: 20px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .compare-header-via img {
+    height: 36px;
+    width: auto;
   }
   .compare-step {
     width: 100%;
@@ -652,6 +693,7 @@
       grid-template-columns: 1fr;
       gap: 40px;
     }
+    .compare-side-label { display: none; }
     .compare-step-title { font-size: 15px; }
     .compare-step-desc { font-size: 12px; }
   }
@@ -1062,9 +1104,11 @@
   <!-- ===== COMPARISON DIAGRAM ===== -->
   <section>
   <div class="compare-grid">
+    <!-- Left vertical label -->
+    <div class="compare-side-label compare-side-label-left">Inefficient and expensive</div>
     <!-- Traditional -->
     <div class="compare-col">
-      <div class="compare-header">Traditional commerce</div>
+      <div class="compare-header-www">WWW</div>
       <div class="compare-step compare-step-gray">
         <div class="compare-step-title">Customer browses</div>
         <div class="compare-step-desc">Search, social, comparison</div>
@@ -1088,7 +1132,7 @@
     </div>
     <!-- VIA -->
     <div class="compare-col">
-      <div class="compare-header">With VIA Labs</div>
+      <div class="compare-header-via"><img src="vialogowhite.png" alt="VIA"></div>
       <div class="compare-step compare-step-teal">
         <div class="compare-step-title">Person asks their AI</div>
         <div class="compare-step-desc">&ldquo;Find me X under $Y&rdquo;</div>
@@ -1110,6 +1154,8 @@
       </div>
       <div class="compare-verdict compare-verdict-good">Low platform fee</div>
     </div>
+    <!-- Right vertical label -->
+    <div class="compare-side-label compare-side-label-right">Frictionless and cost-effective</div>
   </div>
   </section>
 
@@ -1144,7 +1190,7 @@
     <div class="rrg-badge">Live Proof</div>
     <div class="section-title">VIA tech deployed</div>
     <div class="section-body">
-      <p>Live proof is under way. VIA has launched <a href="https://realrealgenuine.com" target="_blank" style="color:var(--amber);text-decoration:underline;text-underline-offset:3px;font-weight:700;">a fashion commerce platform</a> that runs on VIA infrastructure. It works identically for human shoppers and AI agents. AI agents can connect, browse and complete a purchase without a human in the loop.</p>
+      <p>Live proof is under way. VIA has launched a fashion commerce platform that runs on VIA infrastructure. It works identically for human shoppers and AI agents. AI agents can connect, browse and complete a purchase without a human in the loop.</p>
       <p style="font-size:24px;line-height:1.4;margin-top:8px;"><strong>Agentic commerce is happening now.</strong></p>
     </div>
   </section>
