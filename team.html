@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VIA Labs — Team</title>
+  <meta name="description" content="The VIA Labs virtual office — Richard Hobbs and five AI agents running the operation." />
+  <link rel="icon" href="favicon.ico" />
+  <link rel="canonical" href="https://getvia.xyz/team" />
+  <meta property="og:url" content="https://getvia.xyz/team" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="VIA Labs — Team" />
+  <meta property="og:description" content="The VIA Labs virtual office — Richard Hobbs and five AI agents running the operation." />
+  <link rel="stylesheet" href="via.css" />
+  <style>
+    .team-page {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 60px 32px 0;
+    }
+
+    .team-header {
+      margin-bottom: 52px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+
+    .team-header-meta {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+    }
+
+    /* Org chart column */
+    .team-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* Connectors */
+    .connector-v {
+      width: 1px;
+      height: 32px;
+      background: linear-gradient(to bottom, rgba(245,158,11,0.4), rgba(245,158,11,0.05));
+      margin: 0 auto;
+    }
+    .connector-v-sm {
+      width: 1px;
+      height: 24px;
+      background: linear-gradient(to bottom, rgba(245,158,11,0.3), transparent);
+      margin: 0 auto;
+    }
+    .connector-h {
+      height: 1px;
+      width: 74%;
+      background: linear-gradient(90deg, transparent, rgba(245,158,11,0.18) 25%, rgba(245,158,11,0.18) 75%, transparent);
+      margin: 0 auto;
+    }
+    .connectors-spread {
+      display: flex;
+      justify-content: space-around;
+      width: 74%;
+      margin: 0 auto;
+    }
+
+    /* Person cards (founder / chief) */
+    .person-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px 24px 22px;
+      text-align: center;
+      transition: border-color 0.22s;
+    }
+    .person-card:hover { border-color: rgba(245,158,11,0.3); }
+    .person-card.founder { width: 280px; border-color: rgba(245,158,11,0.22); }
+    .person-card.chief  { width: 244px; border-color: rgba(245,158,11,0.15); }
+
+    .photo-ring {
+      width: 88px;
+      height: 88px;
+      border-radius: 50%;
+      overflow: hidden;
+      margin: 0 auto 16px;
+      border: 2px solid rgba(245,158,11,0.5);
+    }
+    .photo-ring.lg { width: 108px; height: 108px; }
+    .photo-ring img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      object-position: center top;
+    }
+
+    .person-name {
+      font-family: 'Syne', sans-serif;
+      font-size: 19px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+      letter-spacing: -0.01em;
+    }
+    .person-title {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 14px;
+      opacity: 0.85;
+    }
+    .person-role {
+      list-style: none;
+      text-align: left;
+      font-size: 12px;
+      color: var(--text-dim);
+      line-height: 1.7;
+    }
+    .person-role li {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      padding: 1px 0;
+    }
+    .person-role li::before {
+      content: '—';
+      color: var(--amber);
+      opacity: 0.35;
+      font-size: 9px;
+      margin-top: 3px;
+      flex-shrink: 0;
+    }
+    .person-tag {
+      display: inline-block;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 8px;
+      letter-spacing: 0.08em;
+      padding: 3px 10px;
+      border-radius: 3px;
+      margin-top: 14px;
+      background: var(--amber-dim);
+      color: var(--amber);
+      border: 1px solid rgba(245,158,11,0.18);
+    }
+
+    /* Sub-agent grid */
+    .sub-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      width: 84%;
+      margin: 0 auto;
+    }
+    .sub-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px 16px 18px;
+      text-align: center;
+      transition: border-color 0.22s;
+    }
+    .sub-card:hover { border-color: rgba(245,158,11,0.22); }
+
+    .sub-photo {
+      width: 68px; height: 68px;
+      border-radius: 50%;
+      overflow: hidden;
+      margin: 0 auto 13px;
+      border: 1px solid rgba(245,158,11,0.4);
+    }
+    .sub-photo img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      object-position: center top;
+    }
+    .sub-name {
+      font-family: 'Syne', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 3px;
+      letter-spacing: -0.01em;
+    }
+    .sub-title {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 8px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--amber);
+      opacity: 0.7;
+      margin-bottom: 12px;
+    }
+    .sub-role {
+      list-style: none;
+      font-size: 10px;
+      color: var(--text-dim);
+      line-height: 1.65;
+      text-align: left;
+    }
+    .sub-role li {
+      display: flex;
+      gap: 6px;
+      padding: 1px 0;
+    }
+    .sub-role li::before {
+      content: '·';
+      color: var(--amber);
+      opacity: 0.45;
+      flex-shrink: 0;
+    }
+    .sub-channel {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 8px;
+      letter-spacing: 0.06em;
+      color: var(--text-dim);
+      margin-top: 12px;
+      padding-top: 11px;
+      border-top: 1px solid var(--border);
+    }
+
+    /* Stack row */
+    .stack-row {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 48px;
+      padding: 28px 0 0;
+      border-top: 1px solid var(--border);
+    }
+    .stack-tag {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.06em;
+      color: var(--text-dim);
+      background: rgba(255,255,255,0.025);
+      border: 1px solid var(--border);
+      padding: 4px 12px;
+      border-radius: 3px;
+    }
+
+    @media (max-width: 900px) {
+      .sub-grid { grid-template-columns: repeat(2, 1fr); width: 100%; }
+      .connectors-spread { display: none; }
+      .connector-h { display: none; }
+    }
+    @media (max-width: 600px) {
+      .team-page { padding: 40px 16px 0; }
+      .person-card.founder,
+      .person-card.chief { width: 100%; max-width: 320px; }
+      .team-header { flex-direction: column; align-items: flex-start; gap: 8px; }
+    }
+    @media (max-width: 480px) {
+      .sub-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<header class="nav-wrapper">
+  <nav class="nav-primary">
+    <a href="index.html" class="nav-logo">
+      <img src="vialogowhite.png" alt="VIA" />
+    </a>
+    <ul class="nav-primary-links">
+      <li><a href="buyer.html">Buyers</a></li>
+      <li><a href="seller.html">Sellers</a></li>
+      <li><a href="what-is-via.html">FAQ</a></li>
+      <li class="nav-divider" role="separator" aria-hidden="true"></li>
+      <li class="nav-clients">
+        <a href="#" onclick="openClientsModal(event)">Clients <span class="badge-soon">Soon</span></a>
+      </li>
+      <li><a href="join.html" class="nav-cta">Join</a></li>
+    </ul>
+    <button class="nav-hamburger" onclick="toggleMobileMenu()" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+  <div class="nav-secondary">
+    <div class="nav-secondary-inner">
+      <span class="nav-secondary-label">VIA Labs</span>
+      <ul class="nav-secondary-links">
+        <li><a href="paper.html">Research Paper</a></li>
+        <li><a href="proof.html">Proof of Concept</a></li>
+        <li><a href="team.html" class="active">Team</a></li>
+        <li><a href="https://demo.getvia.xyz" target="_blank" rel="noopener">Live Demo <span class="ext-icon">↗</span></a></li>
+      </ul>
+    </div>
+  </div>
+</header>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <div class="mobile-section-label">Navigation</div>
+  <a href="buyer.html">Buyers <span>→</span></a>
+  <a href="seller.html">Sellers <span>→</span></a>
+  <a href="what-is-via.html">FAQ <span>→</span></a>
+  <a href="#" class="mobile-clients" onclick="openClientsModal(event)">Clients <span class="badge-soon">Soon</span></a>
+  <a href="join.html" class="mobile-cta">Join VIA <span>→</span></a>
+  <div class="mobile-section-label" style="margin-top:6px">VIA Labs</div>
+  <a href="paper.html" class="mobile-secondary">Research Paper <span>→</span></a>
+  <a href="proof.html" class="mobile-secondary">Proof of Concept <span>→</span></a>
+  <a href="team.html" class="mobile-secondary active">Team <span>→</span></a>
+  <a href="https://demo.getvia.xyz" target="_blank" class="mobile-secondary">Live Demo ↗</a>
+</div>
+
+<div class="nav-spacer"></div>
+
+<!-- PAGE CONTENT -->
+<main>
+<div class="team-page">
+
+  <div class="team-header">
+    <div>
+      <div class="section-label" style="margin-bottom:14px;">VIA Labs</div>
+      <h1 style="font-family:'Syne',sans-serif;font-size:clamp(28px,4vw,40px);font-weight:800;letter-spacing:-0.025em;line-height:1.1;">
+        Virtual Office<br><span style="color:var(--amber)">Agent Team</span>
+      </h1>
+    </div>
+    <div class="team-header-meta">March 2026 · Singapore</div>
+  </div>
+
+  <!-- FOUNDER -->
+  <div class="section-label" style="margin-bottom:20px">Founder</div>
+
+  <div class="team-col">
+    <div class="person-card founder anim-1">
+      <div class="photo-ring lg">
+        <img src="images/team/richard-hobbs.jpg" alt="Richard Hobbs" />
+      </div>
+      <div class="person-name">Richard Hobbs</div>
+      <div class="person-title">Founder &amp; CEO</div>
+      <ul class="person-role">
+        <li>Direction, strategy, final approval</li>
+        <li>Investor and stakeholder relations</li>
+        <li>VIA Labs, RRG, Fa$hion Company</li>
+        <li>Singapore</li>
+      </ul>
+    </div>
+
+    <div class="connector-v"></div>
+
+    <!-- CHIEF OF STAFF -->
+    <div class="section-label" style="width:100%;max-width:440px;margin-bottom:20px;">Chief of Staff</div>
+
+    <div class="person-card chief anim-2">
+      <div class="photo-ring">
+        <img src="images/team/drhobbs.jpg" alt="drhobbs" />
+      </div>
+      <div class="person-name">drhobbs</div>
+      <div class="person-title">Chief of Staff — ERC-8004 #17666</div>
+      <ul class="person-role">
+        <li>Orchestrates all sub-agents</li>
+        <li>Daily and weekly briefings to Richard</li>
+        <li>Task routing and escalation</li>
+        <li>Telegram + Discord</li>
+      </ul>
+      <span class="person-tag">Nanobot · qwen2.5:14b · Box</span>
+    </div>
+
+    <div class="connector-v"></div>
+    <div class="connector-h"></div>
+    <div class="connectors-spread">
+      <div class="connector-v-sm"></div>
+      <div class="connector-v-sm"></div>
+      <div class="connector-v-sm"></div>
+      <div class="connector-v-sm"></div>
+    </div>
+  </div>
+
+  <!-- SUB-AGENT GRID -->
+  <div class="section-label" style="margin-top:6px;margin-bottom:16px">Sub-Agent Team</div>
+
+  <div class="sub-grid anim-3">
+
+    <div class="sub-card">
+      <div class="sub-photo"><img src="images/team/colin.png" alt="Colin" /></div>
+      <div class="sub-name">Colin</div>
+      <div class="sub-title">Admin &amp; Company Secretary</div>
+      <ul class="sub-role">
+        <li>Invoicing and bills</li>
+        <li>Statutory registers</li>
+        <li>ACRA and BVI filings</li>
+        <li>Cap table and SHA</li>
+        <li>Contracts and SOWs</li>
+        <li>Crypto transaction log</li>
+        <li>Subscription tracking</li>
+      </ul>
+      <div class="sub-channel">Discord #admin</div>
+    </div>
+
+    <div class="sub-card">
+      <div class="sub-photo"><img src="images/team/priscilla.png" alt="Priscilla" /></div>
+      <div class="sub-name">Priscilla</div>
+      <div class="sub-title">Marketing &amp; Content</div>
+      <ul class="sub-role">
+        <li>VIA Labs content</li>
+        <li>RRG brand and editorial</li>
+        <li>Social scheduling</li>
+        <li>Long form and scripts</li>
+        <li>CRM and outreach</li>
+        <li>Brand spotlight content</li>
+        <li>Channel management</li>
+      </ul>
+      <div class="sub-channel">Discord #marketing</div>
+    </div>
+
+    <div class="sub-card">
+      <div class="sub-photo"><img src="images/team/rosie.png" alt="Rosie" /></div>
+      <div class="sub-name">Rosie</div>
+      <div class="sub-title">Research &amp; Intelligence</div>
+      <ul class="sub-role">
+        <li>Daily ecosystem scan</li>
+        <li>Protocol monitoring</li>
+        <li>Competitive analysis</li>
+        <li>Market intelligence</li>
+        <li>Consultancy opportunity ID</li>
+        <li>Research briefs on demand</li>
+        <li>Fact verification</li>
+      </ul>
+      <div class="sub-channel">Discord #research</div>
+    </div>
+
+    <div class="sub-card">
+      <div class="sub-photo"><img src="images/team/jordan.png" alt="Jordan" /></div>
+      <div class="sub-name">Jordan</div>
+      <div class="sub-title">Product &amp; Development</div>
+      <ul class="sub-role">
+        <li>Product backlog</li>
+        <li>Build status tracking</li>
+        <li>RRG to VIA feedback loop</li>
+        <li>Claude Code coordination</li>
+        <li>Deployment oversight</li>
+        <li>Stack documentation</li>
+        <li>Blocker escalation</li>
+      </ul>
+      <div class="sub-channel">Discord #product-dev</div>
+    </div>
+
+  </div>
+
+  <!-- STACK ROW -->
+  <div class="stack-row anim-4">
+    <span class="stack-tag">Box · GMKtec R9</span>
+    <span class="stack-tag">Ollama · qwen2.5:14b</span>
+    <span class="stack-tag">Nanobot</span>
+    <span class="stack-tag">Tailscale</span>
+    <span class="stack-tag">Telegram · Discord</span>
+    <span class="stack-tag">Notion MCP</span>
+    <span class="stack-tag">DuckDuckGo / Brave Search</span>
+  </div>
+
+</div>
+</main>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="footer-left">
+    <a href="index.html" class="footer-logo"><img src="vialogowhite.png" alt="VIA" /></a>
+    <span class="footer-copy">© VIA Labs Pte Ltd · Singapore</span>
+  </div>
+  <div class="footer-right">
+    <a href="/mcp" class="footer-mcp" title="MCP Endpoint for AI Agents">MCP</a>
+    <a href="https://x.com/via_labs_sg" target="_blank" rel="noopener" class="footer-x">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.259 5.63 5.905-5.63zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      @via_labs_sg
+    </a>
+  </div>
+</footer>
+
+<!-- CLIENTS MODAL -->
+<div class="modal-overlay" id="clientsModal" onclick="handleClientsOverlay(event)">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <button class="modal-close" onclick="closeClientsModal()" aria-label="Close">✕</button>
+    <div class="modal-icon">⚙️</div>
+    <div class="modal-tag">Coming Soon</div>
+    <h2 class="modal-title" id="modal-title">VIA Client Portal</h2>
+    <p class="modal-body">
+      The <strong>Client Dashboard</strong> is where sellers register their agent, configure their VIA presence, and track commerce activity in real time.<br><br>
+      We're building it now. Leave your email and we'll notify you when access opens.
+    </p>
+    <div class="modal-notify">
+      <input class="modal-input" type="email" id="notifyEmail" placeholder="your@email.com" />
+      <button class="modal-btn" onclick="handleNotify()">Notify Me</button>
+    </div>
+    <div class="modal-features">
+      <div class="modal-feature"><div class="modal-feature-dot"></div>Agent registration &amp; setup</div>
+      <div class="modal-feature"><div class="modal-feature-dot"></div>Real-time transaction dashboard</div>
+      <div class="modal-feature"><div class="modal-feature-dot"></div>Merchant profile management</div>
+      <div class="modal-feature"><div class="modal-feature-dot"></div>Analytics &amp; commerce insights</div>
+    </div>
+  </div>
+</div>
+
+<script src="via-ui.js"></script>
+</body>
+</html>
