@@ -4,13 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>VIA Labs — Team</title>
-  <meta name="description" content="The VIA Labs virtual office — Richard Hobbs and five AI agents running the operation." />
+  <meta name="description" content="The VIA Labs virtual office — Richard Hobbs and six AI agents running the operation." />
   <link rel="icon" href="favicon.ico" />
   <link rel="canonical" href="https://getvia.xyz/team" />
   <meta property="og:url" content="https://getvia.xyz/team" />
   <meta property="og:type" content="website" />
   <meta property="og:title" content="VIA Labs — Team" />
-  <meta property="og:description" content="The VIA Labs virtual office — Richard Hobbs and five AI agents running the operation." />
+  <meta property="og:description" content="The VIA Labs virtual office — Richard Hobbs and six AI agents running the operation." />
   <link rel="stylesheet" href="via.css" />
   <style>
     .team-page {
@@ -148,10 +148,10 @@
       border: 1px solid rgba(245,158,11,0.18);
     }
 
-    /* Agent grid — 6 cards, 3 columns */
+    /* Agent grid — 7 cards, 4 columns */
     .sub-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(4, 1fr);
       gap: 12px;
       width: 90%;
       margin: 0 auto;
@@ -360,6 +360,9 @@
       border-radius: 4px;
     }
 
+    @media (max-width: 1100px) {
+      .sub-grid { grid-template-columns: repeat(3, 1fr); }
+    }
     @media (max-width: 900px) {
       .sub-grid { grid-template-columns: repeat(2, 1fr); width: 100%; }
       .connectors-spread { display: none; }
@@ -558,6 +561,21 @@
       </ul>
       <div class="sub-channel">Discord #product-dev</div>
       <div class="sub-8004"><a href="https://8004scan.io/agents/base/37752" target="_blank" rel="noopener">ERC-8004 #37752 ↗</a></div>
+    </div>
+
+    <div class="sub-card">
+      <div class="sub-photo"><img src="images/team/sasha.jpg" alt="Sasha" /></div>
+      <div class="sub-name">Sasha</div>
+      <div class="sub-title">Brand Partnerships</div>
+      <ul class="sub-role">
+        <li>Outreach at scale</li>
+        <li>Email template management</li>
+        <li>CRM pipeline oversight</li>
+        <li>Reply classification</li>
+        <li>Warm lead escalation</li>
+        <li>Vertical activation</li>
+      </ul>
+      <div class="sub-channel">Discord #outreach · Telegram</div>
     </div>
 
     <div class="sub-card" style="border-color:rgba(245,158,11,0.15);">
