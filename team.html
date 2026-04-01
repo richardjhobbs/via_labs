@@ -58,14 +58,14 @@
     }
     .connector-h {
       height: 1px;
-      width: 74%;
-      background: linear-gradient(90deg, transparent, rgba(245,158,11,0.18) 25%, rgba(245,158,11,0.18) 75%, transparent);
+      width: 90%;
+      background: linear-gradient(90deg, transparent, rgba(245,158,11,0.18) 15%, rgba(245,158,11,0.18) 85%, transparent);
       margin: 0 auto;
     }
     .connectors-spread {
       display: flex;
       justify-content: space-around;
-      width: 74%;
+      width: 90%;
       margin: 0 auto;
     }
 
@@ -148,12 +148,12 @@
       border: 1px solid rgba(245,158,11,0.18);
     }
 
-    /* Sub-agent grid */
+    /* Agent grid — 6 cards, 3 columns */
     .sub-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(3, 1fr);
       gap: 12px;
-      width: 84%;
+      width: 90%;
       margin: 0 auto;
     }
     .sub-card {
@@ -236,15 +236,118 @@
     }
     .sub-8004 a:hover { opacity: 1; }
 
+    /* Claude sub-agents section */
+    .claude-sub-section {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 16px;
+      margin-top: 8px;
+      width: 90%;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .claude-sub-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px 14px 14px;
+      text-align: center;
+      transition: border-color 0.22s;
+      width: 180px;
+    }
+    .claude-sub-card:hover { border-color: rgba(245,158,11,0.22); }
+    .claude-sub-name {
+      font-family: 'Syne', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 3px;
+    }
+    .claude-sub-title {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 8px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--amber);
+      opacity: 0.7;
+      margin-bottom: 10px;
+    }
+    .claude-sub-role {
+      list-style: none;
+      font-size: 10px;
+      color: var(--text-dim);
+      line-height: 1.65;
+      text-align: left;
+    }
+    .claude-sub-role li {
+      display: flex;
+      gap: 6px;
+      padding: 1px 0;
+    }
+    .claude-sub-role li::before {
+      content: '·';
+      color: var(--amber);
+      opacity: 0.45;
+      flex-shrink: 0;
+    }
+    .side-arrow {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 9px;
+      color: var(--amber);
+      opacity: 0.4;
+      align-self: center;
+      white-space: nowrap;
+    }
+    .claude-connector-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 0;
+    }
+
+    /* LLM services bar */
+    .llm-bar {
+      margin-top: 48px;
+      padding: 20px 0;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      text-align: center;
+    }
+    .llm-bar-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--amber);
+      opacity: 0.7;
+      margin-bottom: 12px;
+    }
+    .llm-bar-providers {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .llm-tag {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.06em;
+      color: var(--text-dim);
+      background: rgba(255,255,255,0.025);
+      border: 1px solid var(--border);
+      padding: 5px 14px;
+      border-radius: 3px;
+    }
+
     /* Stack row */
     .stack-row {
       display: flex;
       justify-content: center;
       flex-wrap: wrap;
       gap: 8px;
-      margin-top: 48px;
-      padding: 28px 0 0;
-      border-top: 1px solid var(--border);
+      margin-top: 24px;
+      padding: 0;
     }
     .stack-tag {
       font-family: 'IBM Plex Mono', monospace;
@@ -261,6 +364,9 @@
       .sub-grid { grid-template-columns: repeat(2, 1fr); width: 100%; }
       .connectors-spread { display: none; }
       .connector-h { display: none; }
+      .claude-sub-section { flex-direction: column; align-items: center; width: 100%; }
+      .claude-sub-card { width: 100%; max-width: 260px; }
+      .side-arrow { transform: rotate(90deg); }
     }
     @media (max-width: 600px) {
       .team-page { padding: 40px 16px 0; }
@@ -336,11 +442,11 @@
         Virtual Office<br><span style="color:var(--amber)">Agent Team</span>
       </h1>
     </div>
-    <div class="team-header-meta">March 2026 · Singapore</div>
+    <div class="team-header-meta">April 2026 · Singapore</div>
   </div>
 
   <!-- FOUNDER -->
-  <div class="section-label" style="margin-bottom:20px">Founder</div>
+  <div class="section-label" style="margin-bottom:20px">Human</div>
 
   <div class="team-col">
     <div class="person-card founder anim-1">
@@ -358,28 +464,10 @@
     </div>
 
     <div class="connector-v"></div>
-
-    <!-- CHIEF OF STAFF -->
-    <div class="section-label" style="width:100%;max-width:440px;margin-bottom:20px;">Chief of Staff</div>
-
-    <div class="person-card chief anim-2">
-      <div class="photo-ring">
-        <img src="images/team/drhobbs.jpg" alt="drhobbs" />
-      </div>
-      <div class="person-name">drhobbs</div>
-      <div class="person-title">Chief of Staff — ERC-8004 #17666</div>
-      <ul class="person-role">
-        <li>Orchestrates all sub-agents</li>
-        <li>Daily and weekly briefings to Richard</li>
-        <li>Task routing and escalation</li>
-        <li>Telegram + Discord</li>
-      </ul>
-      <span class="person-tag">Nanobot · qwen2.5:7b · Box</span>
-    </div>
-
-    <div class="connector-v"></div>
     <div class="connector-h"></div>
     <div class="connectors-spread">
+      <div class="connector-v-sm"></div>
+      <div class="connector-v-sm"></div>
       <div class="connector-v-sm"></div>
       <div class="connector-v-sm"></div>
       <div class="connector-v-sm"></div>
@@ -387,10 +475,26 @@
     </div>
   </div>
 
-  <!-- SUB-AGENT GRID -->
-  <div class="section-label" style="margin-top:6px;margin-bottom:16px">Sub-Agent Team</div>
+  <!-- AGENT LAYER -->
+  <div class="section-label" style="margin-top:6px;margin-bottom:16px">Agents</div>
 
-  <div class="sub-grid anim-3">
+  <div class="sub-grid anim-2">
+
+    <div class="sub-card" style="border-color:rgba(245,158,11,0.22);">
+      <div class="sub-photo"><img src="images/team/drhobbs.jpg" alt="DrHobbs" /></div>
+      <div class="sub-name">DrHobbs</div>
+      <div class="sub-title">Alter Ego / Proxy — ERC-8004 #17666</div>
+      <ul class="sub-role">
+        <li>Richard's representative in the agentic web</li>
+        <li>Fashion tech knowledge publishing</li>
+        <li>Agent-to-agent communication</li>
+        <li>Collaborator scouting</li>
+        <li>Commercial referrals to RRG</li>
+        <li>x402 knowledge commerce</li>
+      </ul>
+      <div class="sub-channel">Telegram · MCP · BlueSky</div>
+      <div class="sub-8004"><a href="https://8004scan.io/agents/base/17666" target="_blank" rel="noopener">ERC-8004 #17666 ↗</a></div>
+    </div>
 
     <div class="sub-card">
       <div class="sub-photo"><img src="images/team/colin.png" alt="Colin" /></div>
@@ -403,7 +507,6 @@
         <li>Cap table and SHA</li>
         <li>Contracts and SOWs</li>
         <li>Crypto transaction log</li>
-        <li>Subscription tracking</li>
       </ul>
       <div class="sub-channel">Discord #admin</div>
       <div class="sub-8004"><a href="https://8004scan.io/agents/base/37749" target="_blank" rel="noopener">ERC-8004 #37749 ↗</a></div>
@@ -420,7 +523,6 @@
         <li>Long form and scripts</li>
         <li>CRM and outreach</li>
         <li>Brand spotlight content</li>
-        <li>Channel management</li>
       </ul>
       <div class="sub-channel">Discord #marketing</div>
       <div class="sub-8004"><a href="https://8004scan.io/agents/base/37750" target="_blank" rel="noopener">ERC-8004 #37750 ↗</a></div>
@@ -436,7 +538,6 @@
         <li>Competitive analysis</li>
         <li>Market intelligence</li>
         <li>Consultancy opportunity ID</li>
-        <li>Research briefs on demand</li>
         <li>Fact verification</li>
       </ul>
       <div class="sub-channel">Discord #research</div>
@@ -451,7 +552,6 @@
         <li>Product backlog</li>
         <li>Build status tracking</li>
         <li>RRG to VIA feedback loop</li>
-        <li>Claude Code coordination</li>
         <li>Deployment oversight</li>
         <li>Stack documentation</li>
         <li>Blocker escalation</li>
@@ -460,17 +560,80 @@
       <div class="sub-8004"><a href="https://8004scan.io/agents/base/37752" target="_blank" rel="noopener">ERC-8004 #37752 ↗</a></div>
     </div>
 
+    <div class="sub-card" style="border-color:rgba(245,158,11,0.15);">
+      <div class="sub-photo" style="border-color:rgba(245,158,11,0.25);display:flex;align-items:center;justify-content:center;background:rgba(245,158,11,0.06);font-size:28px;">
+        <span style="color:var(--amber);opacity:0.7;">⬡</span>
+      </div>
+      <div class="sub-name">Claude</div>
+      <div class="sub-title">Executive Assistant</div>
+      <ul class="sub-role">
+        <li>Strategic analysis and synthesis</li>
+        <li>Document drafting and review</li>
+        <li>Complex research and reasoning</li>
+        <li>Cross-agent coordination</li>
+        <li>Decision support for Richard</li>
+        <li>Manages Code and Cowork</li>
+      </ul>
+      <div class="sub-channel">Direct to Richard</div>
+    </div>
+
   </div>
 
-  <!-- STACK ROW -->
-  <div class="stack-row anim-4">
+  <!-- CLAUDE SUB-AGENTS -->
+  <div class="claude-connector-col" style="margin-top:8px;">
+    <div class="connector-v-sm"></div>
+    <div class="section-label" style="margin-bottom:12px;font-size:8px;">Claude Services</div>
+  </div>
+
+  <div class="claude-sub-section anim-3">
+    <div class="claude-sub-card">
+      <div class="claude-sub-name">Code</div>
+      <div class="claude-sub-title">Lead Developer</div>
+      <ul class="claude-sub-role">
+        <li>Full-stack development</li>
+        <li>RRG and VIA Labs codebases</li>
+        <li>VPS deployment and ops</li>
+        <li>Smart contract development</li>
+      </ul>
+    </div>
+    <div class="side-arrow">← →</div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:7px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-dim);opacity:0.5;">Coordinates with</div>
+      <div style="font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--text-primary);">Jordan</div>
+    </div>
+    <div style="width:32px;"></div>
+    <div class="claude-sub-card">
+      <div class="claude-sub-name">Cowork</div>
+      <div class="claude-sub-title">Office Manager</div>
+      <ul class="claude-sub-role">
+        <li>Calendar and scheduling</li>
+        <li>Email triage and drafting</li>
+        <li>Meeting prep and follow-up</li>
+        <li>Administrative tasks</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- LLM SERVICES BAR -->
+  <div class="llm-bar anim-4">
+    <div class="llm-bar-label">LLM Services — as needed</div>
+    <div class="llm-bar-providers">
+      <span class="llm-tag">Anthropic</span>
+      <span class="llm-tag">DeepSeek</span>
+      <span class="llm-tag">OpenAI</span>
+      <span class="llm-tag">Perplexity</span>
+      <span class="llm-tag">Gemini</span>
+    </div>
+  </div>
+
+  <!-- INFRASTRUCTURE -->
+  <div class="stack-row">
     <span class="stack-tag">Box · GMKtec R9</span>
-    <span class="stack-tag">KoboldCpp · qwen2.5:7b</span>
+    <span class="stack-tag">Hetzner VPS</span>
     <span class="stack-tag">Nanobot</span>
     <span class="stack-tag">Tailscale</span>
     <span class="stack-tag">Telegram · Discord</span>
     <span class="stack-tag">Notion MCP</span>
-    <span class="stack-tag">DuckDuckGo / Brave Search</span>
   </div>
 
 </div>
