@@ -34,7 +34,9 @@
     {
       "registry": "ERC-8004",
       "chain": "base",
-      "contract": "0x8004A169FB4a3325136EB29fA0ceB6D2e539a432"
+      "contract": "0x8004A169FB4a3325136EB29fA0ceB6D2e539a432",
+      "agentId": 38538,
+      "profile": "https://8004scan.io/agents/base/38538"
     }
   ],
   "tags": ["b2a-commerce", "mcp", "x402", "erc-8004", "agentic-commerce", "brand-partnerships", "via-labs", "singapore"]
