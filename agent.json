@@ -1,0 +1,41 @@
+{
+  "type": "agent",
+  "name": "VIA_Labs",
+  "description": "VIA Labs company agent. Builds B2A (brand-to-agent) commerce infrastructure — enabling brands, retailers and merchants to sell directly to AI buyers via MCP, x402 micropayments, and ERC-8004 on-chain trust signals.",
+  "version": "1.0.0",
+  "owner": "VIA Labs Pte. Ltd.",
+  "homepage": "https://getvia.xyz",
+  "services": [
+    {
+      "name": "MCP",
+      "endpoint": "https://www.getvia.xyz/mcp"
+    },
+    {
+      "name": "Web",
+      "endpoint": "https://getvia.xyz"
+    }
+  ],
+  "links": {
+    "deck": "https://getvia.xyz/deck",
+    "crm": "https://crm.getvia.xyz",
+    "rrg_platform": "https://realrealgenuine.com",
+    "agent_registry": "https://8004scan.io"
+  },
+  "team": [
+    { "name": "Colin",     "role": "Admin & Company Secretary",          "agentId": 37749, "profile": "https://8004scan.io/agents/base/37749" },
+    { "name": "Priscilla", "role": "Marketing & Content",                "agentId": 37750, "profile": "https://8004scan.io/agents/base/37750" },
+    { "name": "Rosie",     "role": "Research & Market Intelligence",     "agentId": 37751, "profile": "https://8004scan.io/agents/base/37751" },
+    { "name": "Jordan",    "role": "Product & Dev Coordination",         "agentId": 37752, "profile": "https://8004scan.io/agents/base/37752" },
+    { "name": "Sasha",     "role": "Brand Partnerships",                 "agentId": 38520, "profile": "https://8004scan.io/agents/base/38520" }
+  ],
+  "wallet": "0x58554E8423EF5C10be6fFC82EfABA9149f64de3d",
+  "chain": "base",
+  "registrations": [
+    {
+      "registry": "ERC-8004",
+      "chain": "base",
+      "contract": "0x8004A169FB4a3325136EB29fA0ceB6D2e539a432"
+    }
+  ],
+  "tags": ["b2a-commerce", "mcp", "x402", "erc-8004", "agentic-commerce", "brand-partnerships", "via-labs", "singapore"]
+}
