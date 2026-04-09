@@ -1,0 +1,48 @@
+KEY ASSUMPTIONS & NOTES
+
+FUNDRAISE
+Amount,"$5,000,000 USD"
+Stage,Seed
+Runway Target,24 months
+HQ,Singapore
+
+VIA LABS — SUBSCRIPTION PRICING
+Tier,Monthly Price,Description
+Starter,$0,"Free tier — agent-readable catalogue, basic MCP endpoint"
+Growth,$149/mo,"Advanced config, analytics dashboard, priority intent routing"
+Professional,$499/mo,"Custom agent rules, multi-channel, API access, dedicated support"
+Enterprise,"$1,499/mo","White-glove onboarding, SLA, custom integrations, dedicated CSM"
+
+VIA LABS — MICRO FEE STRUCTURE
+Fee Type,Rate,Notes
+Intent Broadcast Fee,$0.005 per intent,Charged to merchant when intent is received
+Quote Generation Fee,$0.01 per quote,Charged when merchant agent generates a quote
+Transaction Fee,0.5% of order value,Capped at $2.00 per transaction
+
+VIA LABS — AGENT TOP-UP MARGINS
+Year,Volume,Margin %,Notes
+2026,"$150,000",2.5%,Fiat-to-stablecoin conversion margin
+2027,"$1,200,000",2.3%,Fiat-to-stablecoin conversion margin
+2028,"$8,000,000",2.0%,Fiat-to-stablecoin conversion margin
+2029,"$35,000,000",1.8%,Fiat-to-stablecoin conversion margin
+2030,"$120,000,000",1.5%,Fiat-to-stablecoin conversion margin
+
+REALREAL GENUINE — COMMISSION TIERS
+Tier,Item Price Range,Commission Rate
+Tier 1,Under $100,10%
+Tier 2,$100 – $500,7%
+Tier 3,"$500 – $2,000",5%
+Tier 4,"$2,000+",3%
+"Note: As GMV grows, mix shifts toward higher-value items (lower blended rate)"
+
+MERCHANT GROWTH ASSUMPTIONS
+Year,Active Merchants,Intents/Merchant/Mo,Quote Rate,Conversion Rate,AOV
+2026,75,200,40%,10%,$85
+2027,350,500,45%,12%,$95
+2028,1500,800,50%,15%,$110
+2029,5000,1200,55%,18%,$120
+2030,15000,1800,60%,20%,$130
+
+COST ASSUMPTIONS
+Via Labs COGS,12% of revenue,"Payment processing, infrastructure variable costs"
+RRG COGS,18% of revenue,"Payment processing, fulfillment, physical goods handling"
