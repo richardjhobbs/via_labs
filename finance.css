@@ -713,3 +713,187 @@
     letter-spacing: 0.04em;
   }
 }
+
+/* ═══════════════════════════════════════════════════════
+   MOBILE / RESPONSIVE
+   Tablets and phones. The finance tables are inherently
+   wide (5 years + label column, 20 quarters on the opex
+   detail) so we rely on horizontal scroll inside each
+   section body and just tighten the surrounding chrome.
+   ═══════════════════════════════════════════════════════ */
+
+@media (max-width: 900px) {
+  .finance-page {
+    padding: 28px 16px 64px;
+  }
+  .finance-sub {
+    font-size: 14px;
+    max-width: none;
+  }
+  .finance-section {
+    margin-bottom: 12px;
+    border-radius: 12px;
+  }
+  .finance-section-header {
+    padding: 14px 16px;
+  }
+  .finance-section-header h2 {
+    font-size: 15px;
+  }
+  .finance-section-body {
+    padding: 0 12px 16px;
+    /* Critical: let tables scroll horizontally instead of overflowing the page */
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .finance-table {
+    font-size: 13px;
+    /* Force the table to size to its content and let the body scroll around it */
+    width: auto;
+    min-width: 100%;
+  }
+  .finance-table th,
+  .finance-table td {
+    padding: 7px 9px;
+  }
+  .finance-table th:first-child,
+  .finance-table td:first-child {
+    font-size: 13px;
+  }
+  .finance-table tr.finance-muted-row td { font-size: 12px; }
+  .finance-table tr.finance-category-row td:first-child { font-size: 11px; }
+  .finance-input {
+    font-size: 13px;
+    min-width: 64px;
+    padding: 4px 2px;
+  }
+
+  /* Admin tabs: allow horizontal scroll if they overflow */
+  .finance-tabs {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    flex-wrap: nowrap;
+    padding-bottom: 4px;
+  }
+  .finance-tab {
+    flex-shrink: 0;
+  }
+  .finance-scenario-pill {
+    flex-shrink: 0;
+  }
+
+  /* Action bar (sticky footer with Save / Publish buttons) */
+  .finance-actions {
+    padding: 12px 14px;
+    gap: 8px;
+  }
+  .finance-actions .spacer {
+    flex-basis: 100%;
+    order: 0;
+  }
+  .finance-actions-status {
+    flex-basis: 100%;
+    font-size: 11px;
+    order: -1;
+  }
+  .finance-btn {
+    padding: 9px 14px;
+    font-size: 12px;
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  /* Headline cards: single-column stack below 480px, 2-up otherwise (existing rule) */
+  .finance-headline-card {
+    padding: 14px 14px 12px;
+  }
+  .finance-headline-card .rev {
+    font-size: 22px;
+  }
+
+  /* Notes blocks and disclaimer: tighten padding */
+  .finance-notes-block,
+  .finance-disclaimer {
+    padding: 18px 16px;
+  }
+  .finance-notes-block h3,
+  .finance-disclaimer h3 {
+    font-size: 14px;
+  }
+  .finance-notes-block p,
+  .finance-disclaimer p {
+    font-size: 13px;
+  }
+
+  /* Quarterly opex detail tables (admin only) */
+  .finance-quarters .finance-table { font-size: 11px; }
+  .finance-quarters .finance-table td { padding: 5px 6px; }
+
+  /* Publish history and tools accordions */
+  .finance-history-wrap,
+  .finance-export-wrap {
+    padding: 10px 14px;
+  }
+
+  /* Preview banner */
+  .finance-preview-banner {
+    padding: 12px 14px;
+    font-size: 11px;
+  }
+
+  /* Landing page cards */
+  .finance-landing-grid {
+    padding: 0 4px;
+  }
+
+  /* Login gate card */
+  .gate-card {
+    padding: 32px 24px 24px;
+  }
+  .gate-title {
+    font-size: 30px;
+  }
+}
+
+@media (max-width: 480px) {
+  .finance-page {
+    padding: 24px 12px 56px;
+  }
+  .finance-title {
+    font-size: 32px;
+  }
+  .finance-headline-strip {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+  .finance-section-header {
+    padding: 12px 14px;
+  }
+  .finance-section-body {
+    padding: 0 10px 14px;
+  }
+  .finance-table {
+    font-size: 12px;
+  }
+  .finance-table th,
+  .finance-table td {
+    padding: 6px 7px;
+  }
+  .finance-table th:first-child,
+  .finance-table td:first-child {
+    font-size: 12px;
+  }
+  .finance-actions {
+    /* Un-stick on very small screens so it doesn't eat half the viewport */
+    position: static;
+  }
+  .finance-btn {
+    padding: 8px 10px;
+    font-size: 11px;
+  }
+  .finance-notes-block,
+  .finance-disclaimer {
+    padding: 16px 14px;
+  }
+}
