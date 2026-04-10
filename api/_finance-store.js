@@ -11,7 +11,7 @@
 // doesn't exist yet (first deploy, or before anything has been saved).
 // ─────────────────────────────────────────────────────────
 
-import { put, head, list } from '@vercel/blob';
+import { put, get } from '@vercel/blob';
 import { readFileSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
@@ -22,6 +22,10 @@ const KEY_STAGED    = 'finance/staged.json';
 const KEY_PUBLISHED = 'finance/published.json';
 const KEY_HISTORY   = 'finance/history.json';
 
+// Finance data is sensitive: store everything under a private blob.
+// Private blobs require authenticated reads via the SDK's `get()`.
+const BLOB_ACCESS = 'private';
+
 function ensureBlobConfigured() {
   if (!process.env.BLOB_READ_WRITE_TOKEN) {
     const err = new Error('Blob storage not configured: BLOB_READ_WRITE_TOKEN missing. Create a Blob store in the Vercel dashboard and connect it to this project.');
@@ -30,30 +34,43 @@ function ensureBlobConfigured() {
   }
 }
 
-// Fetch a blob by its logical key. Returns parsed JSON or null if missing.
-// Uses `list` + `head`-style URL lookup so we can bypass random suffixes.
-async function fetchBlobJson(key) {
+// Read a private blob by pathname, parse JSON. Returns null if not found.
+async function fetchBlobJson(pathname) {
   ensureBlobConfigured();
-  // `head(url)` requires a URL, not a pathname, so first resolve via list.
-  const { blobs } = await list({ prefix: key, limit: 1 });
-  const match = blobs.find(b => b.pathname === key);
-  if (!match) return null;
-  const res = await fetch(match.url, { cache: 'no-store' });
-  if (!res.ok) return null;
-  try { return await res.json(); } catch { return null; }
+  let result;
+  try {
+    result = await get(pathname, { access: BLOB_ACCESS, useCache: false });
+  } catch (err) {
+    // SDK throws BlobNotFoundError when the key doesn't exist yet.
+    if (err && (err.name === 'BlobNotFoundError' || err.code === 'not_found' || String(err.message || '').includes('not found'))) {
+      return null;
+    }
+    throw err;
+  }
+  if (!result || result.statusCode !== 200 || !result.stream) return null;
+  // Consume the stream → text → JSON.
+  const reader = result.stream.getReader();
+  const chunks = [];
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    chunks.push(value);
+  }
+  const text = Buffer.concat(chunks.map(c => Buffer.from(c))).toString('utf8');
+  try { return JSON.parse(text); } catch { return null; }
 }
 
-async function writeBlobJson(key, data) {
+async function writeBlobJson(pathname, data) {
   ensureBlobConfigured();
   const body = JSON.stringify(data);
-  await put(key, body, {
-    access: 'public',
+  await put(pathname, body, {
+    access: BLOB_ACCESS,
     contentType: 'application/json',
     addRandomSuffix: false,
     allowOverwrite: true,
     cacheControlMaxAge: 0,
   });
-  return { key, size: body.length };
+  return { key: pathname, size: body.length };
 }
 
 // Bundled repo seed — used when blob storage has no staged or published yet.
