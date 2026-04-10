@@ -7,28 +7,38 @@ const DRAFT_KEY = 'finance.draft.v1';
 
 // ── Number formatting ─────────────────────────────
 function fmtMoney(n) {
-  if (n === null || n === undefined || isNaN(n)) return '—';
-  const abs = Math.abs(n);
-  const sign = n < 0 ? '-' : '';
-  let str;
-  if (abs >= 1e9) str = (abs / 1e9).toFixed(2) + 'B';
-  else if (abs >= 1e6) str = (abs / 1e6).toFixed(2) + 'M';
-  else if (abs >= 1e3) str = (abs / 1e3).toFixed(1) + 'k';
-  else str = abs.toFixed(0);
-  return sign + '$' + str;
+  if (n === null || n === undefined || isNaN(n)) return '-';
+  const rounded = Math.round(n);
+  const sign = rounded < 0 ? '-' : '';
+  return sign + '$' + Math.abs(rounded).toLocaleString('en-US');
 }
 function fmtPct(n) {
-  if (n === null || n === undefined || isNaN(n)) return '—';
+  if (n === null || n === undefined || isNaN(n)) return '-';
   return (n * 100).toFixed(1) + '%';
 }
 function fmtInt(n) {
-  if (n === null || n === undefined || isNaN(n)) return '—';
-  return Math.round(n).toLocaleString();
+  if (n === null || n === undefined || isNaN(n)) return '-';
+  return Math.round(n).toLocaleString('en-US');
 }
 function tdNumber(n, { money = true, pct = false } = {}) {
   const display = pct ? fmtPct(n) : (money ? fmtMoney(n) : fmtInt(n));
   const cls = n < 0 ? ' class="finance-neg"' : '';
   return `<td${cls}>${display}</td>`;
+}
+
+// Clean input value display: round away floating-point artifacts so
+// cells show "3" or "12.5" instead of "3.0000000000000004".
+function fmtInputVal(v, isPct) {
+  let display = isPct ? (v * 100) : v;
+  if (typeof display !== 'number' || !isFinite(display)) return display;
+  const abs = Math.abs(display);
+  if (abs === 0) return 0;
+  let out;
+  if (abs >= 1000)    out = Math.round(display);
+  else if (abs >= 10) out = Math.round(display * 100) / 100;
+  else if (abs >= 1)  out = Math.round(display * 1000) / 1000;
+  else                out = Math.round(display * 10000) / 10000;
+  return out;
 }
 
 // ── Path helpers for input binding ─────────────────
@@ -65,7 +75,7 @@ function inputRowHtml(label, pathPrefix, arr, opts = {}) {
   const cells = arr.map((v, i) => {
     const path = JSON.stringify([...pathPrefix, i]);
     const step = opts.step || 'any';
-    const display = opts.asPercent ? (v * 100) : v;
+    const display = fmtInputVal(v, !!opts.asPercent);
     return `<td><input type="number" class="finance-input" step="${step}" data-path='${path}' data-pct='${opts.asPercent ? 1 : 0}' value="${display}" /></td>`;
   }).join('');
   return `<tr><td>${label}</td>${cells}</tr>`;
@@ -142,7 +152,7 @@ function renderViaPanel(state) {
   return `
     <section class="finance-section">
       <header class="finance-section-header">
-        <h2>VIA Labs — Assumptions</h2>
+        <h2>VIA Labs: Assumptions</h2>
         <span class="finance-section-chev">▼</span>
       </header>
       <div class="finance-section-body">
@@ -154,7 +164,7 @@ function renderViaPanel(state) {
     </section>
     <section class="finance-section">
       <header class="finance-section-header">
-        <h2>VIA Labs — P&amp;L</h2>
+        <h2>VIA Labs: P&amp;L</h2>
         <span class="finance-section-chev">▼</span>
       </header>
       <div class="finance-section-body">
@@ -166,7 +176,7 @@ function renderViaPanel(state) {
     </section>
     <section class="finance-section" id="via-opex-detail">
       <header class="finance-section-header">
-        <h2>VIA Labs — OpEx detail (quarterly)</h2>
+        <h2>VIA Labs: OpEx detail (quarterly)</h2>
         <span class="finance-section-chev">▼</span>
       </header>
       <div class="finance-section-body">
@@ -189,25 +199,25 @@ function renderRrgPanel(state) {
     inputRowHtml('Co-creation revenue $', ['rrg','coCreationRevenue'], inputs.rrg.coCreationRevenue),
     inputRowHtml('COGS % of revenue', ['rrg','cogsPct'], inputs.rrg.cogsPct, { asPercent: true, step: '0.1' }),
 
-    `<tr class="finance-category-row"><td colspan="6">Drop mix — GMV share (%)</td></tr>`,
-    inputRowHtml('Co-created drops',        ['rrg','dropMix','coCreated','share'],    inputs.rrg.dropMix.coCreated.share,    { asPercent: true, step: '0.1' }),
-    inputRowHtml('Brand drops (<$10)',      ['rrg','dropMix','brandUnder10','share'], inputs.rrg.dropMix.brandUnder10.share, { asPercent: true, step: '0.1' }),
-    inputRowHtml('Brand drops ($10–$100)',  ['rrg','dropMix','brand10to100','share'], inputs.rrg.dropMix.brand10to100.share, { asPercent: true, step: '0.1' }),
-    inputRowHtml('Brand drops ($100+)',     ['rrg','dropMix','brand100plus','share'], inputs.rrg.dropMix.brand100plus.share, { asPercent: true, step: '0.1' }),
+    `<tr class="finance-category-row"><td colspan="6">Drop mix: GMV share (%)</td></tr>`,
+    inputRowHtml('Co-created drops',         ['rrg','dropMix','coCreated','share'],    inputs.rrg.dropMix.coCreated.share,    { asPercent: true, step: '0.1' }),
+    inputRowHtml('Brand drops (under $10)',  ['rrg','dropMix','brandUnder10','share'], inputs.rrg.dropMix.brandUnder10.share, { asPercent: true, step: '0.1' }),
+    inputRowHtml('Brand drops ($10 to $100)',['rrg','dropMix','brand10to100','share'], inputs.rrg.dropMix.brand10to100.share, { asPercent: true, step: '0.1' }),
+    inputRowHtml('Brand drops ($100+)',      ['rrg','dropMix','brand100plus','share'], inputs.rrg.dropMix.brand100plus.share, { asPercent: true, step: '0.1' }),
 
-    `<tr class="finance-category-row"><td colspan="6">Platform take rates (%) — 3-tier deployed scale</td></tr>`,
-    inputRowHtml('Co-created rate (30%)',    ['rrg','dropMix','coCreated','rate'],    inputs.rrg.dropMix.coCreated.rate,    { asPercent: true, step: '0.1' }),
-    inputRowHtml('Brand <$10 rate (30%)',    ['rrg','dropMix','brandUnder10','rate'], inputs.rrg.dropMix.brandUnder10.rate, { asPercent: true, step: '0.1' }),
-    inputRowHtml('Brand $10–$100 blended',   ['rrg','dropMix','brand10to100','rate'], inputs.rrg.dropMix.brand10to100.rate, { asPercent: true, step: '0.01' }),
-    inputRowHtml('Brand $100+ rate (2.5%)',  ['rrg','dropMix','brand100plus','rate'], inputs.rrg.dropMix.brand100plus.rate, { asPercent: true, step: '0.01' }),
+    `<tr class="finance-category-row"><td colspan="6">Platform take rates (%): 3-tier deployed scale</td></tr>`,
+    inputRowHtml('Co-created rate (30%)',        ['rrg','dropMix','coCreated','rate'],    inputs.rrg.dropMix.coCreated.rate,    { asPercent: true, step: '0.1' }),
+    inputRowHtml('Brand under $10 rate (30%)',   ['rrg','dropMix','brandUnder10','rate'], inputs.rrg.dropMix.brandUnder10.rate, { asPercent: true, step: '0.1' }),
+    inputRowHtml('Brand $10 to $100 blended',    ['rrg','dropMix','brand10to100','rate'], inputs.rrg.dropMix.brand10to100.rate, { asPercent: true, step: '0.01' }),
+    inputRowHtml('Brand $100+ rate (2.5%)',      ['rrg','dropMix','brand100plus','rate'], inputs.rrg.dropMix.brand100plus.rate, { asPercent: true, step: '0.01' }),
   ].join('');
 
   const pnlRows = [
     `<tr class="finance-category-row"><td colspan="6">Commission by drop type</td></tr>`,
     rowHtml('  Co-created',         rrg.map(v => v.commCoCreated)),
-    rowHtml('  Brand (<$10)',       rrg.map(v => v.commBrandUnder10)),
-    rowHtml('  Brand ($10–$100)',   rrg.map(v => v.commBrand10to100)),
-    rowHtml('  Brand ($100+)',      rrg.map(v => v.commBrand100plus)),
+    rowHtml('  Brand (under $10)',   rrg.map(v => v.commBrandUnder10)),
+    rowHtml('  Brand ($10 to $100)', rrg.map(v => v.commBrand10to100)),
+    rowHtml('  Brand ($100+)',       rrg.map(v => v.commBrand100plus)),
     rowHtml('Total Commission', rrg.map(v => v.commissionTotal), { cls: 'finance-total-row' }),
     rowHtml('Blended rate', rrg.map(v => v.blendedRate), { pct: true, cls: 'finance-muted-row' }),
     rowHtml('Co-creation revenue', rrg.map(v => v.coCreationRev)),
@@ -231,7 +241,7 @@ function renderRrgPanel(state) {
   return `
     <section class="finance-section">
       <header class="finance-section-header">
-        <h2>RealReal Genuine — Assumptions</h2>
+        <h2>RealReal Genuine: Assumptions</h2>
         <span class="finance-section-chev">▼</span>
       </header>
       <div class="finance-section-body">
@@ -243,7 +253,7 @@ function renderRrgPanel(state) {
     </section>
     <section class="finance-section">
       <header class="finance-section-header">
-        <h2>RealReal Genuine — P&amp;L</h2>
+        <h2>RealReal Genuine: P&amp;L</h2>
         <span class="finance-section-chev">▼</span>
       </header>
       <div class="finance-section-body">
@@ -255,7 +265,7 @@ function renderRrgPanel(state) {
     </section>
     <section class="finance-section" id="rrg-opex-detail">
       <header class="finance-section-header">
-        <h2>RealReal Genuine — OpEx detail (quarterly)</h2>
+        <h2>RealReal Genuine: OpEx detail (quarterly)</h2>
         <span class="finance-section-chev">▼</span>
       </header>
       <div class="finance-section-body">
@@ -339,7 +349,8 @@ function renderOpexDetail(opex, pathPrefix, years) {
       const arr = category[li];
       const cells = arr.map((v, i) => {
         const path = JSON.stringify([...pathPrefix, cat, li, i]);
-        return `<td><input type="number" class="finance-input" step="any" data-path='${path}' data-pct='0' value="${v}" /></td>`;
+        const display = fmtInputVal(v, false);
+        return `<td><input type="number" class="finance-input" step="any" data-path='${path}' data-pct='0' value="${display}" /></td>`;
       }).join('');
       html += `<tr><td>${li}</td>${cells}</tr>`;
     }
@@ -406,20 +417,20 @@ function renderInvestor(data, output, notes) {
 
   return `
     <div class="finance-eyebrow">Investor Materials</div>
-    <h1 class="finance-title">VIA Labs <em>+ RRG</em> Financials</h1>
+    <h1 class="finance-title">VIA Labs <em>Projected</em> Financials</h1>
     <p class="finance-sub">Combined five-year outlook for VIA Labs and RealReal Genuine. All figures are projections derived from current assumptions.</p>
 
     <div class="finance-headline-strip">${headlineCards}</div>
 
     <section class="finance-section">
-      <header class="finance-section-header"><h2>VIA Labs — Summary P&amp;L</h2><span class="finance-section-chev">▼</span></header>
+      <header class="finance-section-header"><h2>VIA Labs: Summary P&amp;L</h2><span class="finance-section-chev">▼</span></header>
       <div class="finance-section-body">
         <table class="finance-table"><thead><tr><th></th>${yearHeaders}</tr></thead><tbody>${viaRows}</tbody></table>
       </div>
     </section>
 
     <section class="finance-section">
-      <header class="finance-section-header"><h2>RealReal Genuine — Summary P&amp;L</h2><span class="finance-section-chev">▼</span></header>
+      <header class="finance-section-header"><h2>RealReal Genuine: Summary P&amp;L</h2><span class="finance-section-chev">▼</span></header>
       <div class="finance-section-body">
         <table class="finance-table"><thead><tr><th></th>${yearHeaders}</tr></thead><tbody>${rrgRows}</tbody></table>
       </div>
@@ -434,8 +445,36 @@ function renderInvestor(data, output, notes) {
 
     ${notesHtml}
 
+    <div class="finance-disclaimer">
+      <h3>Important notice: forward-looking information</h3>
+      <p>
+        This document contains financial projections and forward-looking statements
+        prepared by VIA Labs in good faith and on a best-endeavours basis. The figures
+        reflect management's current expectations, assumptions and view of market
+        conditions as at the date of preparation, and are inherently subject to
+        significant business, economic, regulatory, competitive, technological and
+        other risks and uncertainties, many of which are outside the company's control.
+      </p>
+      <p>
+        Actual results may differ materially from those projected. No representation,
+        warranty or guarantee, express or implied, is made as to the accuracy,
+        completeness, reasonableness or achievability of any projection or assumption
+        set out in this document, and neither VIA Labs nor any of its officers,
+        employees or advisers accepts any liability for any loss arising from any use
+        of this information.
+      </p>
+      <p>
+        This document is strictly confidential and is provided for information only.
+        It does not constitute an offer to sell, or the solicitation of an offer to
+        buy, any security or financial instrument in any jurisdiction, nor does it
+        constitute investment, legal, tax or other advice. Recipients should conduct
+        their own independent investigation and analysis before making any investment
+        decision.
+      </p>
+    </div>
+
     <div class="finance-actions">
-      <span class="finance-actions-status">CONFIDENTIAL — For authorised investors only</span>
+      <span class="finance-actions-status">CONFIDENTIAL: for authorised investors only</span>
       <div class="spacer"></div>
       <button class="finance-btn" onclick="window.print()">Print / Save PDF</button>
     </div>

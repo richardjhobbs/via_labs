@@ -34,7 +34,7 @@ const ADMIN_HTML_TEMPLATE = `<!DOCTYPE html>
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>VIA Labs — Finance Admin</title>
+  <title>VIA Labs Finance Admin</title>
   <meta name="robots" content="noindex, nofollow" />
   <link rel="icon" href="/favicon.ico" />
   <link rel="stylesheet" href="/via.css" />
@@ -59,7 +59,7 @@ const ADMIN_HTML_TEMPLATE = `<!DOCTYPE html>
   <div class="finance-eyebrow">Admin</div>
   <h1 class="finance-title">P&amp;L <em>Workbench</em></h1>
   <p class="finance-sub">
-    Edit any input cell below — all three P&amp;Ls recalculate live.
+    Edit any input cell below. All three P&amp;Ls recalculate live.
     Drafts are stored in your browser until you Export or Revert.
   </p>
 
@@ -95,7 +95,7 @@ const INVESTOR_HTML_TEMPLATE = `<!DOCTYPE html>
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>VIA Labs — Investor Financials</title>
+  <title>VIA Labs Projected Financials</title>
   <meta name="robots" content="noindex, nofollow" />
   <link rel="icon" href="/favicon.ico" />
   <link rel="stylesheet" href="/via.css" />
@@ -194,7 +194,7 @@ function hasAccess(session, requiredLevel) {
 }
 
 function loginPageHtml(level, error) {
-  const title = level === 'admin' ? 'VIA Labs Finance — Admin' : 'VIA Labs Finance — Investor';
+  const title = level === 'admin' ? 'VIA Labs Finance Admin' : 'VIA Labs Finance Investor';
   const label = level === 'admin' ? 'Admin access' : 'Investor access';
   const errorHtml = error ? `<p class="gate-error">${error}</p>` : '';
   return `<!DOCTYPE html>
