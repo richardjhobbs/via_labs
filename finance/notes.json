@@ -24,14 +24,14 @@
     {
       "title": "Cost discipline",
       "paragraphs": [
-        "Both businesses are run lean. VIA Labs headcount stays founder-plus-contractor through 2027; <strong>DL (CPO / Co-founder)</strong> joins at $6k/month from May 2026. An advisory board (<strong>SR, MS, TM, DW, PC, AF</strong>) receives $10k/year each, paid half-yearly. There is no aggressive sales hire plan; distribution is expected to come from product quality, the RRG lighthouse, and developer-relations investment in agentic commerce standards.",
+        "Both businesses are run lean. VIA Labs headcount stays founder-plus-contractor through 2027; <strong>DL (CPO / Co-founder)</strong> joins at $6k/month from May 2026. An advisory board (<strong>SR, MS, TM, DW, PC, AF</strong>) receives $10k/year each, paid half-yearly. From 2028, a full leadership layer is brought online alongside a dedicated Customer Success function (see the stress-test note below). Distribution is driven by product quality, the RRG lighthouse, and developer-relations investment in agentic commerce standards, complemented from 2028 by a Head of BD / Enterprise Sales focused on the largest merchants.",
         "RRG costs are dominated by design, brand partnerships, and marketing: the line items you'd expect of a drop-led fashion business. Fulfilment is deliberately <em>not</em> carried: RRG uses the co-creating brand's own warehouse and logistics, so that cost bucket sits at zero."
       ]
     },
     {
       "title": "Cash",
       "paragraphs": [
-        "Starting cash is the $5M seed raise. Combined EBITDA is negative in 2026 and 2027 and turns positive in 2028. Cash trough is ~$3.9M end of 2027; the business never requires a bridge round under the baseline assumptions. By 2030, cumulative EBITDA exceeds $100M on consolidated revenue near $95M (with VIA Labs the dominant contributor)."
+        "Starting cash is the $5M seed raise. Combined EBITDA is negative in 2026 and 2027 and turns positive in 2028. Cash trough is ~$3.8M end of 2027; the business never requires a bridge round under the baseline assumptions. By 2030, cumulative EBITDA exceeds $100M on consolidated revenue near $95M (with VIA Labs the dominant contributor)."
       ]
     },
     {
@@ -39,6 +39,24 @@
       "paragraphs": [
         "The most sensitive input is <strong>Active Merchants</strong> on the VIA Labs side: it drives subscription, platform fees, and (via GMV) agent top-up margin. The conversion funnel (intents to quotes to transactions) is conservative in 2026 and steps up each year; readers should stress-test the conversion curve rather than the take rates, since the latter are anchored in the deployed smart contracts.",
         "On the RRG side, the headline variable is total GMV: platform commission and co-creation both scale against it. Drop-mix assumptions are informed by the brand's 20-year history of limited-edition, collaboration-led releases."
+      ]
+    },
+    {
+      "title": "LLM, hosting & infrastructure assumptions",
+      "paragraphs": [
+        "The <strong>AI/LLM API</strong>, <strong>cloud hosting</strong>, <strong>database</strong> and <strong>blockchain gas</strong> lines in the P&amp;L are sized against <em>current</em> list prices from the providers we use today (DeepSeek, Claude, Vercel, Supabase, Base / Optimism L2). Two opposing forces will move this envelope over the plan period.",
+        "Downward pressure: model inference pricing has fallen roughly 10x per year since 2023, hosting has moved decisively to usage-based pricing with steep volume discounts, and L2 gas costs continue to compress. Our base case assumes a conservative fraction of that trajectory, and we expect per-unit costs to decline materially before 2030.",
+        "Upward pressure: as VIA develops new tools, services and agent capabilities, anticipated LLM usage per merchant will rise — richer intents, multi-step quoting, autonomous negotiation, tool-use chains, and analytics all consume more tokens per interaction than the current baseline. The net effect is modelled to be broadly flat-to-favourable in aggregate, but the composition of this line will shift from 'volume of simple calls' to 'fewer, more capable calls' over time."
+      ]
+    },
+    {
+      "title": "Stress-tested projections",
+      "paragraphs": [
+        "The projections shown here have been stress-tested against the operational volumes they imply. By 2030 the model assumes roughly <strong>540 million intents/year</strong>, <strong>65 million transactions/year</strong>, and <strong>$8.4 billion of platform GMV</strong> flowing through VIA Labs. The cost base has been sanity-checked against real provider pricing at that scale.",
+        "As a result of that stress test, two new cost categories have been added to the VIA Labs P&amp;L that sit alongside the original structure. <strong>Customer Success</strong> ramps from zero in 2026 to ~$900k/year by 2030, covering a lean CS team, enterprise customer success managers for the top tier, and tooling (Zendesk/Intercom-class). Even in an agent-first support model, Pro and Enterprise merchants require human touch points, and we have budgeted for them explicitly rather than hiding them inside G&amp;A.",
+        "<strong>Leadership</strong> brings a proper executive layer online from 2028: a fractional CFO, a COO, a Head of Partnerships, and a Head of BD / Enterprise Sales join the founding team that year, with a Head of Engineering added in 2029. CEO and CPO compensation step up to $200k each from 2028 to reflect the operating reality of a company at this revenue scale. External legal retainers are also increased by 50% from 2028 onward, in lieu of hiring a General Counsel in-house.",
+        "The combined effect of these additions reduces 2030 EBITDA by roughly 3–4% versus the pre-stress-test model. Margin compresses from ~87% to ~85%; the consolidated business remains deeply cash-generative and does not require a follow-on raise under the baseline. The business model is robust to these adjustments; the point of adding the lines is to make the plan defensible, not to change its shape.",
+        "Items deliberately <em>not</em> added after stress-testing: in-house General Counsel (covered via external legal), dedicated HR / People lead (absorbed by leadership team through 2030), and a dedicated operations / warehouse function on the RRG side (brand partners retain fulfilment)."
       ]
     }
   ]
