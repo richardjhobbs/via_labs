@@ -11,9 +11,6 @@
     { "source": "/finance/investor/", "destination": "/api/finance-gate?level=investor" }
   ],
   "functions": {
-    "api/finance-gate.js": {
-      "includeFiles": "finance/**"
-    },
     "api/finance-data.js": {
       "includeFiles": "finance/**"
     }

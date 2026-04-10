@@ -23,14 +23,112 @@
 // ─────────────────────────────────────────────────────────
 
 import crypto from 'crypto';
-import { readFileSync } from 'fs';
-import { fileURLToPath } from 'url';
-import { dirname, join } from 'path';
-
-const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const COOKIE_NAME = 'finance_session';
 const COOKIE_MAX_AGE = 60 * 60 * 12; // 12 hours
+
+// HTML templates are inlined below (not read from disk) so the real finance
+// HTML never exists as a static file Vercel could serve before our rewrite.
+const ADMIN_HTML_TEMPLATE = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VIA Labs — Finance Admin</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="icon" href="/favicon.ico" />
+  <link rel="stylesheet" href="/via.css" />
+  <link rel="stylesheet" href="/finance.css" />
+</head>
+<body>
+
+<header class="nav-wrapper">
+  <nav class="nav-primary">
+    <a href="/index.html" class="nav-logo">
+      <img src="/vialogowhite.png" alt="VIA" />
+    </a>
+    <ul class="nav-primary-links">
+      <li><a href="/finance" class="active">Finance</a></li>
+      <li><a href="/finance/investor">Investor view</a></li>
+    </ul>
+  </nav>
+</header>
+<div class="nav-spacer"></div>
+
+<main class="finance-page">
+  <div class="finance-eyebrow">Admin</div>
+  <h1 class="finance-title">P&amp;L <em>Workbench</em></h1>
+  <p class="finance-sub">
+    Edit any input cell below — all three P&amp;Ls recalculate live.
+    Drafts are stored in your browser until you Export or Revert.
+  </p>
+
+  <div class="finance-tabs">
+    <button class="finance-tab active" data-tab="via">VIA Labs</button>
+    <button class="finance-tab" data-tab="rrg">RealReal Genuine</button>
+    <button class="finance-tab" data-tab="combined">Consolidated</button>
+    <span id="finance-scenario-pill" class="finance-scenario-pill">Baseline</span>
+  </div>
+
+  <div id="finance-root"></div>
+
+  <div class="finance-actions">
+    <span class="finance-actions-status">Drafts auto-saved to this browser</span>
+    <div class="spacer"></div>
+    <button id="finance-revert-btn" class="finance-btn danger">Revert to canonical</button>
+    <button id="finance-export-btn" class="finance-btn primary">Export data.json</button>
+  </div>
+</main>
+
+<script src="/js/finance-engine.js"></script>
+<script src="/js/finance-ui.js"></script>
+<script>
+  window.addEventListener('DOMContentLoaded', () => {
+    window.FinanceUI.initAdmin();
+  });
+</script>
+</body>
+</html>`;
+
+const INVESTOR_HTML_TEMPLATE = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VIA Labs — Investor Financials</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="icon" href="/favicon.ico" />
+  <link rel="stylesheet" href="/via.css" />
+  <link rel="stylesheet" href="/finance.css" />
+</head>
+<body>
+
+<header class="nav-wrapper">
+  <nav class="nav-primary">
+    <a href="/index.html" class="nav-logo">
+      <img src="/vialogowhite.png" alt="VIA" />
+    </a>
+    <ul class="nav-primary-links">
+      <li><a href="/finance">Finance</a></li>
+      <li><a href="/finance/investor" class="active">Investor view</a></li>
+    </ul>
+  </nav>
+</header>
+<div class="nav-spacer"></div>
+
+<main class="finance-page">
+  <div id="finance-root"></div>
+</main>
+
+<script src="/js/finance-engine.js"></script>
+<script src="/js/finance-ui.js"></script>
+<script>
+  window.addEventListener('DOMContentLoaded', () => {
+    window.FinanceUI.initInvestor();
+  });
+</script>
+</body>
+</html>`;
 
 function getSecret() {
   const s = process.env.FINANCE_COOKIE_SECRET;
@@ -126,16 +224,7 @@ function loginPageHtml(level, error) {
 }
 
 function serveHtml(res, level) {
-  // Path: finance/admin.html or finance/investor.html
-  const file = level === 'admin' ? 'admin.html' : 'investor.html';
-  const htmlPath = join(__dirname, '..', 'finance', file);
-  let html;
-  try {
-    html = readFileSync(htmlPath, 'utf8');
-  } catch (err) {
-    res.status(500).setHeader('Content-Type', 'text/plain').send('Finance page file not found: ' + htmlPath);
-    return;
-  }
+  const html = level === 'admin' ? ADMIN_HTML_TEMPLATE : INVESTOR_HTML_TEMPLATE;
   res.status(200)
     .setHeader('Content-Type', 'text/html; charset=utf-8')
     .setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, private')
