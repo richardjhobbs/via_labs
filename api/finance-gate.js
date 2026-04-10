@@ -74,7 +74,7 @@ const ADMIN_HTML_TEMPLATE = `<!DOCTYPE html>
   <div id="finance-root"></div>
 
   <div class="finance-actions">
-    <span class="finance-actions-status">Drafts auto-saved to this browser</span>
+    <span class="finance-actions-status">Edits auto-saved in your browser only. Export data.json and commit it to update the baseline for everyone.</span>
     <div class="spacer"></div>
     <button id="finance-revert-btn" class="finance-btn danger">Revert to canonical</button>
     <button id="finance-export-btn" class="finance-btn primary">Export data.json</button>

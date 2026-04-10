@@ -85,10 +85,12 @@ function rowHtml(label, vals, opts = {}) {
   return `<tr class="${cls}"><td>${label}</td>${cells}</tr>`;
 }
 function inputRowHtml(label, pathPrefix, arr, opts = {}) {
+  const thousands = !!opts.thousands;
   const cells = arr.map((v, i) => {
     const path = JSON.stringify([...pathPrefix, i]);
-    const display = fmtInputVal(v, !!opts.asPercent);
-    return `<td><input type="text" inputmode="decimal" autocomplete="off" class="finance-input" data-path='${path}' data-pct='${opts.asPercent ? 1 : 0}' value="${display}" /></td>`;
+    const raw = fmtInputVal(v, !!opts.asPercent);
+    const display = thousands && typeof raw === 'number' ? raw.toLocaleString('en-US') : raw;
+    return `<td><input type="text" inputmode="decimal" autocomplete="off" class="finance-input" data-path='${path}' data-pct='${opts.asPercent ? 1 : 0}' data-thousands='${thousands ? 1 : 0}' value="${display}" /></td>`;
   }).join('');
   return `<tr><td>${label}</td>${cells}</tr>`;
 }
@@ -110,7 +112,7 @@ function renderViaOutputBody(state) {
   return [
     `<tr class="finance-category-row"><td colspan="6">Revenue</td></tr>`,
     rowHtml('  Subscription revenue', via.map(v => v.subRev)),
-    rowHtml('  Micro-fee revenue',    via.map(v => v.microRev)),
+    rowHtml('  Platform fee revenue', via.map(v => v.microRev)),
     rowHtml('  Agent top-up revenue', via.map(v => v.topUpRev)),
     rowHtml('Total Revenue', via.map(v => v.revenue), { cls: 'finance-total-row' }),
     rowHtml('Cost of Revenue', via.map(v => v.cogs)),
@@ -144,7 +146,7 @@ function renderViaPanel(state) {
 
   const assumptionsRows = [
     `<tr class="finance-category-row"><td colspan="6">Merchants & pricing</td></tr>`,
-    inputRowHtml('Active Merchants', ['via','activeMerchants'], inputs.via.activeMerchants),
+    inputRowHtml('Active Merchants', ['via','activeMerchants'], inputs.via.activeMerchants, { thousands: true }),
     inputRowHtml('Growth tier $/mo', ['via','tierPrice','growth'], inputs.via.tierPrice.growth),
     inputRowHtml('Professional tier $/mo', ['via','tierPrice','pro'], inputs.via.tierPrice.pro),
     inputRowHtml('Enterprise tier $/mo', ['via','tierPrice','enterprise'], inputs.via.tierPrice.enterprise),
@@ -155,20 +157,20 @@ function renderViaPanel(state) {
     inputRowHtml('Professional %',   ['via','tierMix','pro'],     inputs.via.tierMix.pro,     { asPercent: true }),
     inputRowHtml('Enterprise %',     ['via','tierMix','enterprise'], inputs.via.tierMix.enterprise, { asPercent: true }),
 
-    `<tr class="finance-category-row"><td colspan="6">Micro fees</td></tr>`,
+    `<tr class="finance-category-row"><td colspan="6">Platform fees</td></tr>`,
     inputRowHtml('Intent fee $', ['via','microFee','intent'], inputs.via.microFee.intent),
     inputRowHtml('Quote fee $',  ['via','microFee','quote'],  inputs.via.microFee.quote),
     inputRowHtml('Txn fee % of order', ['via','microFee','txnPct'], inputs.via.microFee.txnPct, { asPercent: true }),
     inputRowHtml('Txn fee cap $', ['via','microFee','txnCap'], inputs.via.microFee.txnCap),
 
     `<tr class="finance-category-row"><td colspan="6">Volume drivers</td></tr>`,
-    inputRowHtml('Intents/merchant/mo', ['via','volume','intentsPerMerchantMo'], inputs.via.volume.intentsPerMerchantMo),
+    inputRowHtml('Intents/merchant/mo', ['via','volume','intentsPerMerchantMo'], inputs.via.volume.intentsPerMerchantMo, { thousands: true }),
     inputRowHtml('Quote rate %',        ['via','volume','quoteRate'],        inputs.via.volume.quoteRate,        { asPercent: true }),
     inputRowHtml('Conversion rate %',   ['via','volume','conversionRate'],   inputs.via.volume.conversionRate,   { asPercent: true }),
     inputRowHtml('Avg order value $',   ['via','volume','aov'],              inputs.via.volume.aov),
 
     `<tr class="finance-category-row"><td colspan="6">Agent top-up</td></tr>`,
-    inputRowHtml('Top-up volume $',  ['via','topUp','volume'], inputs.via.topUp.volume),
+    inputRowHtml('Top-up volume $',  ['via','topUp','volume'], inputs.via.topUp.volume, { thousands: true }),
     inputRowHtml('Top-up margin %',  ['via','topUp','margin'], inputs.via.topUp.margin, { asPercent: true }),
 
     `<tr class="finance-category-row"><td colspan="6">COGS</td></tr>`,
@@ -420,9 +422,9 @@ function renderInvestor(data, output, notes) {
   const yearHeaders = years.map(y => `<th>${y}</th>`).join('');
 
   const viaRows = [
-    rowHtml('  Subscription', via.map(v => v.subRev)),
-    rowHtml('  Micro-fees',   via.map(v => v.microRev)),
-    rowHtml('  Agent top-up', via.map(v => v.topUpRev)),
+    rowHtml('  Subscription',  via.map(v => v.subRev)),
+    rowHtml('  Platform fees', via.map(v => v.microRev)),
+    rowHtml('  Agent top-up',  via.map(v => v.topUpRev)),
     rowHtml('Total Revenue', via.map(v => v.revenue), { cls: 'finance-total-row' }),
     rowHtml('Cost of Revenue', via.map(v => v.cogs)),
     rowHtml('Operating Expenses', via.map(v => v.opex)),
@@ -571,6 +573,18 @@ function bindInputs(root) {
       updateOutputTables();
       updateScenarioPill();
     });
+    // On blur, reformat thousand-separated inputs so the comma notation
+    // reappears after editing (we strip commas on parse, so digits-only is fine to type).
+    if (el.dataset.thousands === '1') {
+      el.addEventListener('blur', () => {
+        const n = parseInputValue(el.value);
+        if (Number.isFinite(n)) el.value = fmtInputVal(n, false).toLocaleString('en-US');
+      });
+      el.addEventListener('focus', () => {
+        // Strip commas on focus so cursor behaviour is natural while editing.
+        el.value = String(el.value).replace(/,/g, '');
+      });
+    }
   });
 }
 
@@ -598,7 +612,7 @@ function updateScenarioPill() {
   const pill = document.getElementById('finance-scenario-pill');
   if (!pill) return;
   if (state.dirty) {
-    pill.textContent = '● Draft (unsaved)';
+    pill.textContent = '● Local draft (not committed)';
     pill.classList.add('draft');
   } else {
     pill.textContent = 'Baseline';

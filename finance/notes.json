@@ -11,7 +11,7 @@
       "title": "Revenue timing",
       "paragraphs": [
         "Material revenue starts in Q4 2026. The seed round closes mid-Q2 2026, leaving a 3 to 6 month build window before paid usage begins. 2026 numbers should therefore be read as a partial year; the full revenue model is exercised from 2027 onward.",
-        "VIA Labs revenue has three components: recurring subscription (growth / professional / enterprise tiers), micro-fees charged per intent, quote, and transaction, and a margin on agent 'top-up' wallet funding. Subscription gives a predictable floor; micro-fees scale with actual usage; the top-up margin scales with GMV once agents transact autonomously."
+        "VIA Labs revenue has three components: recurring subscription (growth / professional / enterprise tiers), platform fees charged per intent, quote, and transaction, and a margin on agent 'top-up' wallet funding. Subscription gives a predictable floor; platform fees scale with actual usage; the top-up margin scales with GMV once agents transact autonomously."
       ]
     },
     {
@@ -37,7 +37,7 @@
     {
       "title": "Sensitivities",
       "paragraphs": [
-        "The most sensitive input is <strong>Active Merchants</strong> on the VIA Labs side: it drives subscription, micro-fees, and (via GMV) agent top-up margin. The conversion funnel (intents to quotes to transactions) is conservative in 2026 and steps up each year; readers should stress-test the conversion curve rather than the take rates, since the latter are anchored in the deployed smart contracts.",
+        "The most sensitive input is <strong>Active Merchants</strong> on the VIA Labs side: it drives subscription, platform fees, and (via GMV) agent top-up margin. The conversion funnel (intents to quotes to transactions) is conservative in 2026 and steps up each year; readers should stress-test the conversion curve rather than the take rates, since the latter are anchored in the deployed smart contracts.",
         "On the RRG side, the headline variable is total GMV: platform commission and co-creation both scale against it. Drop-mix assumptions are informed by the brand's 20-year history of limited-edition, collaboration-led releases."
       ]
     }
