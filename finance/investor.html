@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VIA Labs — Investor Financials</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="icon" href="/favicon.ico" />
+  <link rel="stylesheet" href="/via.css" />
+  <link rel="stylesheet" href="/finance.css" />
+</head>
+<body>
+
+<header class="nav-wrapper">
+  <nav class="nav-primary">
+    <a href="/index.html" class="nav-logo">
+      <img src="/vialogowhite.png" alt="VIA" />
+    </a>
+    <ul class="nav-primary-links">
+      <li><a href="/finance">Finance</a></li>
+      <li><a href="/finance/investor" class="active">Investor view</a></li>
+    </ul>
+  </nav>
+</header>
+<div class="nav-spacer"></div>
+
+<main class="finance-page">
+  <div id="finance-root"></div>
+</main>
+
+<script src="/js/finance-engine.js"></script>
+<script src="/js/finance-ui.js"></script>
+<script>
+  window.addEventListener('DOMContentLoaded', () => {
+    window.FinanceUI.initInvestor();
+  });
+</script>
+</body>
+</html>

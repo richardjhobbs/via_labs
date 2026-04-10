@@ -1,0 +1,489 @@
+/* ═══════════════════════════════════════════════════════
+   VIA Labs Finance — Styles
+   Sits alongside via.css, reuses all tokens.
+   ═══════════════════════════════════════════════════════ */
+
+/* ── Shared layout ─────────────────────────────────── */
+.finance-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 32px 80px;
+}
+
+.finance-eyebrow {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--amber);
+  margin-bottom: 18px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+.finance-eyebrow::before {
+  content: '';
+  width: 22px; height: 1px;
+  background: var(--amber); opacity: 0.45;
+}
+
+.finance-title {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(32px, 4vw, 52px);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.022em;
+  margin-bottom: 10px;
+}
+.finance-title em { font-style: normal; color: var(--amber); }
+
+.finance-sub {
+  font-size: 15px;
+  color: var(--text-muted);
+  font-weight: 300;
+  line-height: 1.6;
+  max-width: 620px;
+  margin-bottom: 32px;
+}
+
+/* ── Landing page (/finance) ──────────────────────── */
+.finance-landing-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  max-width: 820px;
+  margin-top: 28px;
+}
+@media (max-width: 720px) {
+  .finance-landing-grid { grid-template-columns: 1fr; }
+}
+
+/* ── Login gate (served from api/finance-gate.js) ── */
+.gate-wrap {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 24px;
+  background: var(--bg);
+}
+.gate-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 40px 40px 32px;
+  max-width: 420px;
+  width: 100%;
+  text-align: center;
+}
+.gate-eyebrow {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--amber);
+  margin-bottom: 16px;
+}
+.gate-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 38px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin-bottom: 10px;
+}
+.gate-sub {
+  font-size: 14px;
+  color: var(--text-muted);
+  font-weight: 300;
+  line-height: 1.6;
+  margin-bottom: 28px;
+}
+.gate-input {
+  width: 100%;
+  padding: 14px 16px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  color: var(--text-primary);
+  outline: none;
+  transition: border-color 0.18s, background 0.18s;
+}
+.gate-input:focus {
+  border-color: var(--amber);
+  background: var(--amber-glow);
+}
+.gate-submit {
+  width: 100%;
+  margin-top: 14px;
+  padding: 13px 22px;
+  background: var(--amber);
+  border: none;
+  border-radius: 8px;
+  color: #0a0a0a;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.18s, transform 0.18s;
+}
+.gate-submit:hover { background: #fbbf24; transform: translateY(-1px); }
+.gate-error {
+  margin-top: 16px;
+  font-size: 13px;
+  color: var(--red);
+  font-family: 'IBM Plex Mono', monospace;
+}
+.gate-back {
+  display: inline-block;
+  margin-top: 24px;
+  font-size: 12px;
+  color: var(--text-dim);
+  text-decoration: none;
+  font-family: 'IBM Plex Mono', monospace;
+  letter-spacing: 0.06em;
+}
+.gate-back:hover { color: var(--amber); }
+
+/* ── Tabs ─────────────────────────────────────────── */
+.finance-tabs {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+.finance-tab {
+  background: none;
+  border: none;
+  padding: 12px 18px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-muted);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: color 0.18s, border-color 0.18s;
+  margin-bottom: -1px;
+}
+.finance-tab:hover { color: var(--text-primary); }
+.finance-tab.active {
+  color: var(--amber);
+  border-bottom-color: var(--amber);
+}
+
+.finance-scenario-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 50px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-left: auto;
+}
+.finance-scenario-pill.draft {
+  background: var(--amber-dim);
+  border-color: rgba(245,158,11,0.35);
+  color: var(--amber);
+}
+
+/* ── Panels / sections ─────────────────────────────── */
+.finance-panel {
+  display: none;
+}
+.finance-panel.active { display: block; }
+
+.finance-section {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 16px;
+  overflow: hidden;
+}
+.finance-section-header {
+  padding: 18px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  user-select: none;
+  gap: 12px;
+}
+.finance-section-header h2 {
+  font-family: 'Syne', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+}
+.finance-section-chev {
+  color: var(--text-dim);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+  transition: transform 0.2s, color 0.2s;
+}
+.finance-section.collapsed .finance-section-chev { transform: rotate(-90deg); }
+.finance-section:hover .finance-section-chev { color: var(--amber); }
+.finance-section-body {
+  padding: 0 24px 24px;
+  overflow-x: auto;
+}
+.finance-section.collapsed .finance-section-body { display: none; }
+
+/* ── Tables ─────────────────────────────────────────── */
+.finance-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+  color: var(--text-primary);
+}
+.finance-table th,
+.finance-table td {
+  padding: 9px 12px;
+  text-align: right;
+  white-space: nowrap;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.finance-table th {
+  font-weight: 500;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  border-bottom: 1px solid var(--border);
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.finance-table th:first-child,
+.finance-table td:first-child {
+  text-align: left;
+  font-family: 'DM Sans', sans-serif;
+  color: var(--text-muted);
+  font-size: 13px;
+  padding-left: 4px;
+}
+.finance-table tr.finance-category-row td:first-child {
+  color: var(--amber);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding-top: 14px;
+}
+.finance-table tr.finance-total-row td {
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  color: var(--text-primary);
+  font-weight: 500;
+}
+.finance-table tr.finance-total-row td:first-child { color: var(--text-primary); }
+.finance-table tr.finance-highlight-row td {
+  background: var(--amber-glow);
+  color: var(--amber);
+  font-weight: 500;
+  border-top: 1px solid rgba(245,158,11,0.25);
+  border-bottom: 1px solid rgba(245,158,11,0.25);
+}
+.finance-table tr.finance-highlight-row td:first-child { color: var(--amber); }
+.finance-table tr.finance-muted-row td {
+  color: var(--text-dim);
+  font-size: 12px;
+}
+.finance-table tr.finance-muted-row td:first-child { color: var(--text-dim); }
+
+/* Input cells */
+.finance-input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(245,158,11,0.35);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+  color: var(--text-primary);
+  text-align: right;
+  padding: 4px 2px;
+  outline: none;
+  transition: background 0.15s, border-color 0.15s;
+  min-width: 80px;
+}
+.finance-input:focus {
+  background: var(--amber-dim);
+  border-bottom-color: var(--amber);
+}
+.finance-input.dirty {
+  border-bottom-color: var(--amber);
+  color: var(--amber);
+}
+
+/* Negative numbers */
+.finance-neg { color: var(--red); }
+
+/* ── Actions bar ───────────────────────────────────── */
+.finance-actions {
+  position: sticky;
+  bottom: 0;
+  margin-top: 32px;
+  padding: 16px 20px;
+  background: rgba(15, 16, 20, 0.92);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.finance-actions .spacer { flex: 1; }
+.finance-actions-status {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  color: var(--text-dim);
+  letter-spacing: 0.08em;
+}
+.finance-btn {
+  padding: 10px 18px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: background 0.18s, border-color 0.18s, color 0.18s;
+}
+.finance-btn:hover { background: rgba(255,255,255,0.07); border-color: var(--border-hover); color: var(--amber); }
+.finance-btn.primary {
+  background: var(--amber);
+  border-color: var(--amber);
+  color: #0a0a0a;
+}
+.finance-btn.primary:hover { background: #fbbf24; color: #0a0a0a; }
+.finance-btn.danger:hover { color: var(--red); border-color: rgba(200,90,84,0.4); }
+
+/* ── Investor page ─────────────────────────────────── */
+.finance-headline-strip {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+  margin-bottom: 32px;
+}
+@media (max-width: 900px) {
+  .finance-headline-strip { grid-template-columns: repeat(2, 1fr); }
+}
+.finance-headline-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 18px 18px 16px;
+  text-align: left;
+}
+.finance-headline-card .year {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  color: var(--amber);
+  margin-bottom: 10px;
+}
+.finance-headline-card .rev {
+  font-family: 'Syne', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
+}
+.finance-headline-card .rev-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-dim);
+  margin-bottom: 2px;
+  font-family: 'IBM Plex Mono', monospace;
+}
+.finance-headline-card .ebitda {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+  margin-top: 10px;
+  color: var(--text-muted);
+}
+.finance-headline-card .ebitda.positive { color: var(--amber); }
+.finance-headline-card .ebitda.negative { color: var(--red); }
+
+.finance-note {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.65;
+  padding: 12px 16px;
+  border-left: 2px solid var(--amber);
+  background: var(--amber-glow);
+  margin: 14px 0;
+  border-radius: 4px;
+}
+.finance-note strong { color: var(--text-primary); font-weight: 600; }
+
+.finance-notes-block {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px 32px;
+  margin-top: 20px;
+}
+.finance-notes-block h3 {
+  font-family: 'Syne', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: var(--text-primary);
+}
+.finance-notes-block p {
+  font-size: 14px;
+  color: var(--text-muted);
+  line-height: 1.7;
+  font-weight: 300;
+}
+.finance-notes-block p + p { margin-top: 10px; }
+
+/* ── Small OpEx drilldown ──────────────────────────── */
+.finance-opex-toggle {
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: 10px;
+}
+.finance-opex-toggle:hover { color: var(--amber); }
+
+.finance-quarters {
+  display: none;
+  padding: 12px 0 4px;
+  border-top: 1px dashed var(--border);
+}
+.finance-quarters.open { display: block; }
+.finance-quarters .finance-table { font-size: 11.5px; }
+.finance-quarters .finance-table th,
+.finance-quarters .finance-table td { padding: 6px 8px; }
+
+/* Print */
+@media print {
+  .nav-wrapper, .nav-spacer, .finance-actions, .finance-tabs { display: none !important; }
+  body { background: white; color: black; }
+  .finance-page { padding: 0; }
+  .finance-section, .finance-headline-card, .finance-notes-block {
+    background: white; border: 1px solid #ddd; color: black;
+  }
+  .finance-table, .finance-table th, .finance-table td { color: black; }
+}

@@ -1,0 +1,45 @@
+{
+  "blocks": [
+    {
+      "title": "The thesis",
+      "paragraphs": [
+        "VIA Labs operates two complementary businesses under one roof. <strong>VIA Labs</strong> is the agentic commerce protocol — a software platform that brands and merchants pay to make themselves discoverable and transactable by AI agents. <strong>RealReal Genuine (RRG)</strong> is the first live product running on the platform — a fashion co-creation marketplace and the reference implementation of VIA's full stack.",
+        "The financial picture below treats them as separate P&amp;Ls then consolidates. RRG's role is strategic as well as commercial: it is the proof point that attracts other brand merchants onto VIA Labs, and it functions as an onboarding funnel. RRG is intentionally managed close to break-even — upside lives in VIA Labs once merchant scale kicks in from 2028."
+      ]
+    },
+    {
+      "title": "Revenue timing",
+      "paragraphs": [
+        "Material revenue starts in Q4 2026. The seed round closes mid-Q2 2026, leaving a 3–6 month build window before paid usage begins. 2026 numbers should therefore be read as a partial year — the full revenue model is exercised from 2027 onward.",
+        "VIA Labs revenue has three components: recurring subscription (growth / professional / enterprise tiers), micro-fees charged per intent, quote, and transaction, and a margin on agent 'top-up' wallet funding. Subscription gives a predictable floor; micro-fees scale with actual usage; the top-up margin scales with GMV once agents transact autonomously."
+      ]
+    },
+    {
+      "title": "RRG commission model",
+      "paragraphs": [
+        "RRG takes a tiered platform fee reflecting the economics of each drop type: <strong>co-created drops</strong> and <strong>sub-$10 brand drops</strong> carry a 30% take rate (VIA handles the heavy lifting on production, IP, and fulfilment); <strong>$10–$100 drops</strong> use a blended ~16% rate; <strong>$100+ drops</strong> are charged a flat 2.5% — matching the fee structure deployed in the live codebase.",
+        "The blended rate starts high (co-created is dominant early) and compresses as higher-priced brand drops take share. Commission revenue is complemented by a direct co-creation revenue line — essentially RRG's share of drops it originates itself."
+      ]
+    },
+    {
+      "title": "Cost discipline",
+      "paragraphs": [
+        "Both businesses are run lean. VIA Labs headcount stays founder-plus-contractor through 2027; <strong>DL (CPO / Co-founder)</strong> joins at $6k/month from May 2026. An advisory board (<strong>SR, MS, TM, DW, PC, AF</strong>) receives $10k/year each, paid half-yearly. There is no aggressive sales hire plan — distribution is expected to come from product quality, the RRG lighthouse, and developer-relations investment in agentic commerce standards.",
+        "RRG costs are dominated by design, brand partnerships, and marketing — the line items you'd expect of a drop-led fashion business. Fulfilment is deliberately <em>not</em> carried: RRG uses the co-creating brand's own warehouse and logistics, so that cost bucket sits at zero."
+      ]
+    },
+    {
+      "title": "Cash",
+      "paragraphs": [
+        "Starting cash is the $5M seed raise. Combined EBITDA is negative in 2026 and 2027 and turns positive in 2028. Cash trough is ~$3.9M end of 2027 — the business never requires a bridge round under the baseline assumptions. By 2030, cumulative EBITDA exceeds $100M on consolidated revenue near $95M (with VIA Labs the dominant contributor)."
+      ]
+    },
+    {
+      "title": "Sensitivities",
+      "paragraphs": [
+        "The most sensitive input is <strong>Active Merchants</strong> on the VIA Labs side — it drives subscription, micro-fees, and (via GMV) agent top-up margin. The conversion funnel (intents → quotes → transactions) is conservative in 2026 and steps up each year; readers should stress-test the conversion curve rather than the take rates, since the latter are anchored in the deployed smart contracts.",
+        "On the RRG side, the headline variable is total GMV — platform commission and co-creation both scale against it. Drop-mix assumptions are informed by the brand's 20-year history of limited-edition, collaboration-led releases."
+      ]
+    }
+  ]
+}

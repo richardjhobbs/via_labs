@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VIA Labs — Finance</title>
+  <meta name="description" content="Restricted finance area for VIA Labs." />
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="icon" href="favicon.ico" />
+  <link rel="stylesheet" href="via.css" />
+  <link rel="stylesheet" href="finance.css" />
+</head>
+<body>
+
+<!-- NAV -->
+<header class="nav-wrapper">
+  <nav class="nav-primary">
+    <a href="index.html" class="nav-logo">
+      <img src="vialogowhite.png" alt="VIA" />
+    </a>
+    <ul class="nav-primary-links">
+      <li><a href="buyer.html">Buyers</a></li>
+      <li><a href="seller.html">Sellers</a></li>
+      <li><a href="what-is-via.html">FAQ</a></li>
+      <li class="nav-divider" role="separator" aria-hidden="true"></li>
+      <li><a href="join.html" class="nav-cta">Join</a></li>
+    </ul>
+    <button class="nav-hamburger" onclick="toggleMobileMenu()" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+  <div class="nav-secondary">
+    <div class="nav-secondary-inner">
+      <span class="nav-secondary-label">VIA Labs</span>
+      <ul class="nav-secondary-links">
+        <li><a href="paper.html">Research Paper</a></li>
+        <li><a href="proof.html">Proof of Concept</a></li>
+        <li><a href="team.html">Team</a></li>
+        <li><a href="https://demo.getvia.xyz" target="_blank" rel="noopener">Live Demo <span class="ext-icon">↗</span></a></li>
+      </ul>
+    </div>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobileMenu">
+  <div class="mobile-section-label">Navigation</div>
+  <a href="buyer.html">Buyers <span>→</span></a>
+  <a href="seller.html">Sellers <span>→</span></a>
+  <a href="what-is-via.html">FAQ <span>→</span></a>
+  <a href="join.html" class="mobile-cta">Join VIA <span>→</span></a>
+</div>
+
+<div class="nav-spacer"></div>
+
+<main class="finance-page">
+  <div class="finance-eyebrow">Restricted Area</div>
+  <h1 class="finance-title">VIA Labs <em>Finance</em></h1>
+  <p class="finance-sub">
+    Internal and investor-facing financial materials. Pick the level of access you
+    need — both areas are password-protected.
+  </p>
+
+  <div class="finance-landing-grid">
+    <a href="/finance/admin" class="card">
+      <div class="card-icon">◎</div>
+      <div class="card-label">Level 1</div>
+      <div class="card-title">Admin</div>
+      <div class="card-desc">
+        Edit the underlying assumptions, watch the three P&amp;Ls update live,
+        and export a new canonical <code style="font-family:'IBM Plex Mono',monospace;color:var(--amber);">data.json</code>.
+      </div>
+      <div class="card-arrow">→</div>
+    </a>
+    <a href="/finance/investor" class="card">
+      <div class="card-icon">◇</div>
+      <div class="card-label">Level 2</div>
+      <div class="card-title">Investor</div>
+      <div class="card-desc">
+        Read-only summary of VIA Labs, RealReal Genuine, and the consolidated
+        group — with notes on each key line item.
+      </div>
+      <div class="card-arrow">→</div>
+    </a>
+  </div>
+</main>
+
+<script src="via-ui.js"></script>
+</body>
+</html>
