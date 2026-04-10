@@ -528,12 +528,23 @@ function renderInvestor(data, output, notes) {
 
 // ── State management + recalc ─────────────────────
 const state = {
-  inputs: null,      // mutable
-  canonical: null,   // original from server
+  inputs: null,      // mutable working copy (local draft)
+  canonical: null,   // last-saved (staged) version from server — what Save writes to
+  published: null,   // live investor-facing version — what Publish writes to
   output: null,
   currentTab: 'via',
-  dirty: false,
+  dirty: false,      // inputs differs from canonical (unsaved local edits)
+  stagedAhead: false,// canonical differs from published (saved but not yet published)
+  history: [],       // recent publish entries [{at, size, note}]
 };
+
+function deepEq(a, b) {
+  try { return JSON.stringify(a) === JSON.stringify(b); } catch { return false; }
+}
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c =>
+    ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+}
 
 function recalc() {
   state.output = window.FinanceEngine.calculate(state.inputs);
@@ -611,13 +622,51 @@ function bindSectionToggles(root) {
 function updateScenarioPill() {
   const pill = document.getElementById('finance-scenario-pill');
   if (!pill) return;
+  pill.classList.remove('draft', 'staged');
   if (state.dirty) {
-    pill.textContent = '● Local draft (not committed)';
+    pill.textContent = '● Local draft (unsaved)';
     pill.classList.add('draft');
+  } else if (state.stagedAhead) {
+    pill.textContent = '● Saved (not yet published)';
+    pill.classList.add('staged');
   } else {
-    pill.textContent = 'Baseline';
-    pill.classList.remove('draft');
+    pill.textContent = 'Baseline (live)';
   }
+}
+
+function updateActionButtons() {
+  const save   = document.getElementById('finance-save-btn');
+  const pub    = document.getElementById('finance-publish-btn');
+  const revert = document.getElementById('finance-revert-btn');
+  if (save)   save.disabled   = !state.dirty;
+  if (pub)    pub.disabled    = !(state.dirty || state.stagedAhead);
+  if (revert) revert.disabled = !state.dirty;
+}
+
+function setStatus(msg, kind = 'info') {
+  const el = document.getElementById('finance-status');
+  if (!el) return;
+  el.textContent = msg;
+  el.classList.remove('status-ok', 'status-err', 'status-info');
+  el.classList.add('status-' + kind);
+}
+
+function renderHistory() {
+  const el = document.getElementById('finance-history-list');
+  if (!el) return;
+  if (!state.history.length) {
+    el.innerHTML = '<li class="empty">No publishes yet.</li>';
+    return;
+  }
+  el.innerHTML = state.history.slice(0, 10).map(e => {
+    const dt = new Date(e.at);
+    const when = dt.toLocaleString(undefined, {
+      year: 'numeric', month: 'short', day: '2-digit',
+      hour: '2-digit', minute: '2-digit',
+    });
+    const note = e.note ? `<span class="note">: ${escapeHtml(e.note)}</span>` : '';
+    return `<li><span class="at">${when}</span>${note}</li>`;
+  }).join('');
 }
 
 function switchTab(tab) {
@@ -629,12 +678,90 @@ function switchTab(tab) {
 }
 
 function revertToCanonical() {
-  if (!confirm('Discard all draft edits and reload canonical data?')) return;
+  if (!confirm('Discard unsaved local edits and reload the last saved version?')) return;
   clearDraft();
   state.inputs = JSON.parse(JSON.stringify(state.canonical));
   state.dirty = false;
   recalc();
   renderCurrentPanel();
+  updateActionButtons();
+  setStatus('Reverted to last saved version.', 'info');
+}
+
+async function saveToServer() {
+  if (!state.dirty) return true;
+  setStatus('Saving ...', 'info');
+  try {
+    const res = await fetch('/api/finance-save', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'same-origin',
+      body: JSON.stringify({ inputs: state.inputs }),
+    });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      setStatus('Save failed: ' + (err.error || res.status), 'err');
+      return false;
+    }
+    const result = await res.json();
+    state.canonical = JSON.parse(JSON.stringify(state.inputs));
+    state.dirty = false;
+    state.stagedAhead = !deepEq(state.canonical, state.published);
+    clearDraft();
+    document.querySelectorAll('input.finance-input.dirty').forEach(el => el.classList.remove('dirty'));
+    updateScenarioPill();
+    updateActionButtons();
+    const when = new Date(result.at).toLocaleTimeString();
+    setStatus('Saved at ' + when + '. Preview or publish when ready.', 'ok');
+    return true;
+  } catch (e) {
+    setStatus('Save failed: ' + (e.message || 'network error'), 'err');
+    return false;
+  }
+}
+
+async function publishToInvestors() {
+  if (state.dirty) {
+    if (!confirm('You have unsaved local edits. Save them first, then publish?')) return;
+    const ok = await saveToServer();
+    if (!ok) return;
+  }
+  if (!state.stagedAhead) {
+    setStatus('Nothing to publish: the saved version matches what investors already see.', 'info');
+    return;
+  }
+  const note = prompt('Release note for this publish (optional, max 280 chars):', '');
+  if (note === null) return; // cancelled
+  if (!confirm('Publish the current saved version to the investor view now?')) return;
+  setStatus('Publishing ...', 'info');
+  try {
+    const res = await fetch('/api/finance-publish', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'same-origin',
+      body: JSON.stringify({ note }),
+    });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      setStatus('Publish failed: ' + (err.error || res.status), 'err');
+      return;
+    }
+    const result = await res.json();
+    state.published = JSON.parse(JSON.stringify(state.canonical));
+    state.stagedAhead = false;
+    state.history = result.history || state.history;
+    updateScenarioPill();
+    updateActionButtons();
+    renderHistory();
+    const when = new Date(result.at).toLocaleTimeString();
+    setStatus('Published at ' + when + '. Investors now see this version.', 'ok');
+  } catch (e) {
+    setStatus('Publish failed: ' + (e.message || 'network error'), 'err');
+  }
+}
+
+function previewAsInvestor() {
+  window.open('/finance/investor?preview=staged', '_blank', 'noopener');
 }
 
 function exportDataJson() {
@@ -649,16 +776,39 @@ function exportDataJson() {
 
 // ── Public init: admin ─────────────────────────────
 async function initAdmin() {
-  const res = await fetch('/api/finance-data?level=admin', { credentials: 'same-origin' });
-  if (!res.ok) {
-    document.getElementById('finance-root').innerHTML = '<p style="padding:24px;color:var(--red);">Unauthorised or data unavailable. <a href="/finance/admin">Reload</a></p>';
+  // Fetch staged (admin default), published (what investors see), and history
+  // in parallel. All three endpoints are admin-gated.
+  const [stagedRes, publishedRes, historyRes] = await Promise.all([
+    fetch('/api/finance-data?level=admin',                   { credentials: 'same-origin' }),
+    fetch('/api/finance-data?level=admin&variant=published', { credentials: 'same-origin' }),
+    fetch('/api/finance-history',                            { credentials: 'same-origin' }),
+  ]);
+
+  if (!stagedRes.ok) {
+    document.getElementById('finance-root').innerHTML =
+      '<p style="padding:24px;color:var(--red);">Unauthorised or data unavailable. <a href="/finance/admin">Reload</a></p>';
     return;
   }
-  const canonical = await res.json();
-  state.canonical = canonical;
+
+  const staged    = await stagedRes.json();
+  const published = publishedRes.ok ? await publishedRes.json() : staged;
+  const history   = historyRes.ok   ? (await historyRes.json()).entries || [] : [];
+
+  state.canonical   = staged;
+  state.published   = published;
+  state.stagedAhead = !deepEq(staged, published);
+  state.history     = history;
+
+  // Restore any unsaved local draft.
   const draft = loadDraft();
-  state.inputs = draft || JSON.parse(JSON.stringify(canonical));
-  state.dirty = !!draft;
+  if (draft && !deepEq(draft, staged)) {
+    state.inputs = draft;
+    state.dirty  = true;
+  } else {
+    state.inputs = JSON.parse(JSON.stringify(staged));
+    state.dirty  = false;
+    if (draft) clearDraft(); // stale draft that matches staged
+  }
   recalc();
 
   // Wire up top-level UI
@@ -666,15 +816,35 @@ async function initAdmin() {
     el.addEventListener('click', () => switchTab(el.dataset.tab));
   });
   document.getElementById('finance-revert-btn')?.addEventListener('click', revertToCanonical);
+  document.getElementById('finance-save-btn')?.addEventListener('click', saveToServer);
+  document.getElementById('finance-publish-btn')?.addEventListener('click', publishToInvestors);
+  document.getElementById('finance-preview-btn')?.addEventListener('click', previewAsInvestor);
   document.getElementById('finance-export-btn')?.addEventListener('click', exportDataJson);
+
+  // Ctrl/Cmd+S to save.
+  document.addEventListener('keydown', (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's') {
+      e.preventDefault();
+      saveToServer();
+    }
+  });
+
+  renderHistory();
+  updateActionButtons();
+  setStatus(state.dirty ? 'Unsaved local edits.' : 'Ready.', 'info');
 
   switchTab('via');
 }
 
 // ── Public init: investor ──────────────────────────
 async function initInvestor() {
+  const params = new URLSearchParams(window.location.search);
+  const isPreview = params.get('preview') === 'staged';
+  const dataUrl = isPreview
+    ? '/api/finance-data?level=investor&preview=staged'
+    : '/api/finance-data?level=investor';
   const [dataRes, notesRes] = await Promise.all([
-    fetch('/api/finance-data?level=investor', { credentials: 'same-origin' }),
+    fetch(dataUrl, { credentials: 'same-origin' }),
     fetch('/finance/notes.json').catch(() => null),
   ]);
   if (!dataRes.ok) {
@@ -707,7 +877,10 @@ async function initInvestor() {
   delete inputs.rrg.opexAnnual;
 
   const output = window.FinanceEngine.calculate(inputs);
-  const html = renderInvestor(data, output, notes);
+  const previewBanner = isPreview
+    ? `<div class="finance-preview-banner">Previewing staged (unpublished) version. Investors still see the previous published version until you publish this one.</div>`
+    : '';
+  const html = previewBanner + renderInvestor(data, output, notes);
   document.getElementById('finance-root').innerHTML = html;
   document.querySelectorAll('.finance-section-header').forEach(h => {
     h.addEventListener('click', () => h.parentElement.classList.toggle('collapsed'));

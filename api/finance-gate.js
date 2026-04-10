@@ -74,11 +74,25 @@ const ADMIN_HTML_TEMPLATE = `<!DOCTYPE html>
   <div id="finance-root"></div>
 
   <div class="finance-actions">
-    <span class="finance-actions-status">Edits auto-saved in your browser only. Export data.json and commit it to update the baseline for everyone.</span>
+    <span class="finance-actions-status" id="finance-status">Ready.</span>
     <div class="spacer"></div>
-    <button id="finance-revert-btn" class="finance-btn danger">Revert to canonical</button>
-    <button id="finance-export-btn" class="finance-btn primary">Export data.json</button>
+    <button id="finance-revert-btn"  class="finance-btn">Revert</button>
+    <button id="finance-preview-btn" class="finance-btn">Preview as investor</button>
+    <button id="finance-save-btn"    class="finance-btn primary">Save</button>
+    <button id="finance-publish-btn" class="finance-btn publish">Publish to investors</button>
   </div>
+
+  <details class="finance-history-wrap">
+    <summary>Publish history</summary>
+    <ul id="finance-history-list" class="finance-history-list"></ul>
+  </details>
+
+  <details class="finance-export-wrap">
+    <summary>Tools</summary>
+    <div class="finance-export-inner">
+      <button id="finance-export-btn" class="finance-btn">Export data.json</button>
+    </div>
+  </details>
 </main>
 
 <script src="/js/finance-engine.js"></script>

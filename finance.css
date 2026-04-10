@@ -189,6 +189,11 @@
   margin-left: auto;
 }
 .finance-scenario-pill.draft {
+  background: rgba(200,90,84,0.12);
+  border-color: rgba(200,90,84,0.4);
+  color: var(--red);
+}
+.finance-scenario-pill.staged {
   background: var(--amber-dim);
   border-color: rgba(245,158,11,0.35);
   color: var(--amber);
@@ -377,6 +382,92 @@
 }
 .finance-btn.primary:hover { background: #fbbf24; color: #0a0a0a; }
 .finance-btn.danger:hover { color: var(--red); border-color: rgba(200,90,84,0.4); }
+.finance-btn.publish {
+  background: oklch(0.55 0.17 150);
+  border-color: oklch(0.55 0.17 150);
+  color: #0a0a0a;
+  font-weight: 600;
+}
+.finance-btn.publish:hover { background: oklch(0.62 0.18 150); color: #0a0a0a; }
+.finance-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  background: rgba(255,255,255,0.02);
+  border-color: var(--border);
+  color: var(--text-muted);
+}
+.finance-btn:disabled:hover {
+  background: rgba(255,255,255,0.02);
+  border-color: var(--border);
+  color: var(--text-muted);
+}
+
+/* Status text colour variants */
+.finance-actions-status.status-ok  { color: oklch(0.78 0.14 150); }
+.finance-actions-status.status-err { color: var(--red); }
+
+/* ── Publish history list ──────────────────────────── */
+.finance-history-wrap,
+.finance-export-wrap {
+  margin-top: 16px;
+  padding: 12px 20px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.finance-history-wrap summary,
+.finance-export-wrap summary {
+  cursor: pointer;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: oklch(0.82 0.012 280);
+  user-select: none;
+  padding: 4px 0;
+}
+.finance-history-wrap[open] summary,
+.finance-export-wrap[open] summary {
+  color: var(--amber);
+  margin-bottom: 10px;
+}
+.finance-history-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  color: oklch(0.88 0.01 280);
+}
+.finance-history-list li {
+  padding: 6px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  display: flex;
+  gap: 14px;
+  align-items: baseline;
+}
+.finance-history-list li:last-child { border-bottom: none; }
+.finance-history-list li.empty { color: var(--text-muted); font-style: italic; }
+.finance-history-list .at {
+  color: var(--amber);
+  flex-shrink: 0;
+  min-width: 170px;
+}
+.finance-history-list .note { color: oklch(0.82 0.012 280); }
+.finance-export-inner { padding-top: 4px; }
+
+/* ── Investor preview banner ───────────────────────── */
+.finance-preview-banner {
+  padding: 14px 20px;
+  margin-bottom: 24px;
+  background: var(--amber-dim);
+  border: 1px solid rgba(245,158,11,0.4);
+  border-radius: var(--radius);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.05em;
+  color: var(--amber);
+}
 
 /* ── Investor page ─────────────────────────────────── */
 .finance-headline-strip {
@@ -539,7 +630,8 @@
   margin: 14mm 12mm;
 }
 @media print {
-  .nav-wrapper, .nav-spacer, .finance-actions, .finance-tabs { display: none !important; }
+  .nav-wrapper, .nav-spacer, .finance-actions, .finance-tabs,
+  .finance-history-wrap, .finance-export-wrap, .finance-preview-banner { display: none !important; }
   html, body { background: white !important; color: black !important; }
   .finance-page {
     padding: 0;

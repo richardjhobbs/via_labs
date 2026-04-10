@@ -1,67 +1,30 @@
 // ─────────────────────────────────────────────────────────
-// /api/finance-data — gated JSON endpoint for canonical finance data.
+// GET /api/finance-data
 //
-// Query:
-//   ?level=admin    → full data.json (includes quarterly OpEx)
-//   ?level=investor → stripped payload (annual subtotals only, no quarterly detail)
+// Query params:
+//   ?level=admin         → full data payload (includes quarterly OpEx)
+//   ?level=investor      → stripped payload (annual OpEx subtotals only)
 //
-// Auth: must present a valid finance_session cookie.
-// Admin endpoint requires level=admin in the cookie; investor accepts any.
+//   ?variant=staged      → (admin only) return the staged blob
+//   ?variant=published   → (admin only) return the published blob
+//   default for admin    → staged if present, else published, else bundled seed
+//
+//   ?preview=staged      → (investor+admin cookie) return staged instead of
+//                          published so the admin can preview their next
+//                          release without publishing it
+//
+// Auth:
+//   admin level           → requires admin session
+//   investor level        → any valid finance session
+//   investor + preview    → requires admin session (can't leak staged to investors)
 // ─────────────────────────────────────────────────────────
 
-import crypto from 'crypto';
-import { readFileSync } from 'fs';
-import { fileURLToPath } from 'url';
-import { dirname, join } from 'path';
+import { getSession } from './_finance-auth.js';
+import {
+  getStaged, getPublished, loadBundledSeed,
+} from './_finance-store.js';
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
-const COOKIE_NAME = 'finance_session';
-const COOKIE_MAX_AGE = 60 * 60 * 12;
-
-function getSecret() {
-  const s = process.env.FINANCE_COOKIE_SECRET;
-  if (!s || s.length < 16) throw new Error('FINANCE_COOKIE_SECRET not set');
-  return s;
-}
-
-function verify(token) {
-  if (!token) return null;
-  const parts = token.split('.');
-  if (parts.length !== 3) return null;
-  const [level, issuedAt, sig] = parts;
-  const expected = crypto.createHmac('sha256', getSecret()).update(`${level}.${issuedAt}`).digest('base64url');
-  let ok = false;
-  try { ok = crypto.timingSafeEqual(Buffer.from(sig), Buffer.from(expected)); } catch {}
-  if (!ok) return null;
-  const age = Date.now() / 1000 - Number(issuedAt);
-  if (age > COOKIE_MAX_AGE || age < 0) return null;
-  if (level !== 'admin' && level !== 'investor') return null;
-  return { level };
-}
-
-function parseCookies(req) {
-  const raw = req.headers.cookie || '';
-  const out = {};
-  raw.split(';').forEach(pair => {
-    const idx = pair.indexOf('=');
-    if (idx > -1) {
-      const k = pair.slice(0, idx).trim();
-      out[k] = decodeURIComponent(pair.slice(idx + 1).trim());
-    }
-  });
-  return out;
-}
-
-function hasAccess(session, required) {
-  if (!session) return false;
-  if (required === 'investor') return true;
-  if (required === 'admin' && session.level === 'admin') return true;
-  return false;
-}
-
-// Build a stripped-down version of the data payload for investor view.
-// - Removes quarterly OpEx granularity, replaces each category with an annual subtotal array [y1..y5]
-// - Keeps assumptions (for engine to recalc) but investor page doesn't expose inputs
+// Annualise quarterly opex for the investor payload.
 function stripForInvestor(data) {
   const stripOpex = (opex) => {
     const out = {};
@@ -87,27 +50,92 @@ function stripForInvestor(data) {
   return { seedRaise: data.seedRaise, years: data.years, via, rrg };
 }
 
-function loadData() {
-  const path = join(__dirname, '..', 'finance', 'data.json');
-  return JSON.parse(readFileSync(path, 'utf8'));
+// Resolve which blob variant to serve, with fallbacks.
+// Returns { data, source } where source is 'staged' | 'published' | 'seed'.
+async function resolveData(variant) {
+  if (variant === 'staged') {
+    const s = await getStaged();
+    if (s) return { data: s, source: 'staged' };
+    const p = await getPublished();
+    if (p) return { data: p, source: 'published' };
+    return { data: loadBundledSeed(), source: 'seed' };
+  }
+  if (variant === 'published') {
+    const p = await getPublished();
+    if (p) return { data: p, source: 'published' };
+    return { data: loadBundledSeed(), source: 'seed' };
+  }
+  // default
+  const p = await getPublished();
+  if (p) return { data: p, source: 'published' };
+  return { data: loadBundledSeed(), source: 'seed' };
 }
 
 export default async function handler(req, res) {
   const level = (req.query && req.query.level) || 'investor';
+  const variant = (req.query && req.query.variant) || null;
+  const preview = (req.query && req.query.preview) || null;
+
   if (level !== 'admin' && level !== 'investor') {
     res.status(400).json({ error: 'invalid level' });
     return;
   }
 
-  const session = verify(parseCookies(req)[COOKIE_NAME]);
-  if (!hasAccess(session, level)) {
-    res.status(401).json({ error: 'unauthorized' });
-    return;
+  const session = getSession(req);
+
+  // Admin-level requests must have an admin session.
+  if (level === 'admin') {
+    if (!session || session.level !== 'admin') {
+      res.status(401).json({ error: 'unauthorized' });
+      return;
+    }
+  } else {
+    // Investor level: any valid session is fine for published data.
+    if (!session) {
+      res.status(401).json({ error: 'unauthorized' });
+      return;
+    }
+    // But if preview=staged is requested, the caller must be admin.
+    if (preview === 'staged' && session.level !== 'admin') {
+      res.status(403).json({ error: 'preview requires admin session' });
+      return;
+    }
   }
 
-  const data = loadData();
-  const payload = level === 'admin' ? data : stripForInvestor(data);
+  // Decide which variant to resolve:
+  //  - admin + explicit variant → that variant
+  //  - admin default            → staged (fallback chain handles it)
+  //  - investor + preview       → staged
+  //  - investor default         → published
+  let resolveVariant;
+  if (level === 'admin') {
+    resolveVariant = variant || 'staged';
+  } else {
+    resolveVariant = preview === 'staged' ? 'staged' : 'published';
+  }
 
-  res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, private');
-  res.status(200).json(payload);
+  try {
+    const { data, source } = await resolveData(resolveVariant);
+    const payload = level === 'admin' ? data : stripForInvestor(data);
+
+    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, private');
+    res.setHeader('X-Finance-Source', source);
+    res.status(200).json(payload);
+  } catch (e) {
+    if (e.code === 'BLOB_NOT_CONFIGURED') {
+      // Before Blob is enabled, serve the bundled seed directly so the page
+      // still works in a degraded read-only state.
+      try {
+        const seed = loadBundledSeed();
+        const payload = level === 'admin' ? seed : stripForInvestor(seed);
+        res.setHeader('Cache-Control', 'no-store');
+        res.setHeader('X-Finance-Source', 'seed');
+        res.setHeader('X-Finance-Degraded', 'blob-not-configured');
+        res.status(200).json(payload);
+        return;
+      } catch {}
+    }
+    console.error('finance-data failed', e);
+    res.status(500).json({ error: 'data failed: ' + (e.message || 'unknown') });
+  }
 }
