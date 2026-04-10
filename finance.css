@@ -313,6 +313,15 @@
   outline: none;
   transition: background 0.15s, border-color 0.15s;
   min-width: 90px;
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+/* Kill the native number-input spinners everywhere, belt and braces. */
+.finance-input::-webkit-outer-spin-button,
+.finance-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0;
 }
 .finance-input:focus {
   background: var(--amber-dim);

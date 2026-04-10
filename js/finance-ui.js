@@ -87,54 +87,27 @@ function rowHtml(label, vals, opts = {}) {
 function inputRowHtml(label, pathPrefix, arr, opts = {}) {
   const cells = arr.map((v, i) => {
     const path = JSON.stringify([...pathPrefix, i]);
-    const step = opts.step || 'any';
     const display = fmtInputVal(v, !!opts.asPercent);
-    return `<td><input type="number" class="finance-input" step="${step}" data-path='${path}' data-pct='${opts.asPercent ? 1 : 0}' value="${display}" /></td>`;
+    return `<td><input type="text" inputmode="decimal" autocomplete="off" class="finance-input" data-path='${path}' data-pct='${opts.asPercent ? 1 : 0}' value="${display}" /></td>`;
   }).join('');
   return `<tr><td>${label}</td>${cells}</tr>`;
 }
 
-// ── Render: Via Labs panel ─────────────────────────
-function renderViaPanel(state) {
-  const { inputs, output } = state;
-  const years = inputs.years;
-  const via = output.via;
-  const yearHeaders = years.map(y => `<th>${y}</th>`).join('');
+// Tolerant parser that accepts whole numbers, decimals, commas, negatives,
+// and returns NaN for "still editing" states like "", "-", "." so the
+// caller can skip state updates on intermediate keystrokes.
+function parseInputValue(raw) {
+  if (raw == null) return NaN;
+  const s = String(raw).trim().replace(/,/g, '');
+  if (s === '' || s === '-' || s === '.' || s === '-.') return NaN;
+  const n = Number(s);
+  return Number.isFinite(n) ? n : NaN;
+}
 
-  const assumptionsRows = [
-    `<tr class="finance-category-row"><td colspan="6">Merchants & pricing</td></tr>`,
-    inputRowHtml('Active Merchants', ['via','activeMerchants'], inputs.via.activeMerchants, { step: '0.5' }),
-    inputRowHtml('Growth tier $/mo', ['via','tierPrice','growth'], inputs.via.tierPrice.growth),
-    inputRowHtml('Professional tier $/mo', ['via','tierPrice','pro'], inputs.via.tierPrice.pro),
-    inputRowHtml('Enterprise tier $/mo', ['via','tierPrice','enterprise'], inputs.via.tierPrice.enterprise),
-
-    `<tr class="finance-category-row"><td colspan="6">Subscription mix (%)</td></tr>`,
-    inputRowHtml('Starter (Free) %', ['via','tierMix','starter'], inputs.via.tierMix.starter, { asPercent: true, step: '0.1' }),
-    inputRowHtml('Growth %',         ['via','tierMix','growth'],  inputs.via.tierMix.growth,  { asPercent: true, step: '0.1' }),
-    inputRowHtml('Professional %',   ['via','tierMix','pro'],     inputs.via.tierMix.pro,     { asPercent: true, step: '0.1' }),
-    inputRowHtml('Enterprise %',     ['via','tierMix','enterprise'], inputs.via.tierMix.enterprise, { asPercent: true, step: '0.1' }),
-
-    `<tr class="finance-category-row"><td colspan="6">Micro fees</td></tr>`,
-    inputRowHtml('Intent fee $', ['via','microFee','intent'], inputs.via.microFee.intent, { step: '0.001' }),
-    inputRowHtml('Quote fee $',  ['via','microFee','quote'],  inputs.via.microFee.quote,  { step: '0.001' }),
-    inputRowHtml('Txn fee % of order', ['via','microFee','txnPct'], inputs.via.microFee.txnPct, { asPercent: true, step: '0.01' }),
-    inputRowHtml('Txn fee cap $', ['via','microFee','txnCap'], inputs.via.microFee.txnCap),
-
-    `<tr class="finance-category-row"><td colspan="6">Volume drivers</td></tr>`,
-    inputRowHtml('Intents/merchant/mo', ['via','volume','intentsPerMerchantMo'], inputs.via.volume.intentsPerMerchantMo),
-    inputRowHtml('Quote rate %',        ['via','volume','quoteRate'],        inputs.via.volume.quoteRate,        { asPercent: true, step: '0.1' }),
-    inputRowHtml('Conversion rate %',   ['via','volume','conversionRate'],   inputs.via.volume.conversionRate,   { asPercent: true, step: '0.1' }),
-    inputRowHtml('Avg order value $',   ['via','volume','aov'],              inputs.via.volume.aov),
-
-    `<tr class="finance-category-row"><td colspan="6">Agent top-up</td></tr>`,
-    inputRowHtml('Top-up volume $',  ['via','topUp','volume'], inputs.via.topUp.volume),
-    inputRowHtml('Top-up margin %',  ['via','topUp','margin'], inputs.via.topUp.margin, { asPercent: true, step: '0.01' }),
-
-    `<tr class="finance-category-row"><td colspan="6">COGS</td></tr>`,
-    inputRowHtml('COGS % of revenue', ['via','cogsPct'], inputs.via.cogsPct, { asPercent: true, step: '0.1' }),
-  ].join('');
-
-  const pnlRows = [
+// Build the P&L output tbody content for the Via Labs panel.
+function renderViaOutputBody(state) {
+  const via = state.output.via;
+  return [
     `<tr class="finance-category-row"><td colspan="6">Revenue</td></tr>`,
     rowHtml('  Subscription revenue', via.map(v => v.subRev)),
     rowHtml('  Micro-fee revenue',    via.map(v => v.microRev)),
@@ -161,6 +134,46 @@ function renderViaPanel(state) {
     rowHtml('  Total transactions', via.map(v => v.txns), { money: false }),
     rowHtml('  Platform GMV', via.map(v => v.platformGmv)),
   ].join('');
+}
+
+// ── Render: Via Labs panel ─────────────────────────
+function renderViaPanel(state) {
+  const { inputs } = state;
+  const years = inputs.years;
+  const yearHeaders = years.map(y => `<th>${y}</th>`).join('');
+
+  const assumptionsRows = [
+    `<tr class="finance-category-row"><td colspan="6">Merchants & pricing</td></tr>`,
+    inputRowHtml('Active Merchants', ['via','activeMerchants'], inputs.via.activeMerchants),
+    inputRowHtml('Growth tier $/mo', ['via','tierPrice','growth'], inputs.via.tierPrice.growth),
+    inputRowHtml('Professional tier $/mo', ['via','tierPrice','pro'], inputs.via.tierPrice.pro),
+    inputRowHtml('Enterprise tier $/mo', ['via','tierPrice','enterprise'], inputs.via.tierPrice.enterprise),
+
+    `<tr class="finance-category-row"><td colspan="6">Subscription mix (%)</td></tr>`,
+    inputRowHtml('Starter (Free) %', ['via','tierMix','starter'], inputs.via.tierMix.starter, { asPercent: true }),
+    inputRowHtml('Growth %',         ['via','tierMix','growth'],  inputs.via.tierMix.growth,  { asPercent: true }),
+    inputRowHtml('Professional %',   ['via','tierMix','pro'],     inputs.via.tierMix.pro,     { asPercent: true }),
+    inputRowHtml('Enterprise %',     ['via','tierMix','enterprise'], inputs.via.tierMix.enterprise, { asPercent: true }),
+
+    `<tr class="finance-category-row"><td colspan="6">Micro fees</td></tr>`,
+    inputRowHtml('Intent fee $', ['via','microFee','intent'], inputs.via.microFee.intent),
+    inputRowHtml('Quote fee $',  ['via','microFee','quote'],  inputs.via.microFee.quote),
+    inputRowHtml('Txn fee % of order', ['via','microFee','txnPct'], inputs.via.microFee.txnPct, { asPercent: true }),
+    inputRowHtml('Txn fee cap $', ['via','microFee','txnCap'], inputs.via.microFee.txnCap),
+
+    `<tr class="finance-category-row"><td colspan="6">Volume drivers</td></tr>`,
+    inputRowHtml('Intents/merchant/mo', ['via','volume','intentsPerMerchantMo'], inputs.via.volume.intentsPerMerchantMo),
+    inputRowHtml('Quote rate %',        ['via','volume','quoteRate'],        inputs.via.volume.quoteRate,        { asPercent: true }),
+    inputRowHtml('Conversion rate %',   ['via','volume','conversionRate'],   inputs.via.volume.conversionRate,   { asPercent: true }),
+    inputRowHtml('Avg order value $',   ['via','volume','aov'],              inputs.via.volume.aov),
+
+    `<tr class="finance-category-row"><td colspan="6">Agent top-up</td></tr>`,
+    inputRowHtml('Top-up volume $',  ['via','topUp','volume'], inputs.via.topUp.volume),
+    inputRowHtml('Top-up margin %',  ['via','topUp','margin'], inputs.via.topUp.margin, { asPercent: true }),
+
+    `<tr class="finance-category-row"><td colspan="6">COGS</td></tr>`,
+    inputRowHtml('COGS % of revenue', ['via','cogsPct'], inputs.via.cogsPct, { asPercent: true }),
+  ].join('');
 
   return `
     <section class="finance-section">
@@ -183,7 +196,7 @@ function renderViaPanel(state) {
       <div class="finance-section-body">
         <table class="finance-table">
           <thead><tr><th></th>${yearHeaders}</tr></thead>
-          <tbody>${pnlRows}</tbody>
+          <tbody id="via-pnl-body">${renderViaOutputBody(state)}</tbody>
         </table>
       </div>
     </section>
@@ -199,35 +212,12 @@ function renderViaPanel(state) {
   `;
 }
 
-// ── Render: RRG panel ─────────────────────────────
-function renderRrgPanel(state) {
-  const { inputs, output } = state;
-  const years = inputs.years;
-  const rrg = output.rrg;
-  const yearHeaders = years.map(y => `<th>${y}</th>`).join('');
-
-  const assumptionsRows = [
-    `<tr class="finance-category-row"><td colspan="6">Top-line</td></tr>`,
-    inputRowHtml('Total GMV $', ['rrg','gmv'], inputs.rrg.gmv),
-    inputRowHtml('Co-creation revenue $', ['rrg','coCreationRevenue'], inputs.rrg.coCreationRevenue),
-    inputRowHtml('COGS % of revenue', ['rrg','cogsPct'], inputs.rrg.cogsPct, { asPercent: true, step: '0.1' }),
-
-    `<tr class="finance-category-row"><td colspan="6">Drop mix: GMV share (%)</td></tr>`,
-    inputRowHtml('Co-created drops',         ['rrg','dropMix','coCreated','share'],    inputs.rrg.dropMix.coCreated.share,    { asPercent: true, step: '0.1' }),
-    inputRowHtml('Brand drops (under $10)',  ['rrg','dropMix','brandUnder10','share'], inputs.rrg.dropMix.brandUnder10.share, { asPercent: true, step: '0.1' }),
-    inputRowHtml('Brand drops ($10 to $100)',['rrg','dropMix','brand10to100','share'], inputs.rrg.dropMix.brand10to100.share, { asPercent: true, step: '0.1' }),
-    inputRowHtml('Brand drops ($100+)',      ['rrg','dropMix','brand100plus','share'], inputs.rrg.dropMix.brand100plus.share, { asPercent: true, step: '0.1' }),
-
-    `<tr class="finance-category-row"><td colspan="6">Platform take rates (%): 3-tier deployed scale</td></tr>`,
-    inputRowHtml('Co-created rate (30%)',        ['rrg','dropMix','coCreated','rate'],    inputs.rrg.dropMix.coCreated.rate,    { asPercent: true, step: '0.1' }),
-    inputRowHtml('Brand under $10 rate (30%)',   ['rrg','dropMix','brandUnder10','rate'], inputs.rrg.dropMix.brandUnder10.rate, { asPercent: true, step: '0.1' }),
-    inputRowHtml('Brand $10 to $100 blended',    ['rrg','dropMix','brand10to100','rate'], inputs.rrg.dropMix.brand10to100.rate, { asPercent: true, step: '0.01' }),
-    inputRowHtml('Brand $100+ rate (2.5%)',      ['rrg','dropMix','brand100plus','rate'], inputs.rrg.dropMix.brand100plus.rate, { asPercent: true, step: '0.01' }),
-  ].join('');
-
-  const pnlRows = [
+// Build the P&L output tbody content for the RRG panel.
+function renderRrgOutputBody(state) {
+  const rrg = state.output.rrg;
+  return [
     `<tr class="finance-category-row"><td colspan="6">Commission by drop type</td></tr>`,
-    rowHtml('  Co-created',         rrg.map(v => v.commCoCreated)),
+    rowHtml('  Co-created',          rrg.map(v => v.commCoCreated)),
     rowHtml('  Brand (under $10)',   rrg.map(v => v.commBrandUnder10)),
     rowHtml('  Brand ($10 to $100)', rrg.map(v => v.commBrand10to100)),
     rowHtml('  Brand ($100+)',       rrg.map(v => v.commBrand100plus)),
@@ -249,6 +239,32 @@ function renderRrgPanel(state) {
 
     rowHtml('EBITDA', rrg.map(v => v.ebitda), { cls: 'finance-highlight-row' }),
     rowHtml('EBITDA margin', rrg.map(v => v.ebitdaMargin), { pct: true, cls: 'finance-muted-row' }),
+  ].join('');
+}
+
+// ── Render: RRG panel ─────────────────────────────
+function renderRrgPanel(state) {
+  const { inputs } = state;
+  const years = inputs.years;
+  const yearHeaders = years.map(y => `<th>${y}</th>`).join('');
+
+  const assumptionsRows = [
+    `<tr class="finance-category-row"><td colspan="6">Top-line</td></tr>`,
+    inputRowHtml('Total GMV $', ['rrg','gmv'], inputs.rrg.gmv),
+    inputRowHtml('Co-creation revenue $', ['rrg','coCreationRevenue'], inputs.rrg.coCreationRevenue),
+    inputRowHtml('COGS % of revenue', ['rrg','cogsPct'], inputs.rrg.cogsPct, { asPercent: true }),
+
+    `<tr class="finance-category-row"><td colspan="6">Drop mix: GMV share (%)</td></tr>`,
+    inputRowHtml('Co-created drops',         ['rrg','dropMix','coCreated','share'],    inputs.rrg.dropMix.coCreated.share,    { asPercent: true }),
+    inputRowHtml('Brand drops (under $10)',  ['rrg','dropMix','brandUnder10','share'], inputs.rrg.dropMix.brandUnder10.share, { asPercent: true }),
+    inputRowHtml('Brand drops ($10 to $100)',['rrg','dropMix','brand10to100','share'], inputs.rrg.dropMix.brand10to100.share, { asPercent: true }),
+    inputRowHtml('Brand drops ($100+)',      ['rrg','dropMix','brand100plus','share'], inputs.rrg.dropMix.brand100plus.share, { asPercent: true }),
+
+    `<tr class="finance-category-row"><td colspan="6">Platform take rates (%): 3-tier deployed scale</td></tr>`,
+    inputRowHtml('Co-created rate (30%)',        ['rrg','dropMix','coCreated','rate'],    inputs.rrg.dropMix.coCreated.rate,    { asPercent: true }),
+    inputRowHtml('Brand under $10 rate (30%)',   ['rrg','dropMix','brandUnder10','rate'], inputs.rrg.dropMix.brandUnder10.rate, { asPercent: true }),
+    inputRowHtml('Brand $10 to $100 blended',    ['rrg','dropMix','brand10to100','rate'], inputs.rrg.dropMix.brand10to100.rate, { asPercent: true }),
+    inputRowHtml('Brand $100+ rate (2.5%)',      ['rrg','dropMix','brand100plus','rate'], inputs.rrg.dropMix.brand100plus.rate, { asPercent: true }),
   ].join('');
 
   return `
@@ -272,7 +288,7 @@ function renderRrgPanel(state) {
       <div class="finance-section-body">
         <table class="finance-table">
           <thead><tr><th></th>${yearHeaders}</tr></thead>
-          <tbody>${pnlRows}</tbody>
+          <tbody id="rrg-pnl-body">${renderRrgOutputBody(state)}</tbody>
         </table>
       </div>
     </section>
@@ -288,25 +304,10 @@ function renderRrgPanel(state) {
   `;
 }
 
-// ── Render: Consolidated panel ─────────────────────
-function renderConsolidatedPanel(state) {
-  const { inputs, output } = state;
-  const years = inputs.years;
-  const con = output.consolidated;
-  const yearHeaders = years.map(y => `<th>${y}</th>`).join('');
-
-  const cashRow = [
-    `<tr class="finance-category-row"><td colspan="6">Cash position</td></tr>`,
-    inputRowHtml('Seed raise $ (2026 start)', ['seedRaise'], [inputs.seedRaise, '', '', '', ''].map((v, i) => i === 0 ? v : null).filter(v => v !== null)),
-  ];
-  // Seed raise is a scalar. Render as a 1-cell input spanning first column.
-  const seedInput = `<tr>
-    <td>Seed raise (starting cash)</td>
-    <td><input type="number" class="finance-input" data-path='["seedRaise"]' data-pct='0' data-scalar='1' value="${inputs.seedRaise}" /></td>
-    <td colspan="4"></td>
-  </tr>`;
-
-  const pnlRows = [
+// Build the output tbody content for the Consolidated panel.
+function renderConsOutputBody(state) {
+  const con = state.output.consolidated;
+  return [
     rowHtml('  VIA Labs revenue', con.map(v => v.viaRevenue)),
     rowHtml('  RRG revenue',      con.map(v => v.rrgRevenue)),
     rowHtml('Combined Revenue', con.map(v => v.revenue), { cls: 'finance-total-row' }),
@@ -325,8 +326,36 @@ function renderConsolidatedPanel(state) {
     rowHtml('Cash balance (EOY)', con.map(v => v.cash), { cls: 'finance-total-row' }),
     rowHtml('ARR / raise multiple', con.map(v => v.arrRaiseMultiple), { pct: false, money: false, cls: 'finance-muted-row' }),
   ].join('');
+}
+
+// ── Render: Consolidated panel ─────────────────────
+function renderConsolidatedPanel(state) {
+  const { inputs } = state;
+  const years = inputs.years;
+  const yearHeaders = years.map(y => `<th>${y}</th>`).join('');
+
+  const seedDisplay = fmtInputVal(inputs.seedRaise, false);
 
   return `
+    <section class="finance-section">
+      <header class="finance-section-header">
+        <h2>Consolidated: Inputs</h2>
+        <span class="finance-section-chev">▼</span>
+      </header>
+      <div class="finance-section-body">
+        <table class="finance-table">
+          <thead><tr><th>Input</th>${yearHeaders}</tr></thead>
+          <tbody>
+            <tr>
+              <td>Seed raise (starting cash)</td>
+              <td><input type="text" inputmode="decimal" autocomplete="off" class="finance-input"
+                         data-path='["seedRaise"]' data-pct='0' data-scalar='1' value="${seedDisplay}" /></td>
+              <td colspan="4"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
     <section class="finance-section">
       <header class="finance-section-header">
         <h2>Consolidated P&amp;L</h2>
@@ -335,10 +364,7 @@ function renderConsolidatedPanel(state) {
       <div class="finance-section-body">
         <table class="finance-table">
           <thead><tr><th></th>${yearHeaders}</tr></thead>
-          <tbody>
-            ${seedInput}
-            ${pnlRows}
-          </tbody>
+          <tbody id="cons-pnl-body">${renderConsOutputBody(state)}</tbody>
         </table>
       </div>
     </section>
@@ -363,7 +389,7 @@ function renderOpexDetail(opex, pathPrefix, years) {
       const cells = arr.map((v, i) => {
         const path = JSON.stringify([...pathPrefix, cat, li, i]);
         const display = fmtInputVal(v, false);
-        return `<td><input type="number" class="finance-input" step="any" data-path='${path}' data-pct='0' value="${display}" /></td>`;
+        return `<td><input type="text" inputmode="decimal" autocomplete="off" class="finance-input" data-path='${path}' data-pct='0' value="${display}" /></td>`;
       }).join('');
       html += `<tr><td>${li}</td>${cells}</tr>`;
     }
@@ -526,11 +552,11 @@ function renderCurrentPanel() {
 
 function bindInputs(root) {
   root.querySelectorAll('input.finance-input').forEach(el => {
-    el.addEventListener('input', (ev) => {
+    el.addEventListener('input', () => {
       const path = JSON.parse(el.dataset.path);
       const isPct = el.dataset.pct === '1';
-      let raw = parseFloat(el.value);
-      if (isNaN(raw)) return;
+      let raw = parseInputValue(el.value);
+      if (!Number.isFinite(raw)) return; // intermediate edit like "" or "-"
       if (isPct) raw = raw / 100;
       if (el.dataset.scalar === '1') {
         state.inputs[path[0]] = raw;
@@ -541,28 +567,24 @@ function bindInputs(root) {
       saveDraft(state.inputs);
       recalc();
       el.classList.add('dirty');
-      // Re-render only the output tables, but for simplicity re-render whole panel
-      // (inputs keep focus because we don't replace them)
-      rerenderOutputsOnly();
+      // Update only the output tbodies — never touch the input the user is typing in.
+      updateOutputTables();
+      updateScenarioPill();
     });
   });
 }
 
-function rerenderOutputsOnly() {
-  // Simplest: re-render the whole panel but preserve focus. We track the
-  // currently focused input's data-path and re-focus after render.
-  const active = document.activeElement;
-  const focusPath = active && active.dataset && active.dataset.path;
-  const selStart = active && active.selectionStart;
-  const selEnd = active && active.selectionEnd;
-  renderCurrentPanel();
-  if (focusPath) {
-    const el = document.querySelector(`input.finance-input[data-path='${focusPath}']`);
-    if (el) {
-      el.focus();
-      try { el.setSelectionRange(selStart, selEnd); } catch {}
-      el.classList.add('dirty');
-    }
+// Update the output tbodies in place without touching any input cells.
+function updateOutputTables() {
+  if (state.currentTab === 'via') {
+    const b = document.getElementById('via-pnl-body');
+    if (b) b.innerHTML = renderViaOutputBody(state);
+  } else if (state.currentTab === 'rrg') {
+    const b = document.getElementById('rrg-pnl-body');
+    if (b) b.innerHTML = renderRrgOutputBody(state);
+  } else if (state.currentTab === 'combined') {
+    const b = document.getElementById('cons-pnl-body');
+    if (b) b.innerHTML = renderConsOutputBody(state);
   }
 }
 
