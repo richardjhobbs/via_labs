@@ -50,6 +50,7 @@ const ADMIN_HTML_TEMPLATE = `<!DOCTYPE html>
     <ul class="nav-primary-links">
       <li><a href="/finance" class="active">Finance</a></li>
       <li><a href="/finance/investor">Investor view</a></li>
+      <li><a href="/api/finance-gate?action=logout" class="finance-logout">Log out</a></li>
     </ul>
   </nav>
 </header>
@@ -109,8 +110,7 @@ const INVESTOR_HTML_TEMPLATE = `<!DOCTYPE html>
       <img src="/vialogowhite.png" alt="VIA" />
     </a>
     <ul class="nav-primary-links">
-      <li><a href="/finance">Finance</a></li>
-      <li><a href="/finance/investor" class="active">Investor view</a></li>
+      <li><a href="/api/finance-gate?action=logout" class="finance-logout">Log out</a></li>
     </ul>
   </nav>
 </header>
@@ -232,6 +232,23 @@ function serveHtml(res, level) {
 }
 
 export default async function handler(req, res) {
+  // Handle logout on any method before level validation.
+  const action = req.query && req.query.action;
+  if (action === 'logout') {
+    const clear = [
+      `${COOKIE_NAME}=`,
+      'Path=/',
+      'Max-Age=0',
+      'HttpOnly',
+      'Secure',
+      'SameSite=Lax',
+    ].join('; ');
+    res.setHeader('Set-Cookie', clear);
+    res.setHeader('Cache-Control', 'no-store');
+    res.status(302).setHeader('Location', '/finance').end();
+    return;
+  }
+
   const level = (req.query && req.query.level) || 'admin';
   if (level !== 'admin' && level !== 'investor') {
     res.status(400).send('Invalid level');

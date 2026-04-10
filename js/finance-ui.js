@@ -6,11 +6,24 @@
 const DRAFT_KEY = 'finance.draft.v1';
 
 // ── Number formatting ─────────────────────────────
+// Table numbers: full comma-separated integer, no currency symbol.
 function fmtMoney(n) {
   if (n === null || n === undefined || isNaN(n)) return '-';
   const rounded = Math.round(n);
   const sign = rounded < 0 ? '-' : '';
-  return sign + '$' + Math.abs(rounded).toLocaleString('en-US');
+  return sign + Math.abs(rounded).toLocaleString('en-US');
+}
+// Headline cards: shortened notation with $ prefix, e.g. $27.7M, $561K.
+function fmtMoneyShort(n) {
+  if (n === null || n === undefined || isNaN(n)) return '-';
+  const abs = Math.abs(n);
+  const sign = n < 0 ? '-' : '';
+  let str;
+  if (abs >= 1e9)      str = (abs / 1e9).toFixed(1) + 'B';
+  else if (abs >= 1e6) str = (abs / 1e6).toFixed(1) + 'M';
+  else if (abs >= 1e3) str = (abs / 1e3).toFixed(0) + 'K';
+  else                 str = Math.round(abs).toString();
+  return sign + '$' + str;
 }
 function fmtPct(n) {
   if (n === null || n === undefined || isNaN(n)) return '-';
@@ -373,8 +386,8 @@ function renderInvestor(data, output, notes) {
       <div class="finance-headline-card">
         <div class="year">FY${y}</div>
         <div class="rev-label">Revenue</div>
-        <div class="rev">${fmtMoney(con[i].revenue)}</div>
-        <div class="ebitda ${cls}">EBITDA ${fmtMoney(e)}</div>
+        <div class="rev">${fmtMoneyShort(con[i].revenue)}</div>
+        <div class="ebitda ${cls}">EBITDA ${fmtMoneyShort(e)}</div>
       </div>`;
   }).join('');
 
@@ -477,6 +490,10 @@ function renderInvestor(data, output, notes) {
       <span class="finance-actions-status">CONFIDENTIAL: for authorised investors only</span>
       <div class="spacer"></div>
       <button class="finance-btn" onclick="window.print()">Print / Save PDF</button>
+    </div>
+
+    <div class="finance-print-footer">
+      Accurate as at time and date of print. Data may change. Log in with password for latest version.
     </div>
   `;
 }

@@ -452,6 +452,28 @@
 }
 .finance-notes-block p + p { margin-top: 10px; }
 
+/* ── Logout nav button ─────────────────────────────── */
+.nav-primary-links a.finance-logout {
+  border: 1px solid var(--border);
+  padding: 6px 14px;
+  border-radius: 50px;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+  margin-left: 4px;
+  transition: color 0.18s, border-color 0.18s, background 0.18s;
+}
+.nav-primary-links a.finance-logout:hover {
+  color: var(--amber);
+  border-color: rgba(245,158,11,0.4);
+  background: var(--amber-glow);
+}
+
+/* ── Print footer note (only on PDF) ───────────────── */
+.finance-print-footer {
+  display: none;
+}
+
 /* ── Investor disclaimer ───────────────────────────── */
 .finance-disclaimer {
   margin-top: 32px;
@@ -578,4 +600,15 @@
   .finance-disclaimer h3 { color: #B45309; }
   .finance-notes-block p,
   .finance-disclaimer p { color: #333 !important; }
+  .finance-print-footer {
+    display: block !important;
+    margin-top: 18px;
+    padding-top: 10px;
+    border-top: 1px solid #ddd;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    color: #666 !important;
+    text-align: center;
+    letter-spacing: 0.04em;
+  }
 }
