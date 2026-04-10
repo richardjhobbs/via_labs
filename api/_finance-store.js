@@ -34,6 +34,51 @@ function ensureBlobConfigured() {
   }
 }
 
+// ─────────────────────────────────────────────────────────
+// Self-healing shape migration.
+//
+// Older blobs in production may still carry the pre-simplification RRG
+// dropMix (coCreated / brandUnder10 / brand10to100 / brand100plus). The
+// current engine expects only { digital, physical }. Any blob read that
+// still has the old shape is rewritten in-memory so the engine can run.
+// We do NOT persist the migration back to blob automatically; the next
+// admin save will overwrite with the new shape naturally.
+// ─────────────────────────────────────────────────────────
+function migrateData(data) {
+  if (!data || typeof data !== 'object') return data;
+  try {
+    const rrg = data.rrg;
+    if (rrg && rrg.dropMix && (!rrg.dropMix.digital || !rrg.dropMix.physical)) {
+      const mix = rrg.dropMix;
+      const YEARS = (data.years && data.years.length) || 5;
+      const digitalShare  = new Array(YEARS).fill(0);
+      const physicalShare = new Array(YEARS).fill(0);
+      const digKeys = ['coCreated', 'brandUnder10', 'digital'];
+      const phyKeys = ['brand10to100', 'brand100plus', 'physical'];
+      for (const k of digKeys) {
+        const entry = mix[k];
+        if (entry && Array.isArray(entry.share)) {
+          for (let i = 0; i < YEARS; i++) digitalShare[i] += Number(entry.share[i]) || 0;
+        }
+      }
+      for (const k of phyKeys) {
+        const entry = mix[k];
+        if (entry && Array.isArray(entry.share)) {
+          for (let i = 0; i < YEARS; i++) physicalShare[i] += Number(entry.share[i]) || 0;
+        }
+      }
+      rrg.dropMix = {
+        digital:  { share: digitalShare,  rate: new Array(YEARS).fill(0.30) },
+        physical: { share: physicalShare, rate: new Array(YEARS).fill(0.025) },
+      };
+    }
+  } catch (e) {
+    // Never let migration crash the read path.
+    console.error('finance: migrateData failed', e);
+  }
+  return data;
+}
+
 // Read a private blob by pathname, parse JSON. Returns null if not found.
 async function fetchBlobJson(pathname) {
   ensureBlobConfigured();
@@ -57,7 +102,10 @@ async function fetchBlobJson(pathname) {
     chunks.push(value);
   }
   const text = Buffer.concat(chunks.map(c => Buffer.from(c))).toString('utf8');
-  try { return JSON.parse(text); } catch { return null; }
+  try {
+    const parsed = JSON.parse(text);
+    return migrateData(parsed);
+  } catch { return null; }
 }
 
 async function writeBlobJson(pathname, data) {
@@ -76,7 +124,7 @@ async function writeBlobJson(pathname, data) {
 // Bundled repo seed — used when blob storage has no staged or published yet.
 export function loadBundledSeed() {
   const path = join(__dirname, '..', 'finance', 'data.json');
-  return JSON.parse(readFileSync(path, 'utf8'));
+  return migrateData(JSON.parse(readFileSync(path, 'utf8')));
 }
 
 export async function getStaged() {

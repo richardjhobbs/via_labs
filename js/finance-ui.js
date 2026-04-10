@@ -64,11 +64,50 @@ function setByPath(obj, path, value) {
   cur[path[path.length - 1]] = value;
 }
 
+// ── Client-side shape migration ───────────────────
+// Mirror of the server-side migration in api/_finance-store.js. Applied to
+// both the server payload and any localStorage draft so that a stale draft
+// from before the two-tier RRG simplification does not crash the admin UI.
+function migrateClientData(data) {
+  if (!data || typeof data !== 'object') return data;
+  try {
+    const rrg = data.rrg;
+    if (rrg && rrg.dropMix && (!rrg.dropMix.digital || !rrg.dropMix.physical)) {
+      const mix = rrg.dropMix;
+      const YEARS = (data.years && data.years.length) || 5;
+      const digitalShare  = new Array(YEARS).fill(0);
+      const physicalShare = new Array(YEARS).fill(0);
+      const digKeys = ['coCreated', 'brandUnder10', 'digital'];
+      const phyKeys = ['brand10to100', 'brand100plus', 'physical'];
+      for (const k of digKeys) {
+        const e = mix[k];
+        if (e && Array.isArray(e.share)) {
+          for (let i = 0; i < YEARS; i++) digitalShare[i] += Number(e.share[i]) || 0;
+        }
+      }
+      for (const k of phyKeys) {
+        const e = mix[k];
+        if (e && Array.isArray(e.share)) {
+          for (let i = 0; i < YEARS; i++) physicalShare[i] += Number(e.share[i]) || 0;
+        }
+      }
+      rrg.dropMix = {
+        digital:  { share: digitalShare,  rate: new Array(YEARS).fill(0.30) },
+        physical: { share: physicalShare, rate: new Array(YEARS).fill(0.025) },
+      };
+    }
+  } catch (e) {
+    try { console.error('finance: migrateClientData failed', e); } catch {}
+  }
+  return data;
+}
+
 // ── Draft (localStorage) ──────────────────────────
 function loadDraft() {
   try {
     const raw = localStorage.getItem(DRAFT_KEY);
-    return raw ? JSON.parse(raw) : null;
+    if (!raw) return null;
+    return migrateClientData(JSON.parse(raw));
   } catch { return null; }
 }
 function saveDraft(data) {
@@ -795,8 +834,8 @@ async function initAdmin() {
     return;
   }
 
-  const staged    = await stagedRes.json();
-  const published = publishedRes.ok ? await publishedRes.json() : staged;
+  const staged    = migrateClientData(await stagedRes.json());
+  const published = publishedRes.ok ? migrateClientData(await publishedRes.json()) : staged;
   const history   = historyRes.ok   ? (await historyRes.json()).entries || [] : [];
 
   state.canonical   = staged;
@@ -856,7 +895,7 @@ async function initInvestor() {
     document.getElementById('finance-root').innerHTML = '<p style="padding:24px;color:var(--red);">Unauthorised. <a href="/finance/investor">Reload</a></p>';
     return;
   }
-  const data = await dataRes.json();
+  const data = migrateClientData(await dataRes.json());
   const notes = notesRes && notesRes.ok ? await notesRes.json() : { blocks: [] };
 
   // For investor we need to reconstruct opex shape the engine expects (quarterly)
@@ -892,4 +931,37 @@ async function initInvestor() {
   });
 }
 
-window.FinanceUI = { initAdmin, initInvestor };
+// ── Error surfacing wrapper ────────────────────────
+// Historically a single JS exception during init would produce a blank page
+// because `#finance-root` was never written to. Wrap both entry points so
+// any failure (bad blob shape, network error, engine throw) surfaces as a
+// visible message instead of a silent white screen.
+function renderInitError(err) {
+  const msg = (err && (err.stack || err.message)) || String(err);
+  const root = document.getElementById('finance-root');
+  const safe = String(msg).replace(/</g, '&lt;');
+  const html =
+    '<div style="padding:28px 20px;max-width:720px;">' +
+      '<h1 style="font-family:var(--font-display,serif);font-size:22px;margin:0 0 12px;color:var(--amber,#d4a74a);">Finance page failed to load</h1>' +
+      '<p style="margin:0 0 12px;color:var(--text-muted,#aaa);">' +
+        'Something went wrong while fetching or rendering the model. ' +
+        'Try reloading. If it persists, send this diagnostic to Richard.' +
+      '</p>' +
+      '<pre style="white-space:pre-wrap;word-break:break-word;font-family:var(--font-mono,monospace);font-size:12px;background:rgba(255,255,255,0.04);padding:12px;border-radius:6px;color:#e9c98a;">' +
+        safe +
+      '</pre>' +
+      '<p style="margin-top:16px;"><a href="" onclick="location.reload();return false;" style="color:var(--amber,#d4a74a);">Reload</a></p>' +
+    '</div>';
+  if (root) root.innerHTML = html;
+  else document.body.insertAdjacentHTML('afterbegin', html);
+  try { console.error('finance init failed', err); } catch {}
+}
+
+async function safeInitAdmin() {
+  try { await initAdmin(); } catch (e) { renderInitError(e); }
+}
+async function safeInitInvestor() {
+  try { await initInvestor(); } catch (e) { renderInitError(e); }
+}
+
+window.FinanceUI = { initAdmin: safeInitAdmin, initInvestor: safeInitInvestor };

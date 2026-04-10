@@ -83,19 +83,31 @@ function calculate(inputs) {
 
   // ── REAL REAL GENUINE ────────────────────────────────
   const rrg = [];
+  const EMPTY_BUCKET = { share: [0, 0, 0, 0, 0], rate: [0, 0, 0, 0, 0] };
+  // Defensive: if an old-shape blob ever reaches the engine directly (e.g. a
+  // cached draft in localStorage that pre-dates the two-tier simplification),
+  // we synthesise a safe empty bucket instead of throwing on `.share[i]`.
   for (let i = 0; i < n; i++) {
-    const gmvTotal = Number(inputs.rrg.gmv[i]) || 0;
-    const mix = inputs.rrg.dropMix;
+    const gmvTotal = Number((inputs.rrg && inputs.rrg.gmv && inputs.rrg.gmv[i])) || 0;
+    const mix = (inputs.rrg && inputs.rrg.dropMix) || {};
+    const dig = mix.digital  || EMPTY_BUCKET;
+    const phy = mix.physical || EMPTY_BUCKET;
 
-    const commDigital  = gmvTotal * mix.digital.share[i]  * mix.digital.rate[i];
-    const commPhysical = gmvTotal * mix.physical.share[i] * mix.physical.rate[i];
+    const digShare  = Number(dig.share && dig.share[i])  || 0;
+    const digRate   = Number(dig.rate  && dig.rate[i])   || 0;
+    const phyShare  = Number(phy.share && phy.share[i])  || 0;
+    const phyRate   = Number(phy.rate  && phy.rate[i])   || 0;
+
+    const commDigital  = gmvTotal * digShare * digRate;
+    const commPhysical = gmvTotal * phyShare * phyRate;
     const commissionTotal = commDigital + commPhysical;
 
     const blendedRate = gmvTotal ? commissionTotal / gmvTotal : 0;
 
-    const coCreationRev = Number(inputs.rrg.coCreationRevenue[i]) || 0;
+    const coCreationRev = Number(inputs.rrg.coCreationRevenue && inputs.rrg.coCreationRevenue[i]) || 0;
     const revenue = commissionTotal + coCreationRev;
-    const cogs    = -revenue * inputs.rrg.cogsPct[i];
+    const cogsPct = Number(inputs.rrg.cogsPct && inputs.rrg.cogsPct[i]) || 0;
+    const cogs    = -revenue * cogsPct;
     const gross   = revenue + cogs;
 
     const opexByCat = {};
