@@ -8,6 +8,14 @@
       ]
     },
     {
+      "title": "Agent-first operating team",
+      "paragraphs": [
+        "VIA Labs is being built as an <strong>agent-first company</strong>. This is not an aspirational statement about a future org chart \u2014 it describes how the team is already structured today. Across every operational area of the business \u2014 <strong>product development, research, marketing, customer service, sales support, operations, admin, and content</strong> \u2014 the default mode of execution is an agent with a human in the loop, not a human with tooling. Humans are added only where an agent cannot yet discharge the function reliably, and the bar for adding a human is rising over time, not falling.",
+        "This principle is what makes the cost structure below credible at scale. The Customer Success and Leadership lines that appear from 2027\u20132028 are therefore best read as the <em>minimum human layer</em> required to run a venture-backed company at this revenue size, not as a conventional SaaS org chart. Every role named in the leadership block exists because the function is presently beyond what agents can own end-to-end; every role that does not appear \u2014 in-house HR, General Counsel, tier-1 support headcount, content production staff, junior engineers, research analysts \u2014 is a deliberate call to cover that function agent-first from day one.",
+        "The practical implication for anyone reading this plan is that the revenue-per-FTE ratios will look unusual by SaaS norms, and the operating leverage in the business does not come from classic economies of scale but from compounding automation. As the agent layer gets better, either the same human team supports materially more revenue, or that human team shrinks on a per-dollar-of-revenue basis. The plan below is deliberately sized against the <em>current</em> capability of the agent stack; improvements to that stack represent unmodelled upside, not base-case assumption."
+      ]
+    },
+    {
       "title": "Revenue timing",
       "paragraphs": [
         "Material revenue starts in Q4 2026. The seed round closes mid-Q2 2026, leaving a 3 to 6 month build window before paid usage begins. 2026 numbers should therefore be read as a partial year; the full revenue model is exercised from 2027 onward.",
@@ -17,8 +25,8 @@
     {
       "title": "RRG commission model",
       "paragraphs": [
-        "RRG takes a tiered platform fee reflecting the economics of each drop type: <strong>co-created drops</strong> and <strong>sub-$10 brand drops</strong> carry a 30% take rate (VIA handles the heavy lifting on production, IP, and fulfilment); <strong>$10 to $100 drops</strong> use a blended ~16% rate; <strong>$100+ drops</strong> are charged a flat 2.5%, matching the fee structure deployed in the live codebase.",
-        "The blended rate starts high (co-created is dominant early) and compresses as higher-priced brand drops take share. Commission revenue is complemented by a direct co-creation revenue line: essentially RRG's share of drops it originates itself."
+        "RRG takes a two-tier platform fee keyed on product type rather than drop format. <strong>Digital products</strong> (priced up to $10) carry a <strong>30%</strong> take rate \u2014 this bucket covers co-created digital drops, digital-only brand items, and any sub-$10 digital SKU. <strong>Physical products</strong> (above $10) carry a flat <strong>2.5%</strong> take rate across the full price range, with no further tiering. This structure is deliberately simpler than the earlier four-tier model: it matches how merchants actually think about the split (digital vs physical) and it removes a pricing cliff in the $10\u2013$100 band.",
+        "The blended rate therefore starts relatively high (digital is a larger share of GMV early, while the brand catalogue is still being built out) and compresses as higher-priced physical product takes share. Commission revenue is complemented by a direct co-creation revenue line: essentially RRG's share of drops it originates itself."
       ]
     },
     {
@@ -54,7 +62,7 @@
       "paragraphs": [
         "The projections shown here have been stress-tested against the operational volumes they imply. By 2030 the model assumes roughly <strong>540 million intents/year</strong>, <strong>65 million transactions/year</strong>, and <strong>$8.4 billion of platform GMV</strong> flowing through VIA Labs. The cost base has been sanity-checked against real provider pricing at that scale.",
         "As a result of that stress test, two new cost categories have been added to the VIA Labs P&amp;L that sit alongside the original structure. <strong>Customer Success</strong> ramps from zero in 2026 to ~$900k/year by 2030, covering a lean CS team, enterprise customer success managers for the top tier, and tooling (Zendesk/Intercom-class). Even in an agent-first support model, Pro and Enterprise merchants require human touch points, and we have budgeted for them explicitly rather than hiding them inside G&amp;A.",
-        "<strong>Leadership</strong> brings a proper executive layer online from 2028: a fractional CFO, a COO, a Head of Partnerships, and a Head of BD / Enterprise Sales join the founding team that year, with a Head of Engineering added in 2029. CEO and CPO compensation step up to $200k each from 2028 to reflect the operating reality of a company at this revenue scale. External legal retainers are also increased by 50% from 2028 onward, in lieu of hiring a General Counsel in-house.",
+        "<strong>Leadership</strong> brings a proper executive layer online on a staggered ramp rather than a single step. A <strong>fractional CFO</strong> joins in 2027 at $60k/year and steps up to $120k/year from 2028. The <strong>Head of Partnerships</strong> starts in Q1 2027, and the <strong>Head of BD / Enterprise Sales</strong> and <strong>Head of Engineering</strong> both join in mid-2027. The <strong>COO</strong> joins in 2028. CEO and CPO compensation step up to $200k each from 2028 to reflect the operating reality of a company at this revenue scale. External legal retainers are also increased by 50% from 2028 onward, in lieu of hiring a General Counsel in-house.",
         "The combined effect of these additions reduces 2030 EBITDA by roughly 3–4% versus the pre-stress-test model. Margin compresses from ~87% to ~85%; the consolidated business remains deeply cash-generative and does not require a follow-on raise under the baseline. The business model is robust to these adjustments; the point of adding the lines is to make the plan defensible, not to change its shape.",
         "Items deliberately <em>not</em> added after stress-testing: in-house General Counsel (covered via external legal), dedicated HR / People lead (absorbed by leadership team through 2030), and a dedicated operations / warehouse function on the RRG side (brand partners retain fulfilment)."
       ]

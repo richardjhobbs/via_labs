@@ -87,11 +87,9 @@ function calculate(inputs) {
     const gmvTotal = Number(inputs.rrg.gmv[i]) || 0;
     const mix = inputs.rrg.dropMix;
 
-    const commCoCreated    = gmvTotal * mix.coCreated.share[i]    * mix.coCreated.rate[i];
-    const commBrandUnder10 = gmvTotal * mix.brandUnder10.share[i] * mix.brandUnder10.rate[i];
-    const commBrand10to100 = gmvTotal * mix.brand10to100.share[i] * mix.brand10to100.rate[i];
-    const commBrand100plus = gmvTotal * mix.brand100plus.share[i] * mix.brand100plus.rate[i];
-    const commissionTotal  = commCoCreated + commBrandUnder10 + commBrand10to100 + commBrand100plus;
+    const commDigital  = gmvTotal * mix.digital.share[i]  * mix.digital.rate[i];
+    const commPhysical = gmvTotal * mix.physical.share[i] * mix.physical.rate[i];
+    const commissionTotal = commDigital + commPhysical;
 
     const blendedRate = gmvTotal ? commissionTotal / gmvTotal : 0;
 
@@ -109,7 +107,7 @@ function calculate(inputs) {
 
     rrg.push({
       gmv: gmvTotal,
-      commCoCreated, commBrandUnder10, commBrand10to100, commBrand100plus,
+      commDigital, commPhysical,
       commissionTotal, blendedRate,
       coCreationRev,
       revenue, cogs, gross,

@@ -220,11 +220,9 @@ function renderViaPanel(state) {
 function renderRrgOutputBody(state) {
   const rrg = state.output.rrg;
   return [
-    `<tr class="finance-category-row"><td colspan="6">Commission by drop type</td></tr>`,
-    rowHtml('  Co-created',          rrg.map(v => v.commCoCreated)),
-    rowHtml('  Brand (under $10)',   rrg.map(v => v.commBrandUnder10)),
-    rowHtml('  Brand ($10 to $100)', rrg.map(v => v.commBrand10to100)),
-    rowHtml('  Brand ($100+)',       rrg.map(v => v.commBrand100plus)),
+    `<tr class="finance-category-row"><td colspan="6">Commission by product type</td></tr>`,
+    rowHtml('  Digital (\u2264 $10)',  rrg.map(v => v.commDigital)),
+    rowHtml('  Physical (> $10)', rrg.map(v => v.commPhysical)),
     rowHtml('Total Commission', rrg.map(v => v.commissionTotal), { cls: 'finance-total-row' }),
     rowHtml('Blended rate', rrg.map(v => v.blendedRate), { pct: true, cls: 'finance-muted-row' }),
     rowHtml('Co-creation revenue', rrg.map(v => v.coCreationRev)),
@@ -258,17 +256,13 @@ function renderRrgPanel(state) {
     inputRowHtml('Co-creation revenue $', ['rrg','coCreationRevenue'], inputs.rrg.coCreationRevenue),
     inputRowHtml('COGS % of revenue', ['rrg','cogsPct'], inputs.rrg.cogsPct, { asPercent: true }),
 
-    `<tr class="finance-category-row"><td colspan="6">Drop mix: GMV share (%)</td></tr>`,
-    inputRowHtml('Co-created drops',         ['rrg','dropMix','coCreated','share'],    inputs.rrg.dropMix.coCreated.share,    { asPercent: true }),
-    inputRowHtml('Brand drops (under $10)',  ['rrg','dropMix','brandUnder10','share'], inputs.rrg.dropMix.brandUnder10.share, { asPercent: true }),
-    inputRowHtml('Brand drops ($10 to $100)',['rrg','dropMix','brand10to100','share'], inputs.rrg.dropMix.brand10to100.share, { asPercent: true }),
-    inputRowHtml('Brand drops ($100+)',      ['rrg','dropMix','brand100plus','share'], inputs.rrg.dropMix.brand100plus.share, { asPercent: true }),
+    `<tr class="finance-category-row"><td colspan="6">Product mix: GMV share (%)</td></tr>`,
+    inputRowHtml('Digital (\u2264 $10)',  ['rrg','dropMix','digital','share'],  inputs.rrg.dropMix.digital.share,  { asPercent: true }),
+    inputRowHtml('Physical (> $10)', ['rrg','dropMix','physical','share'], inputs.rrg.dropMix.physical.share, { asPercent: true }),
 
-    `<tr class="finance-category-row"><td colspan="6">Platform take rates (%): 3-tier deployed scale</td></tr>`,
-    inputRowHtml('Co-created rate (30%)',        ['rrg','dropMix','coCreated','rate'],    inputs.rrg.dropMix.coCreated.rate,    { asPercent: true }),
-    inputRowHtml('Brand under $10 rate (30%)',   ['rrg','dropMix','brandUnder10','rate'], inputs.rrg.dropMix.brandUnder10.rate, { asPercent: true }),
-    inputRowHtml('Brand $10 to $100 blended',    ['rrg','dropMix','brand10to100','rate'], inputs.rrg.dropMix.brand10to100.rate, { asPercent: true }),
-    inputRowHtml('Brand $100+ rate (2.5%)',      ['rrg','dropMix','brand100plus','rate'], inputs.rrg.dropMix.brand100plus.rate, { asPercent: true }),
+    `<tr class="finance-category-row"><td colspan="6">Platform take rates (%): two-tier</td></tr>`,
+    inputRowHtml('Digital rate (30%)',     ['rrg','dropMix','digital','rate'],  inputs.rrg.dropMix.digital.rate,  { asPercent: true }),
+    inputRowHtml('Physical rate (2.5%)',   ['rrg','dropMix','physical','rate'], inputs.rrg.dropMix.physical.rate, { asPercent: true }),
   ].join('');
 
   return `
